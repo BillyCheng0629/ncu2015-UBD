@@ -94,4 +94,12 @@ public class Player {
 	public int getDirection(){
 		return direction;
 	}
+	
+	public void setLocation(Point location){
+		this.location = location;
+	}
+	
+	public Point getPlayerLocation(){
+		return location;
+	}
 }
