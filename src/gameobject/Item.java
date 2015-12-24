@@ -7,6 +7,7 @@ public class Item {
 	private Image itemImage;
 	private int type;
 	public Point location;
+	private int id;
 	
 	public Image getImage(){
 		return itemImage;
@@ -22,5 +23,13 @@ public class Item {
 	
 	public void setType(int type){
 		this.type = type;
+	}
+	
+	public int getID(){
+		return id;
+	}
+	
+	public void setID(int id){
+		this.id = id;
 	}
 }

@@ -5,7 +5,6 @@ import java.awt.Point;
 public class Player {
 	private final int MAXDUMPLINGCOUNT = 10;
 	private final int MAXPOWER = 10;
-	private final int MAXSPEED = 10;
 	
 	private boolean alive;
 	private int direction; // North = 1, East = 2, West = 3, South = 4
@@ -14,11 +13,25 @@ public class Player {
 	public Point location; // location.x  location.y
 	
 	private int ID;
-	private int maxDumplingCount;
+	private int maxCurrentDumplingCount;
 	private int currentDumplingCount;
 	private int power;
-	private int speed;
 	
+	@Override
+	public String toString(){
+		String t = "";
+		t += "alive:" + alive + ",";
+		t += "direction:" + direction + ",";
+		t += "name:" + name + ",";
+		t += "character:" + character.toString() + ",";
+		t += "location:" + location.toString() + ",";
+		t += "ID:" + ID + ",";
+		t += "maxCurrentDumplingCount:" + maxCurrentDumplingCount + ",";
+		t += "currentDumplingCount:" + currentDumplingCount + ",";
+		t += "power:" + power;
+		return t;
+	}
+
 	public Player(String name){
 		this.name = name;
 	}
@@ -56,11 +69,11 @@ public class Player {
 	}
 	
 	public void setMaxDumplingCount(int maxDumplingCount){
-		this.maxDumplingCount = maxDumplingCount;
+		this.maxCurrentDumplingCount = maxDumplingCount;
 	}
 	
 	public int getMaxDumplingCount(){
-		return maxDumplingCount;
+		return maxCurrentDumplingCount;
 	}
 	
 	public void setCurrentDumplingCount(int currentDumplingCount){
@@ -79,19 +92,15 @@ public class Player {
 		return power;
 	}
 	
-	public void setSpeed(int speed){
-		this.speed = speed;
-	}
-	
-	public int getSpeed(){
-		return speed;
-	}
-	
 	public void setDirection(int direction){
 		this.direction = direction;
 	}
 	
 	public int getDirection(){
 		return direction;
+	}
+	
+	public Point getPlayerLocation(){
+		return location;
 	}
 }
