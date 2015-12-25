@@ -19,8 +19,7 @@ public class SceneData {
 	private int mapWidth = 5000;
 	private int mapHeight = 2000;
 	private Image backimg[];
-	private Image character;
-	private Player player;
+	private Player clientPlayer;
 	private int topBound;
 	private int bottomBound;
 	private int leftBound;
@@ -55,7 +54,6 @@ public class SceneData {
 			backimg[2] = ImageIO.read(new File("./imgs/mapbackgrounds/desert.png"));
 			backimg[3] = ImageIO.read(new File("./imgs/mapbackgrounds/lego.png"));
 			backimg[4] = ImageIO.read(new File("./imgs/mapbackgrounds/rock.png"));
-			character = ImageIO.read(new File("./imgs/character/053.png"));
 		}catch(IOException e){
 			e.printStackTrace();
 		}
@@ -111,26 +109,26 @@ public class SceneData {
 	}
 	
 	public Point getVirtualCharacterPosition(){
-		return player.getPlayerLocation();
+		return clientPlayer.getPlayerLocation();
 	}
 	
 	public void setVirtualCharacterPosition(Point point){
 		assert point.getX()<=mapWidth-100 && point.getY()<=mapHeight-100;
-		player.setPlayerLocation(point);
-		this.setPositionX(player.getPlayerLocation().x-500);
-		this.setPositionY(player.getPlayerLocation().y-300);
-		this.setTopBound(player.getPlayerLocation().y-200);
-		this.setBottomBound(player.getPlayerLocation().y+200);
-		this.setLeftBound(player.getPlayerLocation().x-400);
-		this.setLeftBound(player.getPlayerLocation().x+400);
+		clientPlayer.setPlayerLocation(point);
+		this.setPositionX(clientPlayer.getPlayerLocation().x-500);
+		this.setPositionY(clientPlayer.getPlayerLocation().y-300);
+		this.setTopBound(clientPlayer.getPlayerLocation().y-200);
+		this.setBottomBound(clientPlayer.getPlayerLocation().y+200);
+		this.setLeftBound(clientPlayer.getPlayerLocation().x-400);
+		this.setLeftBound(clientPlayer.getPlayerLocation().x+400);
 	}
 	
 	public void setPlayer(Player player){
-		this.player = player;
+		this.clientPlayer = player;
 	}
 	
 	public Player getPlayer(){
-		return player;
+		return clientPlayer;
 	}
 	
 	public void setMapType(int mapType){
@@ -181,10 +179,6 @@ public class SceneData {
 	
 	public int getMapHeight(){
 		return mapHeight;
-	}
-	
-	public Image getCharacter(){
-		return character;
 	}
 	
 	public int getBackimg(int x, int y){

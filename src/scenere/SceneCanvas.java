@@ -5,12 +5,18 @@ import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.Toolkit;
 import java.awt.image.BufferStrategy;
+import java.util.HashMap;
+
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
+
+import dom.DOM;
+import gameobject.Item;
 
 @SuppressWarnings("serial")
 public class SceneCanvas extends Canvas implements Runnable{
 	private SceneData scenedata;
+	private DOM dom;
 	private Graphics g;
 	
 	public SceneCanvas(){
@@ -26,6 +32,7 @@ public class SceneCanvas extends Canvas implements Runnable{
 		drawBackground();
 		drawClientPlayer();
 		drawOtherPlayers();
+		drawItems();
 		strategy.show();
 		Toolkit.getDefaultToolkit().sync();
 	}
@@ -39,22 +46,40 @@ public class SceneCanvas extends Canvas implements Runnable{
 	}
 	
 	private void drawClientPlayer() {
-		
-	}
-	
-	private void drawOtherPlayers(){
 		Point playerPosition = scenedata.getVirtualCharacterPosition();
 		int x, y;
 		x = playerPosition.x;
 		y = playerPosition.y;
-		g.drawImage(scenedata.getCharacter(), x-scenedata.getPositionX(), y-scenedata.getPositionY(), null);
+		g.drawImage(scenedata.getPlayer().getCharacter().getCharacterImg(), x-scenedata.getPositionX(), y-scenedata.getPositionY(), null);
 	}
 	
-	public void drawItems() {
-		
+	private void drawOtherPlayers(){
+		int thisClientPlayerID = dom.getClientPlayerID();
+		for(int i=0;i<4;i++){
+			if(i!=thisClientPlayerID){
+				g.drawImage(dom.getPlayer(i).getCharacter().getCharacterImg(),
+						dom.getPlayer(i).getPlayerLocation().x,
+						dom.getPlayer(i).getPlayerLocation().y,
+						null);
+			}
+		}
+	}
+	
+	private void drawItems() {
+		HashMap<Integer, Item> items = dom.getItems();
+		items.forEach((k,v)->g.drawImage(v.getImage(), v.location.x, v.location.y, null));
+	}
+	
+	public void setDOM(DOM dom){
+		this.dom = dom;
+	}
+	
+	public DOM getDOM(){
+		return dom;
 	}
 	
 	public void setSceneData(SceneData scenedata){
+		
 		this.scenedata = scenedata;
 	}
 
