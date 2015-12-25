@@ -103,4 +103,8 @@ public class Player {
 	public Point getPlayerLocation(){
 		return location;
 	}
+	
+	public void setPlayerLocation(Point location){
+		this.location = location;
+	}
 }
