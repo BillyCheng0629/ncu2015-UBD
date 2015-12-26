@@ -17,8 +17,8 @@ public class DOM {
 		items = new HashMap<Integer, Item>();
 	}
 	
-	public void setPlayer(int playerID, Player player){
-		this.player[playerID] = player;
+	public void updatePlayer(Player player){
+		this.player[player.getID()] = player;
 	}
 	
 	public Player getPlayer(int playerID){
@@ -41,8 +41,8 @@ public class DOM {
 		return this.gameTime;
 	}
 	
-	public void addItem(int itemID, Item item){
-		items.put(itemID, item);
+	public void addItem(Item item){
+		items.put(item.getID(), item);
 	}
 	
 	public void removeItem(int itemID){
