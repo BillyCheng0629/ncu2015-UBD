@@ -29,6 +29,7 @@ public class SceneCanvas extends Canvas implements Runnable{
 		g = strategy.getDrawGraphics();
 		g.setColor(Color.BLACK);
 		g.setClip(0, 0, scenedata.getFrameWidth(), scenedata.getFrameHeight());
+		scenedata.setClientView(scenedata.getVirtualCharacterPosition());
 		drawBackground();
 		drawClientPlayer();
 		drawOtherPlayers();

@@ -112,9 +112,8 @@ public class SceneData {
 		return clientPlayer.getPlayerLocation();
 	}
 	
-	public void setVirtualCharacterPosition(Point point){
+	public void setClientView(Point point){
 		assert point.getX()<=mapWidth-100 && point.getY()<=mapHeight-100;
-		clientPlayer.setPlayerLocation(point);
 		this.setPositionX(clientPlayer.getPlayerLocation().x-500);
 		this.setPositionY(clientPlayer.getPlayerLocation().y-300);
 		this.setTopBound(clientPlayer.getPlayerLocation().y-200);
