@@ -4,10 +4,10 @@ import java.awt.Image;
 import java.awt.Point;
 
 public class Item {
-	private Image itemImage;
-	private int type;
+	protected Image itemImage;
+	protected int type;
 	public Point location;
-	private int id;
+	protected int id;
 	
 	public Image getImage(){
 		return itemImage;
