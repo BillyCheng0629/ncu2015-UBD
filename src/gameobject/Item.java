@@ -9,6 +9,10 @@ public class Item {
 	public Point location;
 	protected int id;
 	
+	public Item(){
+		location = new Point(0, 0);
+	}
+	
 	public Image getImage(){
 		return itemImage;
 	}

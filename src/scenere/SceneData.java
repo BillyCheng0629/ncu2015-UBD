@@ -19,6 +19,9 @@ public class SceneData {
 	private int mapWidth = 5000;
 	private int mapHeight = 2000;
 	private Image backimg[];
+	private Image dumpling;
+	private Image bombitem;
+	private Image character;
 	private Player clientPlayer;
 	private int topBound;
 	private int bottomBound;
@@ -27,7 +30,7 @@ public class SceneData {
 	private int positionx = 0;
 	private int positiony = 0;
 	private JFrame frm;
-	private String mapFilePath[] = {"./mapFileIce","./mapFileCake","./mapFileDesert","./mapFileLego"};
+	private String mapFilePath[] = {"./mapFile/mapFileIce","./mapFile/mapFileCake","./mapFile/mapFileDesert","./mapFile/mapFileLego"};
 	
 	public SceneData(JFrame frm){
 		mapBit = new int[50][20];
@@ -54,6 +57,9 @@ public class SceneData {
 			backimg[2] = ImageIO.read(new File("./imgs/mapbackgrounds/desert.png"));
 			backimg[3] = ImageIO.read(new File("./imgs/mapbackgrounds/lego.png"));
 			backimg[4] = ImageIO.read(new File("./imgs/mapbackgrounds/rock.png"));
+			dumpling = ImageIO.read(new File("./imgs/items/dumpling.png"));
+			bombitem = ImageIO.read(new File("./imgs/items/bombitem.png"));
+			character = ImageIO.read(new File("./imgs/character/053.png"));
 		}catch(IOException e){
 			e.printStackTrace();
 		}
@@ -114,12 +120,19 @@ public class SceneData {
 	
 	public void setClientView(Point point){
 		assert point.getX()<=mapWidth-100 && point.getY()<=mapHeight-100;
-		this.setPositionX(clientPlayer.getPlayerLocation().x-500);
-		this.setPositionY(clientPlayer.getPlayerLocation().y-300);
-		this.setTopBound(clientPlayer.getPlayerLocation().y-200);
-		this.setBottomBound(clientPlayer.getPlayerLocation().y+200);
-		this.setLeftBound(clientPlayer.getPlayerLocation().x-400);
-		this.setLeftBound(clientPlayer.getPlayerLocation().x+400);
+		if(clientPlayer.getPlayerLocation().x>500 && clientPlayer.getPlayerLocation().x<4500)
+			this.setPositionX(clientPlayer.getPlayerLocation().x-500);
+		else if(clientPlayer.getPlayerLocation().x<=500)
+			this.setPositionX(0);
+		else
+			this.setPositionX(4000);
+		
+		if(clientPlayer.getPlayerLocation().y>300 && clientPlayer.getPlayerLocation().y<1700)
+			this.setPositionY(clientPlayer.getPlayerLocation().y-300);
+		else if(clientPlayer.getPlayerLocation().y<=300)
+			this.setPositionY(0);
+		else
+			this.setPositionY(1400);
 	}
 	
 	public void setPlayer(Player player){
@@ -211,4 +224,14 @@ public class SceneData {
 	public JFrame getJFrame(){
 		return frm;
 	}
+	
+	public Image getImage(int imageType){
+		switch(imageType){
+			case(0):return dumpling;
+			case(1):return bombitem;
+			case(2):return character;
+		}
+		return null;
+	}
+	
 }

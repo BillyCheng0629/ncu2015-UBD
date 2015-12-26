@@ -51,14 +51,14 @@ public class SceneCanvas extends Canvas implements Runnable{
 		int x, y;
 		x = playerPosition.x;
 		y = playerPosition.y;
-		g.drawImage(scenedata.getPlayer().getCharacter().getCharacterImg(), x-scenedata.getPositionX(), y-scenedata.getPositionY(), null);
+		g.drawImage(scenedata.getImage(scenedata.getPlayer().getCharacter().getCharacterImg()), x-scenedata.getPositionX(), y-scenedata.getPositionY(), null);
 	}
 	
 	private void drawOtherPlayers(){
 		int thisClientPlayerID = dom.getClientPlayerID();
 		for(int i=0;i<4;i++){
 			if(i!=thisClientPlayerID){
-				g.drawImage(dom.getPlayer(i).getCharacter().getCharacterImg(),
+				g.drawImage(scenedata.getImage(dom.getPlayer(i).getCharacter().getCharacterImg()),
 						dom.getPlayer(i).getPlayerLocation().x,
 						dom.getPlayer(i).getPlayerLocation().y,
 						null);
