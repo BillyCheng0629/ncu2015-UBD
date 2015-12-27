@@ -4,21 +4,19 @@ import java.awt.Image;
 import java.awt.Point;
 
 public class Item {
-	protected int itemImage;
 	protected int type;
 	public Point location;
-	protected int id;
+	protected int ID;
 	
 	public Item(){
 		location = new Point(0, 0);
 	}
 	
-	public int getImage(){
-		return itemImage;
-	}
-	
-	public void setImage(int itemImage){
-		this.itemImage = itemImage;
+	@Override
+	public String toString(){
+		String t = "";
+		t = "ITEM " + ID + " " + type + " "+location.x+" " + location.y;
+		return t;
 	}
 	
 	public int getType(){
@@ -30,10 +28,10 @@ public class Item {
 	}
 	
 	public int getID(){
-		return id;
+		return ID;
 	}
 	
-	public void setID(int id){
-		this.id = id;
+	public void setID(int ID){
+		this.ID = ID;
 	}
 }

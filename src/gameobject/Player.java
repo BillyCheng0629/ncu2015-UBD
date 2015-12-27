@@ -17,6 +17,10 @@ public class Player {
 	private int currentDumplingCount;
 	private int power;
 	
+	public Player(){
+	
+	}
+	
 	public Player(String name){
 		this.name = name;
 		alive = true;
@@ -30,15 +34,10 @@ public class Player {
 	@Override
 	public String toString(){
 		String t = "";
-		t += "alive:" + alive + ",";
-		t += "direction:" + direction + ",";
-		t += "name:" + name + ",";
-		t += "character:" + character.toString() + ",";
-		t += "location:" + location.toString() + ",";
-		t += "ID:" + ID + ",";
-		t += "maxCurrentDumplingCount:" + maxCurrentDumplingCount + ",";
-		t += "currentDumplingCount:" + currentDumplingCount + ",";
-		t += "power:" + power;
+		t = "PLAYER " + ID + " " + name + " " + character + " " + alive + " "
+				+ location.x + " " + location.y + " "
+				+ direction + " " + power + " " 
+				+ maxCurrentDumplingCount + " " + currentDumplingCount;
 		return t;
 	}
 
