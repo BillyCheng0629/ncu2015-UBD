@@ -3,9 +3,8 @@ package scenere;
 import java.awt.Point;
 
 import dom.DOM;
-import udpus.UDPUS;
 
-public class UDPUSstub extends UDPUS {
+public class UDPUSstub{
 	DOM dom;
 	public UDPUSstub(){
 		

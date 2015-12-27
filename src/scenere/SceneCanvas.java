@@ -62,7 +62,7 @@ public class SceneCanvas extends Canvas implements Runnable{
 	}
 	
 	private void drawItems() {
-		dom.getItems().forEach((k,v)->g.drawImage(scenedata.getImage(v.getImage()), v.location.x, v.location.y, null));
+		dom.getItems().forEach((k,v)->g.drawImage(scenedata.getImage(v.getType()), v.location.x, v.location.y, null));
 	}
 	
 	public void setDOM(DOM dom){

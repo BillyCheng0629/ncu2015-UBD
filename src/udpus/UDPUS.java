@@ -8,7 +8,7 @@ import java.util.TimerTask;
 import dom.DOM;
 import gameobject.Item;
 import gameobject.Player;
-import scenere.SCENERE;
+
 public class UDPUS {
 	private int BUFFERSIZE;
 	private DatagramSocket serverSocket;

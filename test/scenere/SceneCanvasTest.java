@@ -110,7 +110,7 @@ public class SceneCanvasTest {
 		for(int i=0;i<20;i++){
 			items[i] = new Item();
 			items[i].setID(i);
-			items[i].setImage(ImageName.BombItem);
+			items[i].setType(ImageName.BombItem);
 			items[i].location.x = (((int)(Math.random()*700000))%4900);
 			items[i].location.y = (((int)(Math.random()*1700000))%1900);
 			dom.addItem(items[i]);
@@ -191,7 +191,7 @@ public class SceneCanvasTest {
 	}
 	
 	private void checkObjectItem(){
-		dom.getItems().forEach((k,v)->assertNotNull(scenedata.getImage(v.getImage())));
+		dom.getItems().forEach((k,v)->assertNotNull(scenedata.getImage(v.getType())));
 		for(int i=0;i<4;i++)
 			assertNotNull(scenedata.getImage(dom.getPlayer(i).getCharacter().getCharacterImg()));
 	}

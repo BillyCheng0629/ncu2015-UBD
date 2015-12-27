@@ -1,8 +1,6 @@
 package scenere;
 
-import udpbc.UDPBC;
-
-public class UDPBCstub extends UDPBC {
+public class UDPBCstub{
 	private CDCstub cdc;
 	private UDPUSstub udpus;
 	public UDPBCstub(){
