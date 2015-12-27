@@ -10,7 +10,7 @@ public class DOM {
 	private Player player[];
 	private HashMap<Integer, Item> items;
 	private int mapType;
-	private int gameTime;
+	private String gameTime;
 	
 	public DOM(){
 		player = new Player[4];
@@ -33,11 +33,11 @@ public class DOM {
 		return mapType;
 	}
 	
-	public void setGameTime(int gameTime){
+	public void setGameTime(String gameTime){
 		this.gameTime = gameTime;
 	}
 	
-	public int getGameTime(){
+	public String getGameTime(){
 		return this.gameTime;
 	}
 	
