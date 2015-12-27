@@ -1,5 +1,6 @@
 package tcpcm;
 
+import java.awt.Frame;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -10,6 +11,7 @@ import javax.print.event.PrintJobAdapter;
 import javax.security.auth.SubjectDomainCombiner;
 
 import dom.DOM;
+import gameobject.Player;
 
 public class TCPCM {
 	private int clientNo;
@@ -19,19 +21,19 @@ public class TCPCM {
 	private Thread recieveThread;
 	private BufferedReader in;
 	private DOM dom;
+	private Frame frame;
 	
 	
 
 	
 	
-	/*
-	public TCPClient(InetAddress serverIP, int serverPort) {
-		this.serverIP =serverIP;
-		this.serverPort = serverPort;
+	
+	public TCPCM(Frame f) {
+		this.frame = frame;
 		
 		
 	}
-	*/
+	
 	
 	
 	public Boolean connectServer(String ip, int port) {
@@ -84,6 +86,7 @@ public class TCPCM {
 	
 	public void recieveMessage() {
 		recieveThread = new Thread() {
+			private int playerID;
 			public void run()
 	        {
 				while(true) {
@@ -91,6 +94,42 @@ public class TCPCM {
 						in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 						String msg = in.readLine();
 						
+						String action = msg.split(",")[0];
+						
+						switch (action) {
+						case "ADDPLAYER":
+							Player player = new Player("");
+							playerID = Integer.parseInt(msg.split(",")[1]);
+							player.setID(playerID);
+							//dom.setPlayer(playerID, player);
+							break;
+						case "SETMAP":
+							int mapType = Integer.parseInt(msg.split(",")[1]);
+							dom.setMapType(mapType);
+							break;
+							
+						case "SETCHARACTER":
+							
+							playerID = Integer.parseInt(msg.split(",")[1]);
+							int charcterType = Integer.parseInt(msg.split(",")[2]);
+							//dom.getPlayer(playerID).setCharacter(character);
+							break;
+						case "SETREADYSTATE":
+							playerID = Integer.parseInt(msg.split(",")[1]);
+							boolean readyState = (Integer.parseInt(msg.split(",")[2])==1);
+							dom.getPlayer(playerID).setReadyState(readyState);
+							break;
+							
+						case "END":
+							/*
+							close now gamePanel frame
+							show resultPanel
+							*/
+							break;
+						default:
+							
+							break;
+					}
 						
 						
 						
@@ -104,7 +143,5 @@ public class TCPCM {
 		};
 	}
 	
-	public void setDOM(DOM dom) {
-		this.dom = dom;
-	}
+
 }

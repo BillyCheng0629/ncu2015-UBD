@@ -103,4 +103,9 @@ public class Player {
 	public Point getPlayerLocation(){
 		return location;
 	}
+
+	public void setReadyState(boolean readyState) {
+		// TODO Auto-generated method stub
+		
+	}
 }

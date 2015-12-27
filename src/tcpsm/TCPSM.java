@@ -1,5 +1,7 @@
 package tcpsm;
 
+
+import java.util.*;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -7,11 +9,13 @@ import java.io.PrintStream;
 import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.sql.Time;
 import java.util.Vector;
 
 
 import cdc.CDC;
 import gameobject.Player;
+
 
 public class TCPSM {
 	private int listenPort =8001; //default port
@@ -22,6 +26,7 @@ public class TCPSM {
 
 	private Vector<String> clientIPTable;
 	private Vector connectiontable;
+	private ArrayDeque<Integer> freePlayerIDTable;
 	private int count;
 	private Thread t;
 	private int clientLimit = 4;
@@ -32,6 +37,11 @@ public class TCPSM {
 	public TCPSM(int listenPort) {
 		assert (listenPort>0 && listenPort<=65535);
 		this.listenPort = listenPort;
+		
+		
+	}
+	
+	private void assertPlayerID() {
 		
 	}
 	
@@ -71,7 +81,7 @@ public class TCPSM {
 	    				clientSocketTable.add(clientSocket);
 	    				ServerThread now;
 	    				
-	    				thread = new Thread(now = new ServerThread(count++, clientSocket, cdc, clientSocketTable) );
+	    				thread = new Thread(now = new ServerThread(count++, clientSocket, cdc, clientSocketTable, freePlayerIDTable) );
 	    				connectiontable.addElement(now);
 	    				clientIPTable.add(clientSocket.getRemoteSocketAddress().toString().split("/")[1].split(":")[0]);
 	    				thread.start();
@@ -130,17 +140,19 @@ class ServerThread implements Runnable {
 	CDC cdc;
 	
 	Vector<Socket> clientSocketTable;
+	ArrayDeque<Integer> freePlayerIDTable;
 	
 	// config
 	
 
 
-	public ServerThread(int clientNo, Socket clientSocket, CDC cdc, Vector<Socket> clientSocketTable) {
+	public ServerThread(int clientNo, Socket clientSocket, CDC cdc, Vector<Socket> clientSocketTable, ArrayDeque<Integer> freePlayerIDTable) {
 		// TODO Auto-generated constructor stub
 		this.clientNo = clientNo;
 		this.clientSocket = clientSocket;
 		this.cdc = cdc ;
 		this.clientSocketTable = clientSocketTable;
+		this.freePlayerIDTable = freePlayerIDTable;
 
 	}
 	
@@ -157,7 +169,18 @@ class ServerThread implements Runnable {
 		// TODO Auto-generated method stub
 		//System.out.println("the client information :"+ (clientSocket.getRemoteSocketAddress()+"").split("/")[1].split(":")[0]);
 		Player player = new Player("");
-		cdc.addPlayer(player, clientNo);
+		int playerID = freePlayerIDTable.pop();
+		player.setID(playerID);
+		cdc.addPlayer(player, playerID);
+		
+		
+		try {
+			broadcast("ADDPLAYER,"+playerID);
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		
 		assert clientSocket.isConnected();
 		while (clientSocket.isConnected()) {
 			try {
@@ -182,7 +205,7 @@ class ServerThread implements Runnable {
 						cdc.updateDirection(clientNo, moveCode);
 						break;
 					case "PLACE":
-						//cdc.getItem(clientNo);
+						//cdc.placedDumpling(clientNo);
 						break;
 						
 					case "SETNAME":
@@ -198,8 +221,38 @@ class ServerThread implements Runnable {
 					case "SETCHARACTER":
 						
 						//cdc.getPlayer(clientNo).getCharacter().setCharacterImg(characterImg);;
-						broadcast("SETCHARACTER,");
+						//broadcast("SETCHARACTER, clientNo, mapType");
 						break;
+					case "SETREADYSTATE":
+						
+						//broadcast("SETREADYSTATE, clientNo, 0 or 1");
+						break;
+					case "START":
+						Thread gameMoniterThread;
+						gameMoniterThread = new Thread() {
+							
+							
+							@Override
+							public void run() {
+								// TODO Auto-generated method stub
+								while(true) {
+									/*
+									if (check game) {
+										broadcast("END");
+										break;
+									}
+									
+										
+									*/
+									
+									
+								}
+							}
+							
+						};
+						//
+						break;
+					
 	
 					default:
 						
