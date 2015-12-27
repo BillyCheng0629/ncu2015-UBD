@@ -16,6 +16,7 @@ public class SceneCanvas extends Canvas implements Runnable{
 	private SceneData scenedata;
 	private DOM dom;
 	private Graphics g;
+	private BufferStrategy strategy;
 	
 	public SceneCanvas(){
 		super();
@@ -23,10 +24,6 @@ public class SceneCanvas extends Canvas implements Runnable{
 	}
 	
 	public synchronized void myRepaint(){
-		BufferStrategy strategy = this.getBufferStrategy();
-		g = strategy.getDrawGraphics();
-		g.setColor(Color.BLACK);
-		g.setClip(0, 0, scenedata.getFrameWidth(), scenedata.getFrameHeight());
 		scenedata.setClientView(scenedata.getVirtualCharacterPosition());
 		drawBackground();
 		drawClientPlayer();
@@ -90,5 +87,9 @@ public class SceneCanvas extends Canvas implements Runnable{
 		JFrame frm = (JFrame)SwingUtilities.getAncestorOfClass(JFrame.class, this);
 		frm.setVisible(true);
 		this.createBufferStrategy(2);
+		strategy = this.getBufferStrategy();
+		g = strategy.getDrawGraphics();
+		g.setColor(Color.BLACK);
+		g.setClip(0, 0, scenedata.getFrameWidth(), scenedata.getFrameHeight());
 	}
 }
