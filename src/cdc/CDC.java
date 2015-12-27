@@ -13,6 +13,9 @@ public class CDC {
 	public void addPlayer(Player player, int playerID){
 		this.player[playerID] = player;
 	}
+	public void initGame(){
+	
+	}
 	
 	public Player getPlayer(int playerID){
 		return this.player[playerID];
