@@ -1,17 +1,15 @@
 package gameobject;
 
-import java.awt.Image;
-
 public class Character {
-	private Image characterImg;
+	private int characterImg;
 	//animation
 	private String name;
 	
-	public void setCharacterImg(Image characterImg){
+	public void setCharacterImg(int characterImg){
 		this.characterImg = characterImg;
 	}
 	
-	public Image getCharacterImg(){
+	public int getCharacterImg(){
 		return characterImg;
 	}
 	
