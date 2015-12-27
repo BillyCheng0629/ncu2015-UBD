@@ -68,6 +68,11 @@ public class CDC {
 	public void startUpdatingThread(){
 		
 	}
+
+	public void itemPlacedThread() {
+		// TODO Auto-generated method stub
+		
+	}
 	/* player {
 	 *   type: player,
 	 *   playerId : 1~4,

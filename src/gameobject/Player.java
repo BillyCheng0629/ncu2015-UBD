@@ -17,10 +17,15 @@ public class Player {
 	private int currentDumplingCount;
 	private int power;
 	
+	
 	@Override
 	public String toString(){
 		String t = "";
-		t += "alive:" + alive + ",";
+		t = "PLAYER " + ID + " " + name + " " + character + " " + alive + " "
+				+ location.x + " " + location.y + " "
+				+ direction + " " + power + " " 
+				+ maxCurrentDumplingCount + " " + currentDumplingCount;
+		/*t += "alive:" + alive + ",";
 		t += "direction:" + direction + ",";
 		t += "name:" + name + ",";
 		t += "character:" + character.toString() + ",";
@@ -28,12 +33,11 @@ public class Player {
 		t += "ID:" + ID + ",";
 		t += "maxCurrentDumplingCount:" + maxCurrentDumplingCount + ",";
 		t += "currentDumplingCount:" + currentDumplingCount + ",";
-		t += "power:" + power;
+		t += "power:" + power;*/
 		return t;
 	}
 
-	public Player(String name){
-		this.name = name;
+	public Player(){
 	}
 	
 	public void setID(int id){
