@@ -98,7 +98,7 @@ public class SceneCanvasTest {
 	private void setDOM(){
 		dom = new DOM();
 		for(int i=0;i<4;i++){
-			dom.setPlayer(i, player[i]);
+			dom.updatePlayer(player[i]);
 		}
 		dom.setClientPlayerID(0);
 	}
@@ -113,7 +113,7 @@ public class SceneCanvasTest {
 			items[i].setImage(ImageName.BombItem);
 			items[i].location.x = (((int)(Math.random()*700000))%4900);
 			items[i].location.y = (((int)(Math.random()*1700000))%1900);
-			dom.addItem(i, items[i]);
+			dom.addItem(items[i]);
 		}
 	}
 	
