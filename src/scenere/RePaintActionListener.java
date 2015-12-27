@@ -4,12 +4,12 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class RePaintActionListener implements ActionListener {
-	SceneCanvas bg;
-	public RePaintActionListener(SceneCanvas bg) {
+	ScenePanel bg;
+	public RePaintActionListener(ScenePanel bg) {
 		this.bg = bg;
 	}
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		bg.myRepaint();
+		bg.repaint();
 	}
 }

@@ -23,7 +23,7 @@ import gameobject.Player;
 
 public class SceneCanvasTest {
 	JFrame frm;
-	SceneCanvas sceneCanvas;
+	ScenePanel sceneCanvas;
 	Container cp;
 	SceneData scenedata;
 	DOM dom;
@@ -50,7 +50,7 @@ public class SceneCanvasTest {
 		setDOM();
 		setSceneData();
 		setStubServer();
-		sceneCanvas = new SceneCanvas();
+		sceneCanvas = new ScenePanel();
 		sceneCanvas.setDOM(dom);
 		sceneCanvas.setSceneData(scenedata);
 		sceneCanvas.addKeyListener(new CharacterMoveListener(scenedata, tcpcm));
