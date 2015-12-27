@@ -1,10 +1,9 @@
 package gameobject;
 
-import java.awt.Image;
 import java.awt.Point;
 
 public class Item {
-	protected Image itemImage;
+	protected int itemImage;
 	private int type;
 	public Point location;
 	protected int id;
@@ -13,11 +12,11 @@ public class Item {
 		location = new Point(0, 0);
 	}
 	
-	public Image getImage(){
+	public int getImage(){
 		return itemImage;
 	}
 	
-	public void setImage(Image itemImage){
+	public void setImage(int itemImage){
 		this.itemImage = itemImage;
 	}
 	

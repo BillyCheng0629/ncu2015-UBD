@@ -5,13 +5,11 @@ import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.Toolkit;
 import java.awt.image.BufferStrategy;
-import java.util.HashMap;
 
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 
 import dom.DOM;
-import gameobject.Item;
 
 @SuppressWarnings("serial")
 public class SceneCanvas extends Canvas implements Runnable{
@@ -67,8 +65,7 @@ public class SceneCanvas extends Canvas implements Runnable{
 	}
 	
 	private void drawItems() {
-		HashMap<Integer, Item> items = dom.getItems();
-		items.forEach((k,v)->g.drawImage(v.getImage(), v.location.x, v.location.y, null));
+		dom.getItems().forEach((k,v)->g.drawImage(scenedata.getImage(v.getImage()), v.location.x, v.location.y, null));
 	}
 	
 	public void setDOM(DOM dom){

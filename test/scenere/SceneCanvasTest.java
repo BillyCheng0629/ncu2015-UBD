@@ -1,10 +1,9 @@
 package scenere;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
 
 import java.awt.BorderLayout;
 import java.awt.Container;
-import java.awt.Image;
 import java.awt.Point;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
@@ -54,7 +53,7 @@ public class SceneCanvasTest {
 		sceneCanvas = new SceneCanvas();
 		sceneCanvas.setDOM(dom);
 		sceneCanvas.setSceneData(scenedata);
-		sceneCanvas.addKeyListener(new CharacterMoveListener(scenedata));
+		sceneCanvas.addKeyListener(new CharacterMoveListener(scenedata, tcpcm));
 		cp.add(sceneCanvas, BorderLayout.CENTER);
 	}
 	
@@ -111,8 +110,7 @@ public class SceneCanvasTest {
 		for(int i=0;i<20;i++){
 			items[i] = new Item();
 			items[i].setID(i);
-			Image img = scenedata.getImage(ImageName.BombItem);
-			items[i].setImage(img);
+			items[i].setImage(ImageName.BombItem);
 			items[i].location.x = (((int)(Math.random()*700000))%4900);
 			items[i].location.y = (((int)(Math.random()*1700000))%1900);
 			dom.addItem(i, items[i]);
@@ -147,6 +145,7 @@ public class SceneCanvasTest {
 	@Test
 	public void testMyRepaint() {
 		emulateKeyPressed();
+		checkObjectItem();
 	}
 
 	private void emulateKeyPressed() {
@@ -189,6 +188,12 @@ public class SceneCanvasTest {
 		assertEquals(1000, scenedata.getPositionX()+scenedata.getFrameWidth());
 		assertEquals(0, scenedata.getPositionY());
 		assertEquals(600, scenedata.getPositionY()+scenedata.getFrameHeight());
+	}
+	
+	private void checkObjectItem(){
+		dom.getItems().forEach((k,v)->assertNotNull(scenedata.getImage(v.getImage())));
+		for(int i=0;i<4;i++)
+			assertNotNull(scenedata.getImage(dom.getPlayer(i).getCharacter().getCharacterImg()));
 	}
 	
 }
