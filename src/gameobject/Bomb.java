@@ -1,5 +1,5 @@
 package gameobject;
 
-public class Bomb extends Item {
+public class Bomb extends Item{
 
 }
