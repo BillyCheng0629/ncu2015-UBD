@@ -1,3 +1,4 @@
+
 package dom;
 
 import java.util.HashMap;
@@ -11,7 +12,7 @@ public class DOM {
 	private HashMap<Integer, Item> items;
 	private int mapType;
 	private String gameTime;
-	
+	private int clientPlayerID;
 	public DOM(){
 		player = new Player[4];
 		items = new HashMap<Integer, Item>();
@@ -53,6 +54,18 @@ public class DOM {
 		return items.get(itemID);
 	}
 	
+	public HashMap<Integer, Item> getItems(){
+		return items;
+	}
+	
+	public void setClientPlayerID(int playerID){
+		this.clientPlayerID = playerID;
+	}
+	
+	public int getClientPlayerID(){
+		return clientPlayerID;
+	}
+	
 	public Vector<String> getAllDOM(){
 		Vector<String> temp = new Vector<String>();
 		for(Player t : player)
@@ -63,3 +76,4 @@ public class DOM {
 	}
 	
 }
+
