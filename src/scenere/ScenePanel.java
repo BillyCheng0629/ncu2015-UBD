@@ -11,6 +11,7 @@ public class ScenePanel extends JPanel{
 	private SceneData scenedata;
 	private DOM dom;
 	private Graphics g;
+	private KeyActionPerformer performer;
 	
 	public ScenePanel(){
 		super();
@@ -22,7 +23,7 @@ public class ScenePanel extends JPanel{
 		super.paint(g);
 		this.g = g;
 		g.setColor(Color.BLACK);
-		g.setClip(0, 0, scenedata.getFrameWidth(), scenedata.getFrameHeight());
+		g.setClip(0, 0, scenedata.getPanelWidth(), scenedata.getPanelHeight());
 		scenedata.setClientView(scenedata.getVirtualCharacterPosition());
 		drawBackground();
 	}
@@ -44,12 +45,22 @@ public class ScenePanel extends JPanel{
 	}
 	
 	public void setSceneData(SceneData scenedata){
-		
 		this.scenedata = scenedata;
 	}
 
+	public void setKeyActionPerformer(KeyActionPerformer performer){
+		this.performer = performer;
+	}
+	
 	public SceneData getSceneData(){
 		return scenedata;
 	}
-
+	
+	public void moveCharacter() {
+		performer.moveCharacter();
+	}
+	
+	public void placeBomb(){
+		performer.placeBomb();
+	}
 }

@@ -9,7 +9,6 @@ import java.io.FileReader;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
-import javax.swing.JFrame;
 
 import gameobject.Player;
 
@@ -29,22 +28,22 @@ public class SceneData {
 	private int rightBound;
 	private int positionx = 0;
 	private int positiony = 0;
-	private JFrame frm;
+	private ScenePanel panel;
 	private String mapFilePath[] = {"./mapFile/mapFileIce","./mapFile/mapFileCake","./mapFile/mapFileDesert","./mapFile/mapFileLego"};
 	
-	public SceneData(JFrame frm){
+	public SceneData(ScenePanel panel){
 		mapBit = new int[50][20];
 		backimg = new Image[5];
-		this.frm = frm;
+		this.panel = panel;
 		setRoundBound();
 		LoadMap(mapFilePath[mapType]);
 		LoadImg();
 	}
 	
-	public SceneData(int mapType, JFrame frm){
+	public SceneData(int mapType, ScenePanel panel){
 		mapBit = new int[50][20];
 		backimg = new Image[5];
-		this.frm = frm;
+		this.panel = panel;
 		setRoundBound();
 		LoadMap(mapFilePath[mapType]);
 		LoadImg();
@@ -67,9 +66,9 @@ public class SceneData {
 	
 	private void setRoundBound(){
 		setTopBound(100);
-		setBottomBound(frm.getHeight()-100);
+		setBottomBound(panel.getHeight()-100);
 		setLeftBound(100);
-		setRightBound(frm.getWidth()-100);
+		setRightBound(panel.getWidth()-100);
 	}
 	
 	private void LoadMap(String mapFilePath){
@@ -120,19 +119,19 @@ public class SceneData {
 	
 	public void setClientView(Point point){
 		assert point.getX()<=mapWidth-100 && point.getY()<=mapHeight-100;
-		if(clientPlayer.getPlayerLocation().x>500 && clientPlayer.getPlayerLocation().x<4500)
-			this.setPositionX(clientPlayer.getPlayerLocation().x-500);
-		else if(clientPlayer.getPlayerLocation().x<=500)
+		if(clientPlayer.getPlayerLocation().x>getPanelWidth()/2 && clientPlayer.getPlayerLocation().x<mapWidth-getPanelWidth()/2)
+			this.setPositionX(clientPlayer.getPlayerLocation().x-getPanelWidth()/2);
+		else if(clientPlayer.getPlayerLocation().x<=getPanelWidth()/2)
 			this.setPositionX(0);
 		else
-			this.setPositionX(4000);
+			this.setPositionX(mapWidth-getPanelWidth());
 		
-		if(clientPlayer.getPlayerLocation().y>300 && clientPlayer.getPlayerLocation().y<1700)
-			this.setPositionY(clientPlayer.getPlayerLocation().y-300);
-		else if(clientPlayer.getPlayerLocation().y<=300)
+		if(clientPlayer.getPlayerLocation().y>getPanelHeight()/2 && clientPlayer.getPlayerLocation().y<mapHeight-getPanelHeight()/2)
+			this.setPositionY(clientPlayer.getPlayerLocation().y-getPanelHeight()/2);
+		else if(clientPlayer.getPlayerLocation().y<=getPanelHeight()/2)
 			this.setPositionY(0);
 		else
-			this.setPositionY(1400);
+			this.setPositionY(mapHeight-getPanelHeight());
 	}
 	
 	public void setPlayer(Player player){
@@ -213,16 +212,16 @@ public class SceneData {
 		return positiony;
 	}
 	
-	public int getFrameWidth(){
-		return frm.getWidth();
+	public int getPanelWidth(){
+		return panel.getWidth();
 	}
 	
-	public int getFrameHeight(){
-		return frm.getHeight();
+	public int getPanelHeight(){
+		return panel.getHeight();
 	}
 
-	public JFrame getJFrame(){
-		return frm;
+	public ScenePanel getScenePanel(){
+		return panel;
 	}
 	
 	public Image getImage(int imageType){

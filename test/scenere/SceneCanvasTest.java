@@ -34,6 +34,8 @@ public class SceneCanvasTest {
 	UDPUSstub udpus;
 	Player player[];
 	Item items[];
+	CharacterMoveListener KeyListener;
+	KeyActionPerformer performer;
 	
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
@@ -48,12 +50,16 @@ public class SceneCanvasTest {
 		setFrame();
 		setPlayer();
 		setDOM();
-		setSceneData();
-		setStubServer();
 		sceneCanvas = new ScenePanel();
+		sceneCanvas.setBounds(0, 0, 800, 600);
 		sceneCanvas.setDOM(dom);
+		setSceneData();
 		sceneCanvas.setSceneData(scenedata);
-		sceneCanvas.addKeyListener(new CharacterMoveListener(scenedata, tcpcm));
+		setStubServer();
+		KeyListener = new CharacterMoveListener();
+		sceneCanvas.addKeyListener(KeyListener);
+		performer = new KeyActionPerformer(scenedata, KeyListener, tcpcm);
+		sceneCanvas.setKeyActionPerformer(performer);
 		cp.add(sceneCanvas, BorderLayout.CENTER);
 	}
 	
@@ -104,7 +110,7 @@ public class SceneCanvasTest {
 	}
 	
 	private void setSceneData(){
-		scenedata = new SceneData(frm);
+		scenedata = new SceneData(sceneCanvas);
 		scenedata.setPlayer(dom.getPlayer(dom.getClientPlayerID()));
 		items = new Item[20];
 		for(int i=0;i<20;i++){
@@ -152,42 +158,42 @@ public class SceneCanvasTest {
 		tcpcm.updatePlayerLocation(new Point(2500,1000));
 		udpbc.broadcastMessage();
 		scenedata.setClientView(scenedata.getVirtualCharacterPosition());
-		assertEquals(2000, scenedata.getPositionX());
-		assertEquals(3000, scenedata.getPositionX()+scenedata.getFrameWidth());
+		assertEquals(2100, scenedata.getPositionX());
+		assertEquals(2900, scenedata.getPositionX()+scenedata.getPanelWidth());
 		assertEquals(700, scenedata.getPositionY());
-		assertEquals(1300, scenedata.getPositionY()+scenedata.getFrameHeight());
+		assertEquals(1300, scenedata.getPositionY()+scenedata.getPanelHeight());
 		
 		tcpcm.updatePlayerLocation(new Point(4900,1900));
 		udpbc.broadcastMessage();
 		scenedata.setClientView(scenedata.getVirtualCharacterPosition());
-		assertEquals(4000, scenedata.getPositionX());
-		assertEquals(5000, scenedata.getPositionX()+scenedata.getFrameWidth());
+		assertEquals(4200, scenedata.getPositionX());
+		assertEquals(5000, scenedata.getPositionX()+scenedata.getPanelWidth());
 		assertEquals(1400, scenedata.getPositionY());
-		assertEquals(2000, scenedata.getPositionY()+scenedata.getFrameHeight());
+		assertEquals(2000, scenedata.getPositionY()+scenedata.getPanelHeight());
 		
 		tcpcm.updatePlayerLocation(new Point(4900,0));
 		udpbc.broadcastMessage();
 		scenedata.setClientView(scenedata.getVirtualCharacterPosition());
-		assertEquals(4000, scenedata.getPositionX());
-		assertEquals(5000, scenedata.getPositionX()+scenedata.getFrameWidth());
+		assertEquals(4200, scenedata.getPositionX());
+		assertEquals(5000, scenedata.getPositionX()+scenedata.getPanelWidth());
 		assertEquals(0, scenedata.getPositionY());
-		assertEquals(600, scenedata.getPositionY()+scenedata.getFrameHeight());
+		assertEquals(600, scenedata.getPositionY()+scenedata.getPanelHeight());
 		
 		tcpcm.updatePlayerLocation(new Point(0,1900));
 		udpbc.broadcastMessage();
 		scenedata.setClientView(scenedata.getVirtualCharacterPosition());
 		assertEquals(0, scenedata.getPositionX());
-		assertEquals(1000, scenedata.getPositionX()+scenedata.getFrameWidth());
+		assertEquals(800, scenedata.getPositionX()+scenedata.getPanelWidth());
 		assertEquals(1400, scenedata.getPositionY());
-		assertEquals(2000, scenedata.getPositionY()+scenedata.getFrameHeight());
+		assertEquals(2000, scenedata.getPositionY()+scenedata.getPanelHeight());
 		
 		tcpcm.updatePlayerLocation(new Point(0,0));
 		udpbc.broadcastMessage();
 		scenedata.setClientView(scenedata.getVirtualCharacterPosition());
 		assertEquals(0, scenedata.getPositionX());
-		assertEquals(1000, scenedata.getPositionX()+scenedata.getFrameWidth());
+		assertEquals(800, scenedata.getPositionX()+scenedata.getPanelWidth());
 		assertEquals(0, scenedata.getPositionY());
-		assertEquals(600, scenedata.getPositionY()+scenedata.getFrameHeight());
+		assertEquals(600, scenedata.getPositionY()+scenedata.getPanelHeight());
 	}
 	
 	private void checkObjectItem(){

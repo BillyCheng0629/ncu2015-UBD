@@ -11,5 +11,7 @@ public class RePaintActionListener implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		bg.repaint();
+		bg.moveCharacter();
+		bg.placeBomb();
 	}
 }
