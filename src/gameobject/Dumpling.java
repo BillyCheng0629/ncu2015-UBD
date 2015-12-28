@@ -10,10 +10,15 @@ public class Dumpling {
 	private int power;
 	public Point location;
 	
+	private int ID;
+	
+	public Dumpling(){
+	}
+	
 	@Override
 	public String toString(){
 		String t = "";
-		t = "DUMPLING " + " " + location.x + " " + location.y;
+		t = "DUMPLING " + ID + " " + location.x + " " + location.y + " " + power;
 		return t;
 	}
 	
@@ -23,6 +28,14 @@ public class Dumpling {
 	
 	public int getPower(){  // to determine explosion range
 		return power;
+	}
+	
+	public int getID(){
+		return ID;
+	}
+	
+	public void setID(int ID){
+		this.ID = ID;
 	}
 	
 }

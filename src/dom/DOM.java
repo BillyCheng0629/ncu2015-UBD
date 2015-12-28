@@ -1,20 +1,26 @@
 package dom;
 
 import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.Queue;
 import java.util.Vector;
 
+import gameobject.Dumpling;
 import gameobject.Item;
 import gameobject.Player;
 
 public class DOM {
 	private Player player[];
 	private HashMap<Integer, Item> items;
+	private HashMap<Integer, Dumpling> dumplings; 
 	private int mapType;
 	private String gameTime;
 	private int clientPlayerID;
+	
 	public DOM(){
 		player = new Player[4];
 		items = new HashMap<Integer, Item>();
+		dumplings = new HashMap<Integer, Dumpling> ();
 	}
 	
 	public void updatePlayer(Player player){
@@ -42,7 +48,8 @@ public class DOM {
 	}
 	
 	public void addItem(Item item){
-		items.put(item.getID(), item);
+		if (!(items.containsKey(item.getID())))
+			items.put(item.getID(), item);
 	}
 	
 	public void removeItem(int itemID){
@@ -55,6 +62,19 @@ public class DOM {
 	
 	public HashMap<Integer, Item> getItems(){
 		return items;
+	}
+	
+	public void addDumpling(Dumpling dumpling){
+		if (!(dumplings.containsKey(dumpling.getID())))
+			dumplings.put(dumpling.getID(), dumpling);
+	}
+	
+	public void removeDumpling(int dumplingID){
+		dumplings.remove(dumplingID);
+	}
+	
+	public Dumpling getDumpling(int dumplingID){
+		return dumplings.get(dumplingID);
 	}
 	
 	public void setClientPlayerID(int playerID){
