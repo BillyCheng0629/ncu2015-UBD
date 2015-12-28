@@ -40,7 +40,7 @@ public class UDPBC {
 	
 	public void startUDPBroadcast() throws Exception {
 		
-		IPTable = tcpsm.getClientIPTables();
+		IPTable = tcpsm.getClientIPTable();
 		assert(IPTable.size()<=4 && IPTable.size()>=2);
 
 		Timer t = new Timer();

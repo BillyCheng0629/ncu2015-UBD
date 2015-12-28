@@ -10,6 +10,13 @@ public class Dumpling {
 	private int power;
 	public Point location;
 	
+	@Override
+	public String toString(){
+		String t = "";
+		t = "DUMPLING " + " " + location.x + " " + location.y;
+		return t;
+	}
+	
 	public void setPower(int power){
 		this.power = power;
 	}

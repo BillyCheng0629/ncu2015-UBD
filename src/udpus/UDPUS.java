@@ -6,6 +6,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import dom.DOM;
+import gameobject.Dumpling;
 import gameobject.Item;
 import gameobject.Player;
 
@@ -56,6 +57,11 @@ public class UDPUS {
 			        		setPlayerGamingInfo(player, messageSplit[5], messageSplit[6], messageSplit[7],
 			        				messageSplit[8], messageSplit[9], messageSplit[10], messageSplit[11]);
 			        		break;
+			        	case "UPDATE DUMPLING":
+			        		// message = "UPDATE DUMPLING location.x location.y"
+			        		// example : "UPDATE DUMPLING 50 100
+			        		Dumpling dumpling;
+			        		//DOM.addDumpling(dumpling);
 			        	case "UPDATE ITEM":
 			        		// message = "UPDATE ITEM ID TYPE location.x location.y"
 			        		// example : "UPDATE ITEM 2  3    20         50

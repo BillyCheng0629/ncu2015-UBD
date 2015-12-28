@@ -5,7 +5,7 @@ import java.util.Vector;
 
 public class TCPSM {
 
-	public Vector<String> getClientIPTables() {
+	public Vector<String> getClientIPTable() {
 		// TODO Auto-generated method stub
 		return null;
 	}
