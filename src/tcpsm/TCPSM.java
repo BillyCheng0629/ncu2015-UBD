@@ -18,7 +18,9 @@ import cdc.CDC;
 import gameobject.Player;
 
 
+
 public class TCPSM {
+
 	private int listenPort =8001; //default port
 	private ServerSocket serverSocket;
 
@@ -331,11 +333,5 @@ class ServerThread implements Runnable {
 
 
 
-=======
 
-	public Vector<String> getClientIPTable() {
-		// TODO Auto-generated method stub
-		return null;
-	}
->>>>>>> refs/heads/master
 }

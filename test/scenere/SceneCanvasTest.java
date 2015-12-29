@@ -58,7 +58,7 @@ public class SceneCanvasTest {
 		setStubServer();
 		KeyListener = new CharacterMoveListener();
 		sceneCanvas.addKeyListener(KeyListener);
-		performer = new KeyActionPerformer(scenedata, KeyListener, tcpcm);
+		//performer = new KeyActionPerformer(scenedata, KeyListener, tcpcm);
 		sceneCanvas.setKeyActionPerformer(performer);
 		cp.add(sceneCanvas, BorderLayout.CENTER);
 	}
