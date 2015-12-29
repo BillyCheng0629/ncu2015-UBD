@@ -10,8 +10,8 @@ public class SpritereData {
 	private ImageIcon bombItemIcon;
 	private ImageIcon explosionIcon;
 	 
-	public SpritereData(int charaterID) {
-		loadRoleImage(charaterID);
+	public SpritereData() {
+
 	}	 
 	 
 	public void loadRoleImage(int charaterID){
