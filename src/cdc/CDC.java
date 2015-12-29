@@ -18,6 +18,7 @@ public class CDC {
 	Item item;
 	Dumpling dumpling;
 	UpdateThread updateThread;
+	itemPlacedThread itemPlacedThread;
 	Queue<Object> deleteQueue;
 	int dumplingCount=0;
 	int time =90000;
@@ -29,6 +30,7 @@ public class CDC {
 	public void initGame(){
 		cleanState();
 		startUpdatingThread();
+		
 	}
 	
 	public Player getPlayer(int playerID){
@@ -94,6 +96,7 @@ public class CDC {
 		player[playerID].setCurrentDumplingCount(player[playerID].getCurrentDumplingCount()+1);
 		dumpling.location=player[playerID].getPlayerLocation();
 		dumplings.put(dumplingCount, dumpling);
+		dumplingCount++;
 	}
 
 	public void updateDirection(int playerID, int direction){
@@ -148,6 +151,10 @@ public class CDC {
 		updateThread.setDeleteQueue(deleteQueue);
 		updateThread.setTime(time);
 		updateThread.run();
+	}
+	public void startItemPlacedThread(){
+		itemPlacedThread.setItems(items);
+		itemPlacedThread.run();
 	}
 	/* player {
 	 *   type: player,
