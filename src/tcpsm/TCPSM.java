@@ -6,7 +6,9 @@ import java.util.Vector;
 import cdc.CDC;
 
 public class TCPSM {
+	
 	Thread listenTread;
+	private CDC cdc;
 	TCPSM() {}
 	
 	/**
@@ -15,7 +17,7 @@ public class TCPSM {
 	 * The server should maintain a table to keep the ip addresss
 	 * of client computers which connects to this server. 
 	 */
-	void initTCPServer() throws IOException{
+	public void initTCPServer() throws IOException {
 		listenTread = new Thread(Acceptor.getInstance());
 		listenTread.start();
 	}
@@ -31,7 +33,7 @@ public class TCPSM {
 	 * 
 	 * @return      IP table(String)
 	 */
-	Vector<String> getClientIPTable() {
+	public Vector<String> getClientIPTable() {
 		assert listenTread!= null: "getClientIPTable() :need to init TCP server first";
 		return Acceptor.getInstance().getIPTable();
 	}
@@ -40,10 +42,10 @@ public class TCPSM {
 	 * call by UIM
 	 * set a new data center to TCP server
 	 * 
-	 * @param  cdc  xxx
+	 * @param  cdc  the object to set 
 	 */
-	void setCDC(CDC cdc){
-		
+	public void setCDC(CDC cdc) {
+		this.cdc = cdc;
 	}
 	
 	/** 
@@ -51,7 +53,7 @@ public class TCPSM {
 	 * 
 	 * @param message the string to send
 	 */
-	void broadcast(String message) {
+	public void broadcast(String message) {
 		
 	}
 }

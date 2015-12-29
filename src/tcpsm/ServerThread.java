@@ -3,50 +3,58 @@ package tcpsm;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.ObjectInputStream;
 import java.io.PrintWriter;
 import java.net.Socket;
 
-public class ServerThread implements Runnable{
+import cdc.CDC;
+
+class ServerThread implements Runnable{
 	
 	private Socket fd;
 	private PrintWriter out;
-	private BufferedReader in;
 	private String inputLine;
+	private CDC cdc;
 	
-	public ServerThread(Socket fd) {
+	public ServerThread(Socket fd, CDC cdc) {
 		this.fd = fd;
+		this.cdc = cdc;
 	}
 
 	@Override
 	public void run() {
-
-		try {
-			assert fd == null:"class ServerThread.run(): fd is null";
-			//out = new PrintWriter(fd.getOutputStream(), true); 
-			in = new BufferedReader( new InputStreamReader( fd.getInputStream()));
-			while ((inputLine = in.readLine()) != null) {
-				switch (inputLine) {
-				case "MOVE":
-					break;
-				case "PLACE":
-					break;
-				case "SETNAME":
-					break;
-				case "SETMAP":
-					break;
-				case "SETCHARACTER":
-					break;
-				case "ISREADY":
-					break;
-				case "START":
-					break;
-				}
-			}
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} 
-		
+		BufferedReader in; 
+		while (true) {
+			try {
+				assert fd == null:"class ServerThread.run(): fd is null";
+				in = new BufferedReader(new InputStreamReader(fd.getInputStream()));
+				String msg = in.readLine();
+				String token[] =  msg.split(",");
+					switch (token[0]) {
+					case "MOVE":
+						// TODO how to get player id
+						cdc.updateDirection(123, Integer.parseInt(token[1]));
+						break;
+					case "PLACE":
+						break;
+					case "SETNAME":
+						// TODO how to get player id
+						cdc.getPlayer(123).setName(token[1]);
+						break;
+					case "SETMAP":
+						
+					case "SETCHARACTER":
+					case "ISREADY":
+					case "START":
+						
+						break;
+					}
+				
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} 
+		}
 	}
 
 }
