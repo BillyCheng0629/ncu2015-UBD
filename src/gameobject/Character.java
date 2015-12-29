@@ -5,16 +5,16 @@ import java.awt.Image;
 import javax.swing.ImageIcon;
 
 public class Character {
-	private int character;
+	private int characterNum;
 	//animation
 	private String name;
 	
-	public void setCharacterImg(int characterNum){
-		this.character = characterNum;
+	public void setCharacterNum(int characterNum){
+		this.characterNum = characterNum;
 	}
 	
-	public int getCharacterImg(){
-		return character;
+	public int getCharacterNum(){
+		return characterNum;
 	}
 
 	public void setName(String name){

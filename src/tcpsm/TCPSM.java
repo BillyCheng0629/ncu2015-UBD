@@ -21,7 +21,7 @@ import gameobject.Player;
 
 public class TCPSM {
 
-	private int listenPort =8001; //default port
+	private int listenPort =8888; //default port
 	private ServerSocket serverSocket;
 
 	private Socket clientSocket; // the socket
@@ -79,7 +79,7 @@ public class TCPSM {
 
 	    		//System.out.println("the server information:" + serverSocket.getLocalSocketAddress());
 	    		Thread thread = null;
-	    		while (count<clientLimit && !serverSocket.isClosed()) {
+	    		while (!serverSocket.isClosed()) {
 	    			try {
 	    				//System.out.println("wait to client....");
 	    				while(true) {
@@ -142,6 +142,7 @@ public class TCPSM {
 
 
 class ServerThread implements Runnable {
+	Player player;
 	int playerID;
 	String playerName;
 	Socket clientSocket = null;
@@ -202,27 +203,8 @@ class ServerThread implements Runnable {
 	public void run() {
 		// TODO Auto-generated method stub
 		//System.out.println("the client information :"+ (clientSocket.getRemoteSocketAddress()+"").split("/")[1].split(":")[0]);
-		Player player = new Player("");
-		
-		playerIDTable.add(playerID);
-		player.setID(playerID);
-		cdc.addPlayer(player, playerID);
-		
-		
-		
-		//send other info to new connect client
-		broadcast("ADDPLAYER,"+playerID);
-		for (int i=0;i<playerIDTable.size();i++) {
-			sendMessage("ADDPLAYER");
-			sendMessage("SETCHARACTER");
-			sendMessage("SETREADYSTATE");
-			
-		}
-		sendMessage("SETMAP");
-		
-		
-		
-		
+
+
 		assert clientSocket.isConnected();
 		while (clientSocket.isConnected()) {
 			try {
@@ -244,10 +226,10 @@ class ServerThread implements Runnable {
 						int moveCode = Integer.parseInt(msg.split(",")[1]);
 						
 						//System.out.println("move code: "+ moveCode);
-						cdc.updateDirection(clientNo, moveCode);
+						cdc.updateDirection(playerID, moveCode);
 						break;
 					case "PLACE":
-						//cdc.placedDumpling(clientNo);
+						cdc.placedDumpling(playerID);
 						break;
 					case "ADDPLAYER":
 						playerID = freePlayerIDTable.get(freePlayerIDTable.size()-1);
@@ -258,12 +240,14 @@ class ServerThread implements Runnable {
 						player = new Player(playerName);
 						
 						broadcast(msg+","+playerID);
-						//sendMessage(cdc)
+						
+						
 						for (int i=0;i<playerIDTable.size();i++) {
 							sendMessage("ADDPLAYER,"+playerName+","+playerIDTable.get(i));
 						}
-						playerIDTable.add(playerID);
+						//sendMessage("SETMAP,"+cdc.getMapType);
 						
+						playerIDTable.add(playerID);
 						cdc.addPlayer(player, playerID);
 						break;
 						
@@ -278,13 +262,19 @@ class ServerThread implements Runnable {
 						break;
 						
 					case "SETCHARACTER":
-						
-						//cdc.getPlayer(clientNo).getCharacter().setCharacterImg(characterImg);;
-						//broadcast("SETCHARACTER, clientNo, mapType");
+						int characterNum = Integer.parseInt(msg.split(",")[1]);
+						cdc.getPlayer(playerID).getCharacter().setCharacterNum(characterNum);;;
+						broadcast(msg+","+playerID);
 						break;
-					case "SETREADYSTATE":
-						
-						//broadcast("SETREADYSTATE, clientNo, 0 or 1");
+					case "SETISMOVING":
+						boolean isMoving = Integer.parseInt(msg.split(",")[1])==1;
+						cdc.getPlayer(playerID).setIsMoving(isMoving);
+						broadcast(msg+","+playerID);
+						break;
+					case "SETISREADY":
+						boolean isReady = Integer.parseInt(msg.split(",")[1])==1;
+						cdc.getPlayer(playerID).setIsReady(isReady);
+						broadcast(msg+","+playerID);
 						break;
 					case "START":
 						Thread gameMoniterThread;

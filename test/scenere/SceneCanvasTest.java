@@ -84,7 +84,7 @@ public class SceneCanvasTest {
 			player[i] = new Player(String.valueOf(i));
 			player[i].setID(i);
 			Character a = new Character();
-			a.setCharacterImg(ImageName.Character);
+			//a.setCharacterImg(ImageName.Character);
 			player[i].setCharacter(a);
 		}
 		
@@ -199,8 +199,8 @@ public class SceneCanvasTest {
 	
 	private void checkObjectItem(){
 		dom.getItems().forEach((k,v)->assertNotNull(scenedata.getImage(v.getType())));
-		for(int i=0;i<4;i++)
-			assertNotNull(scenedata.getImage(dom.getPlayer(i).getCharacter().getCharacterImg()));
+		//for(int i=0;i<4;i++)
+			//assertNotNull(scenedata.getImage(dom.getPlayer(i).getCharacter().getCharacterImg()));
 	}
 	
 }

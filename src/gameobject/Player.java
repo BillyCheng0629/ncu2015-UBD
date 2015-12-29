@@ -7,6 +7,7 @@ public class Player {
 	public static final int MAXPOWER = 10;
 	
 	private boolean isMoving;
+	private boolean isReady;
 	private boolean alive;
 	private int direction; // Stop = 0, North = 1, East = 2, South = 3, West = 4
 	private String name;
@@ -62,6 +63,16 @@ public class Player {
 	public boolean getIsMoving(){
 		return isMoving;
 	}
+	
+	public void setIsReady(boolean isReady){
+		this.isReady = isReady;
+	}
+	
+	public boolean getIsReady(){
+		return isReady;
+	}
+	
+
 	
 	public void setAlive(boolean alive){
 		this.alive = alive;
