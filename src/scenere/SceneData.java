@@ -15,8 +15,8 @@ import gameobject.Player;
 public class SceneData {
 	private int mapBit[][];
 	private int mapType=3;
-	private int mapWidth = 5000;
-	private int mapHeight = 2000;
+	private int mapWidth = 5100;
+	private int mapHeight = 2100;
 	private Image backimg[];
 	private Image dumpling;
 	private Image bombitem;
@@ -32,7 +32,7 @@ public class SceneData {
 	private String mapFilePath[] = {"./mapFile/mapFileIce","./mapFile/mapFileCake","./mapFile/mapFileDesert","./mapFile/mapFileLego"};
 	
 	public SceneData(ScenePanel panel){
-		mapBit = new int[50][20];
+		mapBit = new int[51][21];
 		backimg = new Image[5];
 		this.panel = panel;
 		setRoundBound();
@@ -41,7 +41,7 @@ public class SceneData {
 	}
 	
 	public SceneData(int mapType, ScenePanel panel){
-		mapBit = new int[50][20];
+		mapBit = new int[51][21];
 		backimg = new Image[5];
 		this.panel = panel;
 		setRoundBound();
@@ -78,12 +78,12 @@ public class SceneData {
 		try {
 			input = new FileReader(mapFilePath);
 			reader = new BufferedReader(input);
-			for(int j=0;j<20;j++){
+			for(int j=0;j<21;j++){
 				temp = reader.readLine();
 				if(temp==null)
 					break;
 				else{
-					for(int i=0;i<50;i++){
+					for(int i=0;i<51;i++){
 						mapBit[i][j] = Character.getNumericValue(temp.charAt(i));
 					}
 				}
@@ -104,8 +104,8 @@ public class SceneData {
 	}
 	
 	private void setBasicMap(){
-		for(int i=0;i<50;i++)
-			for(int j=0;j<20;j++){
+		for(int i=0;i<51;i++)
+			for(int j=0;j<21;j++){
 				if(i%2==1 && j%2==1)
 					mapBit[i][j]=4;
 				else
