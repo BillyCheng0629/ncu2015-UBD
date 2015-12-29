@@ -3,11 +3,11 @@ package gameobject;
 import java.awt.Point;
 
 public class Player {
-	private final int MAXDUMPLINGCOUNT = 10;
-	private final int MAXPOWER = 10;
+	public static final int MAXDUMPLINGCOUNT = 10;
+	public static final int MAXPOWER = 10;
 	
 	private boolean alive;
-	private int direction; // North = 1, East = 2, West = 3, South = 4
+	private int direction; // Stop = 0, North = 1, East = 2, West = 3, South = 4
 	private String name;
 	private Character character;
 	public Point location; // location.x  location.y
@@ -17,25 +17,30 @@ public class Player {
 	private int currentDumplingCount;
 	private int power;
 	
+	public Player(){
+	
+	}
+	
+	public Player(String name){
+		this.name = name;
+		alive = true;
+		direction = 0;
+		location = new Point(0,0);
+		maxCurrentDumplingCount = 1;
+		currentDumplingCount = 0;
+		power = 1;
+	}
+	
 	@Override
 	public String toString(){
 		String t = "";
-		t += "alive:" + alive + ",";
-		t += "direction:" + direction + ",";
-		t += "name:" + name + ",";
-		t += "character:" + character.toString() + ",";
-		t += "location:" + location.toString() + ",";
-		t += "ID:" + ID + ",";
-		t += "maxCurrentDumplingCount:" + maxCurrentDumplingCount + ",";
-		t += "currentDumplingCount:" + currentDumplingCount + ",";
-		t += "power:" + power;
+		t = "PLAYER " + ID + " " + name + " " + character + " " + alive + " "
+				+ location.x + " " + location.y + " "
+				+ direction + " " + power + " " 
+				+ maxCurrentDumplingCount + " " + currentDumplingCount;
 		return t;
 	}
 
-	public Player(String name){
-		this.name = name;
-	}
-	
 	public void setID(int id){
 		this.ID = id;
 	}
@@ -103,9 +108,8 @@ public class Player {
 	public Point getPlayerLocation(){
 		return location;
 	}
-
-	public void setReadyState(boolean readyState) {
-		// TODO Auto-generated method stub
-		
+	
+	public void setPlayerLocation(Point location){
+		this.location = location;
 	}
 }

@@ -10,8 +10,8 @@ public class DOM {
 	private Player player[];
 	private HashMap<Integer, Item> items;
 	private int mapType;
-	private int gameTime;
-	
+	private String gameTime;
+	private int clientPlayerID;
 	public DOM(){
 		player = new Player[4];
 		items = new HashMap<Integer, Item>();
@@ -33,11 +33,11 @@ public class DOM {
 		return mapType;
 	}
 	
-	public void setGameTime(int gameTime){
+	public void setGameTime(String gameTime){
 		this.gameTime = gameTime;
 	}
 	
-	public int getGameTime(){
+	public String getGameTime(){
 		return this.gameTime;
 	}
 	
@@ -51,6 +51,18 @@ public class DOM {
 	
 	public Item getItem(int itemID){
 		return items.get(itemID);
+	}
+	
+	public HashMap<Integer, Item> getItems(){
+		return items;
+	}
+	
+	public void setClientPlayerID(int playerID){
+		this.clientPlayerID = playerID;
+	}
+	
+	public int getClientPlayerID(){
+		return clientPlayerID;
 	}
 	
 	public Vector<String> getAllDOM(){

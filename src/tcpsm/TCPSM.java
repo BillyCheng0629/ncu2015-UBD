@@ -26,17 +26,24 @@ public class TCPSM {
 
 	private Vector<String> clientIPTable;
 	private Vector connectiontable;
+	private ArrayDeque<Integer> playerIDTable;
 	private ArrayDeque<Integer> freePlayerIDTable;
 	private int count;
 	private Thread t;
 	private int clientLimit = 4;
 	private CDC cdc;
 	private PrintStream out = null;
+	private ArrayList<Integer> aList;
 	
 	
 	public TCPSM(int listenPort) {
 		assert (listenPort>0 && listenPort<=65535);
 		this.listenPort = listenPort;
+		freePlayerIDTable.add(0);
+		freePlayerIDTable.add(1);
+		freePlayerIDTable.add(2);
+		freePlayerIDTable.add(3);
+		
 		
 		
 	}
@@ -81,7 +88,7 @@ public class TCPSM {
 	    				clientSocketTable.add(clientSocket);
 	    				ServerThread now;
 	    				
-	    				thread = new Thread(now = new ServerThread(count++, clientSocket, cdc, clientSocketTable, freePlayerIDTable) );
+	    				thread = new Thread(now = new ServerThread(count++, clientSocket, cdc, clientSocketTable, playerIDTable, freePlayerIDTable) );
 	    				connectiontable.addElement(now);
 	    				clientIPTable.add(clientSocket.getRemoteSocketAddress().toString().split("/")[1].split(":")[0]);
 	    				thread.start();
@@ -132,7 +139,7 @@ public class TCPSM {
 
 
 class ServerThread implements Runnable {
-
+	int playerID;
 	Socket clientSocket = null;
 	PrintStream out = null;
 	BufferedReader in = null;
@@ -140,27 +147,50 @@ class ServerThread implements Runnable {
 	CDC cdc;
 	
 	Vector<Socket> clientSocketTable;
+	ArrayDeque<Integer> playerIDTable;
 	ArrayDeque<Integer> freePlayerIDTable;
 	
 	// config
 	
 
 
-	public ServerThread(int clientNo, Socket clientSocket, CDC cdc, Vector<Socket> clientSocketTable, ArrayDeque<Integer> freePlayerIDTable) {
+	public ServerThread(int clientNo, Socket clientSocket, CDC cdc, Vector<Socket> clientSocketTable, ArrayDeque<Integer> playerIDTable, ArrayDeque<Integer> freePlayerIDTable) {
 		// TODO Auto-generated constructor stub
+		
 		this.clientNo = clientNo;
 		this.clientSocket = clientSocket;
 		this.cdc = cdc ;
 		this.clientSocketTable = clientSocketTable;
+		this.playerIDTable = playerIDTable;
 		this.freePlayerIDTable = freePlayerIDTable;
 
 	}
 	
-	public void  broadcast(String msg) throws IOException {
-		for (int i=0;i<clientSocketTable.size();i++) {
-			out = new PrintStream(clientSocketTable.get(i).getOutputStream());
+	
+	
+	private void sendMessage(String msg) {
+		try {
+			out = new PrintStream(clientSocket.getOutputStream());
 			out.println(msg);
 			out.flush();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+	
+	public void  broadcast(String msg)  {
+		for (int i=0;i<clientSocketTable.size();i++) {
+			try {
+				out = new PrintStream(clientSocketTable.get(i).getOutputStream());
+				out.println(msg);
+				out.flush();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
 		}
 	}
 
@@ -169,17 +199,24 @@ class ServerThread implements Runnable {
 		// TODO Auto-generated method stub
 		//System.out.println("the client information :"+ (clientSocket.getRemoteSocketAddress()+"").split("/")[1].split(":")[0]);
 		Player player = new Player("");
-		int playerID = freePlayerIDTable.pop();
+		playerID = freePlayerIDTable.pop();
 		player.setID(playerID);
 		cdc.addPlayer(player, playerID);
 		
 		
-		try {
-			broadcast("ADDPLAYER,"+playerID);
-		} catch (IOException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
+		
+		//send other info to new connect client
+		broadcast("ADDPLAYER,"+playerID);
+		for (int i=0;i<playerIDTable.size();i++) {
+			sendMessage("ADDPLAYER");
+			sendMessage("SETCHARACTER");
+			sendMessage("SETREADYSTATE");
+			
 		}
+		sendMessage("SETMAP");
+		
+		
+		
 		
 		assert clientSocket.isConnected();
 		while (clientSocket.isConnected()) {
@@ -260,10 +297,13 @@ class ServerThread implements Runnable {
 				}
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
+				
 				e.printStackTrace();
+				break;
 			}
 
 		}
+		
 
 	}
 

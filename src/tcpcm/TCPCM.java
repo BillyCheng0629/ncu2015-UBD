@@ -1,3 +1,4 @@
+
 package tcpcm;
 
 import java.awt.Frame;
@@ -51,28 +52,35 @@ public class TCPCM {
 		
 	}
 	
-	public void inputAction(int actionCode) throws IOException {
-		PrintStream out = new PrintStream(socket.getOutputStream());
-		
-		assert (actionCode >= 0 && actionCode<=5);
-		switch (actionCode) {
-		case 0:
-		case 1:
-		case 2:
-		case 3:
-		case 4:
-			
-			out.println("MOVE,"+actionCode);
-			out.flush();
-			
-			break;
-		case 5:
-			out.println("PLACE,");
-			out.flush();
+	public void inputAction(int actionCode) {
+		PrintStream out;
+		try {
+			out = new PrintStream(socket.getOutputStream());
+			assert (actionCode >= 0 && actionCode<=5);
+			switch (actionCode) {
+			case 0:
+			case 1:
+			case 2:
+			case 3:
+			case 4:
+				
+				out.println("MOVE,"+actionCode);
+				out.flush();
+				
+				break;
+			case 5:
+				out.println("PLACE,");
+				out.flush();
 
-		default:
-			break;
+			default:
+				break;
+			}
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
+		
+		
 		
 		
 	}
@@ -117,7 +125,7 @@ public class TCPCM {
 						case "SETREADYSTATE":
 							playerID = Integer.parseInt(msg.split(",")[1]);
 							boolean readyState = (Integer.parseInt(msg.split(",")[2])==1);
-							dom.getPlayer(playerID).setReadyState(readyState);
+							//dom.getPlayer(playerID).setReadyState(readyState);
 							break;
 							
 						case "END":
@@ -145,3 +153,4 @@ public class TCPCM {
 	
 
 }
+
