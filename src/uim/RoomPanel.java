@@ -40,13 +40,13 @@ public class RoomPanel extends JPanel{
 	private ActionListener playerImgListener;
 	private ActionListener mapChooseListener;
 	private JFrame frame;
-
+	private JPanel gamePanel;
 	public RoomPanel(MainFrame frame){
 		super();
 		this.frame=frame;
 		frame.setSize(800,600);
-		
-		
+		gamePanel =new GamePanel(frame);
+	
 		setLayout(null);
 		createActionListener();
 		ipAddress = new JLabel("Room:140.115.123.123");

@@ -5,21 +5,25 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyListener;
 import java.util.ArrayList;
 
+import javax.swing.JPanel;
 import javax.swing.Timer;
 
 import gameobject.Dumpling;
 import gameobject.Item;
 import gameobject.Player;
 
-public class GamePanel {
+public class GamePanel extends JPanel{
 	private KeyListener keyListener;
 	private Player player[];
 	private ArrayList<Dumpling> dumpling;
 	private Timer gameTimer;
 	private ArrayList<Item> item;
+	private MainFrame frame;
 	
-	public GamePanel(){
-		
+	public GamePanel(MainFrame frame) {
+		super();
+		this.frame=frame;
+		frame.setSize(1010, 620);
 	}
 	
 	public void initGame(){
