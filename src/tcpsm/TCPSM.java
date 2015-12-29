@@ -286,13 +286,13 @@ class ServerThread implements Runnable {
 								// TODO Auto-generated method stub
 								while(true) {
 									/*
-									if (check game) {
-										broadcast("END");
-										break;
-									}
 									
 										
-									*/
+									
+									if (cdc.getGameState()) {
+										broadcast("END");
+										break;
+									}*/
 									
 									
 								}
