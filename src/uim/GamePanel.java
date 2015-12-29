@@ -19,6 +19,7 @@ public class GamePanel extends JPanel{
 	private Timer gameTimer;
 	private ArrayList<Item> item;
 	private MainFrame frame;
+	private int time;
 	
 	public GamePanel(MainFrame frame) {
 		super();

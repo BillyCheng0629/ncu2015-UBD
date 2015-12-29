@@ -5,8 +5,9 @@ import java.awt.Point;
 import javax.swing.Timer;
 
 public class Dumpling {
-	private Timer bombTimer;
+	
 	//animation
+	private int count=3000;
 	private int power;
 	public Point location;
 	
@@ -16,6 +17,12 @@ public class Dumpling {
 	
 	public int getPower(){  // to determine explosion range
 		return power;
+	}
+	public int getCount(){
+		return count;
+	}
+	public void setCount(int count){
+		this.count=count;
 	}
 	public void setLocation(Point location){
 		this.location=location;

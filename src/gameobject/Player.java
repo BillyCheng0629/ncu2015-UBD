@@ -3,26 +3,47 @@ package gameobject;
 import java.awt.Point;
 
 public class Player {
-	private final int MAXDUMPLINGCOUNT = 10;
-	private final int MAXPOWER = 10;
-	private final int MAXSPEED = 10;
+	public static final int MAXDUMPLINGCOUNT = 10;
+	public static final int MAXPOWER = 10;
 	
+	private boolean isMoving;
+	private boolean isReady;
 	private boolean alive;
-	private int direction; // North = 1, East = 2, West = 3, South = 4
+	private int direction; // Stop = 0, North = 1, East = 2, South = 3, West = 4
 	private String name;
 	private Character character;
 	public Point location; // location.x  location.y
 	
 	private int ID;
-	private int maxDumplingCount;
+	private int maxCurrentDumplingCount;
 	private int currentDumplingCount;
 	private int power;
-	private int speed;
+	
+	public Player(){
+	
+	}
 	
 	public Player(String name){
 		this.name = name;
+		alive = true;
+		isMoving = false;
+		direction = 3;
+		location = new Point(0,0);
+		maxCurrentDumplingCount = 1;
+		currentDumplingCount = 0;
+		power = 1;
 	}
 	
+	@Override
+	public String toString(){
+		String t = "";
+		t = "PLAYER " + ID + " " + name + " " + character + " " + alive + " "
+				+ location.x + " " + location.y + " "
+				+ isMoving + " " + direction + " " + power + " " 
+				+ maxCurrentDumplingCount + " " + currentDumplingCount;
+		return t;
+	}
+
 	public void setID(int id){
 		this.ID = id;
 	}
@@ -34,6 +55,24 @@ public class Player {
 	public boolean getAlive(){
 		return alive;
 	}
+	
+	public void setIsMoving(boolean isMoving){
+		this.isMoving = isMoving;
+	}
+	
+	public boolean getIsMoving(){
+		return isMoving;
+	}
+	
+	public void setIsReady(boolean isReady){
+		this.isReady = isReady;
+	}
+	
+	public boolean getIsReady(){
+		return isReady;
+	}
+	
+
 	
 	public void setAlive(boolean alive){
 		this.alive = alive;
@@ -56,11 +95,11 @@ public class Player {
 	}
 	
 	public void setMaxDumplingCount(int maxDumplingCount){
-		this.maxDumplingCount = maxDumplingCount;
+		this.maxCurrentDumplingCount = maxDumplingCount;
 	}
 	
 	public int getMaxDumplingCount(){
-		return maxDumplingCount;
+		return maxCurrentDumplingCount;
 	}
 	
 	public void setCurrentDumplingCount(int currentDumplingCount){
@@ -79,14 +118,6 @@ public class Player {
 		return power;
 	}
 	
-	public void setSpeed(int speed){
-		this.speed = speed;
-	}
-	
-	public int getSpeed(){
-		return speed;
-	}
-
 	public void setDirection(int direction){
 		this.direction = direction;
 	}
@@ -95,11 +126,11 @@ public class Player {
 		return direction;
 	}
 	
-	public void setLocation(Point location){
-		this.location = location;
-	}
-	
 	public Point getPlayerLocation(){
 		return location;
+	}
+	
+	public void setPlayerLocation(Point location){
+		this.location = location;
 	}
 }

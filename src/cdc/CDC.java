@@ -1,5 +1,6 @@
 package cdc;
 
+import java.awt.Point;
 import java.util.HashMap;
 import java.util.Queue;
 import java.util.Vector;
@@ -13,18 +14,21 @@ import gameobject.Player;
 public class CDC {
 	Player[] player = new Player[4];
 	HashMap<Integer,Item> items;
-	Vector<Dumpling> dumplings;
+	HashMap<Integer,Dumpling> dumplings;
 	Item item;
 	Dumpling dumpling;
 	UpdateThread updateThread;
 	Queue<Object> deleteQueue;
-	int time =90;
+	int dumplingCount=0;
+	int time =90000;
+	boolean gameState;
 
 	public void addPlayer(Player player, int playerID){
 		this.player[playerID] = player;
 	}
 	public void initGame(){
-	
+		cleanState();
+		startUpdatingThread();
 	}
 	
 	public Player getPlayer(int playerID){
@@ -39,9 +43,7 @@ public class CDC {
 		return player[playerID].getPlayerLocation().y;
 	}
 	
-	public int getPlayerSpeed(int playerID){
-		return player[playerID].getSpeed();
-	}
+
 	
 	public int getPlayerPower(int playerID){
 		return player[playerID].getPower();
@@ -63,7 +65,9 @@ public class CDC {
 		item.location.setLocation(0, 0);
 		//items.put(key, value)
 	}
-	
+	public boolean getGameState(){
+		return gameState;
+	}
 	public HashMap<Integer,Item> getItems(){
 		return items;
 	}
@@ -89,11 +93,17 @@ public class CDC {
 	public void placedDumpling(int playerID){
 		player[playerID].setCurrentDumplingCount(player[playerID].getCurrentDumplingCount()+1);
 		dumpling.location=player[playerID].getPlayerLocation();
-		dumplings.add(dumpling);
+		dumplings.put(dumplingCount, dumpling);
 	}
 
 	public void updateDirection(int playerID, int direction){
+		if(direction==0){
+		player[playerID].setIsMoving(false);
+		}
+		else{
+		player[playerID].setIsMoving(true);
 		player[playerID].setDirection(direction);
+		}
 	}
 	
 	public Vector getUpdateInfo(){
@@ -112,8 +122,32 @@ public class CDC {
 	class timeCountThread extends Thread{
 		
 	}
+	public void cleanState(){
+		for(int i=0;i<4;i++){
+			player[i].setAlive(true);
+			player[i].setCurrentDumplingCount(0);
+			player[i].setIsMoving(false);
+			player[i].setIsReady(false);
+			player[i].setDirection(0);
+			player[i].setPlayerLocation(new Point(i*6, i*10));
+			player[i].setPower(1);
+			player[i].setMaxDumplingCount(1);
+		}
+		for(Object key:dumplings.keySet()){
+			dumplings.remove(key);
+		}
+		for(Object key:items.keySet()){
+			items.remove(key);
+		}
+	}
 	public void startUpdatingThread(){
-		
+		updateThread=new UpdateThread();
+		updateThread.setDumplings(dumplings);
+		updateThread.setPlayer(player);
+		updateThread.setItems(items);
+		updateThread.setDeleteQueue(deleteQueue);
+		updateThread.setTime(time);
+		updateThread.run();
 	}
 	/* player {
 	 *   type: player,
