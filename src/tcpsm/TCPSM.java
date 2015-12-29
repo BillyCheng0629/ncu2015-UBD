@@ -26,8 +26,8 @@ public class TCPSM {
 
 	private Vector<String> clientIPTable;
 	private Vector connectiontable;
-	private ArrayDeque<Integer> playerIDTable;
-	private ArrayDeque<Integer> freePlayerIDTable;
+	private Vector<Integer> playerIDTable;
+	private Vector<Integer> freePlayerIDTable;
 	private int count;
 	private Thread t;
 	private int clientLimit = 4;
@@ -140,6 +140,7 @@ public class TCPSM {
 
 class ServerThread implements Runnable {
 	int playerID;
+	String playerName;
 	Socket clientSocket = null;
 	PrintStream out = null;
 	BufferedReader in = null;
@@ -147,14 +148,14 @@ class ServerThread implements Runnable {
 	CDC cdc;
 	
 	Vector<Socket> clientSocketTable;
-	ArrayDeque<Integer> playerIDTable;
-	ArrayDeque<Integer> freePlayerIDTable;
+	Vector<Integer> playerIDTable;
+	Vector<Integer> freePlayerIDTable;
 	
 	// config
 	
 
 
-	public ServerThread(int clientNo, Socket clientSocket, CDC cdc, Vector<Socket> clientSocketTable, ArrayDeque<Integer> playerIDTable, ArrayDeque<Integer> freePlayerIDTable) {
+	public ServerThread(int clientNo, Socket clientSocket, CDC cdc, Vector<Socket> clientSocketTable, Vector<Integer> playerIDTable, Vector<Integer> freePlayerIDTable) {
 		// TODO Auto-generated constructor stub
 		
 		this.clientNo = clientNo;
@@ -199,7 +200,8 @@ class ServerThread implements Runnable {
 		// TODO Auto-generated method stub
 		//System.out.println("the client information :"+ (clientSocket.getRemoteSocketAddress()+"").split("/")[1].split(":")[0]);
 		Player player = new Player("");
-		playerID = freePlayerIDTable.pop();
+		
+		playerIDTable.add(playerID);
 		player.setID(playerID);
 		cdc.addPlayer(player, playerID);
 		
@@ -243,6 +245,23 @@ class ServerThread implements Runnable {
 						break;
 					case "PLACE":
 						//cdc.placedDumpling(clientNo);
+						break;
+					case "ADDPLAYER":
+						playerID = freePlayerIDTable.get(freePlayerIDTable.size()-1);
+						freePlayerIDTable.remove(freePlayerIDTable.size()-1);
+						
+						
+						playerName = msg.split(",")[1];
+						player = new Player(playerName);
+						
+						broadcast(msg+","+playerID);
+						//sendMessage(cdc)
+						for (int i=0;i<playerIDTable.size();i++) {
+							sendMessage("ADDPLAYER,"+playerName+","+playerIDTable.get(i));
+						}
+						playerIDTable.add(playerID);
+						
+						cdc.addPlayer(player, playerID);
 						break;
 						
 					case "SETNAME":
