@@ -5,16 +5,18 @@ import java.awt.Point;
 import javax.swing.Timer;
 
 public class Dumpling {
-	private Timer bombTimer;
+	private int stateCounter;
 	//animation
 	private int power;
 	public Point location;
-	
 	private int ID;
 	
-	public Dumpling(){
+	public Dumpling() {		
+		stateCounter = 3;
 	}
 	
+
+
 	@Override
 	public String toString(){
 		String t = "";
@@ -38,4 +40,11 @@ public class Dumpling {
 		this.ID = ID;
 	}
 	
+	public void setState(int stateCounter) {
+		this.stateCounter = stateCounter;
+	}
+	
+	public int getState() {
+		return stateCounter;
+	}
 }
