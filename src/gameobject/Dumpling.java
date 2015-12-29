@@ -17,5 +17,8 @@ public class Dumpling {
 	public int getPower(){  // to determine explosion range
 		return power;
 	}
+	public void setLocation(Point location){
+		this.location=location;
+	}
 	
 }

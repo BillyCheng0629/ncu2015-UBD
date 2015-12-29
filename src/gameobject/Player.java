@@ -86,7 +86,7 @@ public class Player {
 	public int getSpeed(){
 		return speed;
 	}
-	
+
 	public void setDirection(int direction){
 		this.direction = direction;
 	}

@@ -1,12 +1,15 @@
 package uim;
 
 import java.awt.Font;
+import java.awt.Graphics;
 import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.awt.image.ImageObserver;
+import java.awt.image.ImageProducer;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
@@ -27,11 +30,13 @@ public class RoomPanel extends JPanel{
 	private ActionListener exitListener;
 	private JLabel playe1Name,playe2Name,playe3Name,playe4Name;
 	private JComboBox mapComboBox;
-	private Image mapImage;
+	private ImageIcon mapImage;
+	private JLabel mapLabel;
 	private JLabel ipAddress;
-	private JPanel playerInfo[];
-	private Image playerImg[];
-	private JLabel playerName[];
+	private JPanel mapPanel;
+	private JPanel playerInfo1,playerInfo2,playerInfo3,playerInfo4;	
+	private JLabel player1Img,player2Img,player3Img,player4Img;
+	private JLabel OwnerLabel;
 	private ActionListener playerImgListener;
 	private ActionListener mapChooseListener;
 	private JFrame frame;
@@ -45,13 +50,13 @@ public class RoomPanel extends JPanel{
 		setLayout(null);
 		createActionListener();
 		ipAddress = new JLabel("Room:140.115.123.123");
-		ipAddress.setFont(new Font("·s²Ó©úÅé", Font.PLAIN, 24));
+		ipAddress.setFont(new Font("æ–°ç´°æ˜Žé«”", Font.PLAIN, 24));
 		ipAddress.setHorizontalAlignment(SwingConstants.CENTER);
 		ipAddress.setBounds(31, 30, 217, 37);
 		add(ipAddress);
-		
-		JLabel lblNewLabel_3 = new JLabel("");
-		lblNewLabel_3.setIcon(new ImageIcon("C:\\Users\\aker\\workspace\\PrototypeA\\map.png"));
+		mapImage=new ImageIcon("C:\\Users\\aker\\workspace\\PrototypeA\\map.png");
+		mapLabel = new JLabel("");
+		mapLabel.setIcon(new ImageIcon());
 		
 		mapComboBox = new JComboBox();
 		mapComboBox.setModel(new DefaultComboBoxModel(new String[] {"\u967D\u5168\u9152\u5BB6", "\u5DE5\u4E94", "\u91D1\u9B5A\u5BB6"}));
@@ -63,14 +68,14 @@ public class RoomPanel extends JPanel{
 				if(e.getStateChange()==ItemEvent.SELECTED){
 					System.out.println("U are selecting map .");
 					if(mapComboBox.getSelectedItem()=="\u967D\u5168\u9152\u5BB6"){
-						lblNewLabel_3.setIcon(new ImageIcon("C:\\Users\\aker\\workspace\\PrototypeA\\map.png"));
+						mapLabel.setIcon(new ImageIcon("C:\\Users\\aker\\workspace\\PrototypeA\\map.png"));
 						
 					}
 					if(mapComboBox.getSelectedItem()=="\u5DE5\u4E94"){
-						lblNewLabel_3.setIcon(new ImageIcon("C:\\Users\\aker\\workspace\\PrototypeA\\map2.jpg"));
+						mapLabel.setIcon(new ImageIcon("C:\\Users\\aker\\workspace\\PrototypeA\\map2.jpg"));
 					}
 					if(mapComboBox.getSelectedItem()=="\u91D1\u9B5A\u5BB6"){
-						lblNewLabel_3.setIcon(new ImageIcon("C:\\Users\\aker\\workspace\\PrototypeA\\hqdefault.jpg"));
+						mapLabel.setIcon(new ImageIcon("C:\\Users\\aker\\workspace\\PrototypeA\\hqdefault.jpg"));
 					}
 				}
 			}
@@ -79,89 +84,91 @@ public class RoomPanel extends JPanel{
 		mapComboBox.setBounds(542, 96, 157, 21);
 		add(mapComboBox);
 		
-		JPanel panel = new JPanel();
-		panel.setBounds(542, 127, 157, 139);
-		add(panel);
-		panel.setLayout(new GridLayout(0, 1, 0, 0));
+		mapPanel = new JPanel();
+		mapPanel.setBounds(542, 127, 157, 139);
+		add(mapPanel);
+		mapPanel.setLayout(new GridLayout(0, 1, 0, 0));
 		
 		
-		panel.add(lblNewLabel_3);
+		mapPanel.add(mapLabel);
 		
-		JPanel panel_1 = new JPanel();
-		panel_1.setBounds(31, 84, 186, 182);
-		add(panel_1);
-		panel_1.setLayout(null);
+		playerInfo1 = new JPanel();
+		playerInfo1.setBounds(31, 84, 186, 182);
 		
-		JLabel lblNewLabel_1 = new JLabel("");
-		lblNewLabel_1.setIcon(new ImageIcon("C:\\Users\\aker\\workspace\\PrototypeA\\dodo12.jpg"));
-		lblNewLabel_1.setBounds(10, 39, 166, 133);
-		panel_1.add(lblNewLabel_1);
+		playerInfo1.setLayout(null);
 		
-		JLabel lblNewLabel_2 = new JLabel("\u897F\u8857\u901F\u5EA6\u738B");
-		lblNewLabel_2.setFont(new Font("·s²Ó©úÅé", Font.PLAIN, 18));
-		lblNewLabel_2.setBounds(10, 10, 166, 19);
-		panel_1.add(lblNewLabel_2);
+		player1Img = new JLabel("");
+		player1Img.setIcon(new ImageIcon("C:\\Users\\aker\\workspace\\PrototypeA\\dodo12.jpg"));
+		player1Img.setBounds(10, 39, 166, 133);
+		playerInfo1.add(player1Img);
 		
-		JLabel label_3 = new JLabel("");
-		label_3.setIcon(new ImageIcon("C:\\Users\\aker\\workspace\\PrototypeA\\star-icon (1).png"));
-		label_3.setBounds(148, 0, 38, 30);
-		panel_1.add(label_3);
-		createActionListener();
-		JButton btnNewButton = new JButton("Start/Ready");
-		btnNewButton.addActionListener( startListener);
+		playe1Name = new JLabel("\u897F\u8857\u901F\u5EA6\u738B");
+		playe1Name.setFont(new Font("Â·sÂ²Ã“Â©ÃºÃ…Ã©", Font.PLAIN, 18));
+		playe1Name.setBounds(10, 10, 166, 19);
+		playerInfo1.add(playe1Name);
 		
-		btnNewButton.setBounds(542, 350, 157, 54);
-		add(btnNewButton);
+		OwnerLabel = new JLabel("");
+		OwnerLabel.setIcon(new ImageIcon("C:\\Users\\aker\\workspace\\PrototypeA\\star-icon (1).png"));
+		OwnerLabel.setBounds(148, 0, 38, 30);
+		playerInfo1.add(OwnerLabel);
+		add(playerInfo1);
 		
-		JButton btnExit = new JButton("Exit");
-		btnExit.addActionListener(exitListener);
-		btnExit.setBounds(542, 431, 157, 54);
-		add(btnExit);
+		playerInfo2 = new JPanel();
+		playerInfo2.setLayout(null);
+		playerInfo2.setBounds(268, 84, 186, 182);
 		
-		JPanel panel_2 = new JPanel();
-		panel_2.setLayout(null);
-		panel_2.setBounds(268, 84, 186, 182);
-		add(panel_2);
 		
-		JLabel label = new JLabel("");
-		label.setIcon(new ImageIcon("C:\\Users\\aker\\workspace\\PrototypeA\\046.jpg"));
-		label.setBounds(10, 39, 166, 133);
-		panel_2.add(label);
+		player1Img = new JLabel("");
+		player1Img.setIcon(new ImageIcon("C:\\Users\\aker\\workspace\\PrototypeA\\046.jpg"));
+		player1Img.setBounds(10, 39, 166, 133);
+		playerInfo2.add(player1Img);
 		
-		JLabel label_1 = new JLabel("\u5B85\u7DB8");
-		label_1.setFont(new Font("·s²Ó©úÅé", Font.PLAIN, 18));
-		label_1.setBounds(10, 10, 166, 19);
-		panel_2.add(label_1);
+		playe2Name= new JLabel("\u5B85\u7DB8");
+		playe2Name.setFont(new Font("Â·sÂ²Ã“Â©ÃºÃ…Ã©", Font.PLAIN, 18));
+		playe2Name.setBounds(10, 10, 166, 19);
+		playerInfo2.add(playe2Name);
+		add(playerInfo2);
 		
-		JPanel panel_3 = new JPanel();
-		panel_3.setLayout(null);
-		panel_3.setBounds(31, 303, 186, 182);
-		add(panel_3);
+		playerInfo3 = new JPanel();
+		playerInfo3.setLayout(null);
+		playerInfo3.setBounds(31, 303, 186, 182);
+		add(playerInfo3);
 		
-		JLabel label_2 = new JLabel("");
-		label_2.setIcon(new ImageIcon("C:\\Users\\aker\\workspace\\PrototypeA\\051.jpg"));
-		label_2.setBounds(10, 39, 166, 133);
-		panel_3.add(label_2);
+		player3Img = new JLabel("");
+		player3Img.setIcon(new ImageIcon("C:\\Users\\aker\\workspace\\PrototypeA\\051.jpg"));
+		player3Img.setBounds(10, 39, 166, 133);
+		playerInfo3.add(player3Img);
 		
-		JLabel lblYubing = new JLabel("Yu-Bing");
-		lblYubing.setFont(new Font("·s²Ó©úÅé", Font.PLAIN, 18));
-		lblYubing.setBounds(10, 10, 166, 19);
-		panel_3.add(lblYubing);
+		playe3Name = new JLabel("Yu-Bing");
+		playe3Name.setFont(new Font("Â·sÂ²Ã“Â©ÃºÃ…Ã©", Font.PLAIN, 18));
+		playe3Name.setBounds(10, 10, 166, 19);
+		playerInfo3.add(playe3Name);
 		
-		JPanel panel_4 = new JPanel();
-		panel_4.setLayout(null);
-		panel_4.setBounds(268, 303, 186, 182);
-		 add(panel_4);
+		playerInfo4 = new JPanel();
+		playerInfo4.setLayout(null);
+		playerInfo4.setBounds(268, 303, 186, 182);
+		 add(playerInfo4);
 		
-		JLabel label_4 = new JLabel("");
-		label_4.setIcon(new ImageIcon("C:\\Users\\aker\\workspace\\PrototypeA\\045.jpg"));
-		label_4.setBounds(10, 39, 166, 133);
-		panel_4.add(label_4);
+		player4Img = new JLabel("");
+		player4Img.setIcon(new ImageIcon("C:\\Users\\aker\\workspace\\PrototypeA\\045.jpg"));
+		player4Img.setBounds(10, 39, 166, 133);
+		playerInfo4.add(player4Img);
 		
-		JLabel lblYafishphd = new JLabel("YaFishPhD");
-		lblYafishphd.setFont(new Font("·s²Ó©úÅé", Font.PLAIN, 18));
-		lblYafishphd.setBounds(10, 10, 166, 19);
-		panel_4.add(lblYafishphd);
+		playe4Name = new JLabel("YaFishPhD");
+		playe4Name.setFont(new Font("Â·sÂ²Ã“Â©ÃºÃ…Ã©", Font.PLAIN, 18));
+		playe4Name.setBounds(10, 10, 166, 19);
+		playerInfo4.add(playe4Name);
+		
+		startButton = new JButton("Start/Ready");
+		startButton.addActionListener( startListener);
+		
+		startButton.setBounds(542, 350, 157, 54);
+		add(startButton);
+		
+		exitButton = new JButton("Exit");
+		exitButton.addActionListener(exitListener);
+		exitButton.setBounds(542, 431, 157, 54);
+		add(exitButton);
 	}
 	private void createActionListener(){
 		startListener = new ActionListener() {
