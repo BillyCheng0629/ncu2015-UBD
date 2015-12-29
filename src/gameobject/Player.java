@@ -6,8 +6,9 @@ public class Player {
 	public static final int MAXDUMPLINGCOUNT = 10;
 	public static final int MAXPOWER = 10;
 	
+	private boolean isMoving;
 	private boolean alive;
-	private int direction; // Stop = 0, North = 1, East = 2, West = 3, South = 4
+	private int direction; // Stop = 0, North = 1, East = 2, South = 3, West = 4
 	private String name;
 	private Character character;
 	public Point location; // location.x  location.y
@@ -24,7 +25,8 @@ public class Player {
 	public Player(String name){
 		this.name = name;
 		alive = true;
-		direction = 0;
+		isMoving = false;
+		direction = 3;
 		location = new Point(0,0);
 		maxCurrentDumplingCount = 1;
 		currentDumplingCount = 0;
@@ -36,7 +38,7 @@ public class Player {
 		String t = "";
 		t = "PLAYER " + ID + " " + name + " " + character + " " + alive + " "
 				+ location.x + " " + location.y + " "
-				+ direction + " " + power + " " 
+				+ isMoving + " " + direction + " " + power + " " 
 				+ maxCurrentDumplingCount + " " + currentDumplingCount;
 		return t;
 	}
@@ -51,6 +53,14 @@ public class Player {
 	
 	public boolean getAlive(){
 		return alive;
+	}
+	
+	public void setIsMoving(boolean isMoving){
+		this.isMoving = isMoving;
+	}
+	
+	public boolean getIsMoving(){
+		return isMoving;
 	}
 	
 	public void setAlive(boolean alive){

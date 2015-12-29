@@ -9,7 +9,6 @@ public class Item {
 	protected int ID;
 	
 	public Item(){
-		location = new Point(0, 0);
 	}
 	
 	@Override

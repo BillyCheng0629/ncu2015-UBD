@@ -1,6 +1,7 @@
 package tcpsm;
 
 
+
 import java.util.*;
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -330,4 +331,11 @@ class ServerThread implements Runnable {
 
 
 
+=======
+
+	public Vector<String> getClientIPTable() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+>>>>>>> refs/heads/master
 }
