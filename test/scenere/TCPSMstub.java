@@ -2,8 +2,6 @@ package scenere;
 
 import java.awt.Point;
 
-import tcpsm.TCPSM;
-
 public class TCPSMstub{
 	private CDCstub cdc;
 	public TCPSMstub(){
