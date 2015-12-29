@@ -58,17 +58,21 @@ public class UDPUS {
 			        		setPlayerGamingInfo(player, messageSplit[5], messageSplit[6], messageSplit[7],
 			        				messageSplit[8], messageSplit[9], messageSplit[10], messageSplit[11],messageSplit[12]);
 			        		break;
+			        		
 			        	case "UPDATE DUMPLING":
 			        		// message = "UPDATE DUMPLING ID location.x location.y power"
 			        		// example : "UPDATE DUMPLING  2 50         100        3
 			        		Dumpling dumpling = setDumplingGamingInfo(messageSplit);
 			        		dom.addDumpling(dumpling);
+			        		break;
+			        		
 			        	case "UPDATE ITEM":
 			        		// message = "UPDATE ITEM ID TYPE location.x location.y"
 			        		// example : "UPDATE ITEM 2  3    20         50
 			        		Item item = setItemGamingInfo(messageSplit);
 			        		dom.addItem(item);
 			        		break;
+			        		
 			        	case "UPDATE TIME":
 			        		// message = "UPDATE TIME time" ( time = seconds)
 			        		// example = "UPDATE TIME 90"
@@ -76,6 +80,15 @@ public class UDPUS {
 			        		String gameTime = intTime / 60 + ":" + intTime % 60;
 			        		dom.setGameTime(gameTime);
 			        		break;
+			        		
+			        	case "DELETE DUMPLING":
+			        		dom.removeDumpling(Integer.parseInt(messageSplit[2]));
+			        		break;
+			        		
+			        	case "DELETE ITEM":
+			        		dom.removeItem(Integer.parseInt(messageSplit[2]));
+			        		break;
+			        		
 			        	default:
 			        		break;
 			        }
