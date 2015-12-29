@@ -10,6 +10,9 @@ import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import tcpcm.TCPCM;
+
 import javax.swing.JTextField;
 import java.awt.Font;
 import javax.swing.JLabel;
@@ -19,7 +22,7 @@ public class IPInputDialog extends JDialog {
 	private ActionListener connectListener;
 	private ActionListener cancelListener;
 	private JPanel roomPanel;
-	private JFrame frame;
+	private MainFrame frame;
 
 	private final JPanel contentPanel = new JPanel();
 	private JTextField textField;
@@ -80,6 +83,12 @@ public class IPInputDialog extends JDialog {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
+				//connect server
+				
+				frame.tcpClient = new TCPCM(frame);
+				frame.tcpClient.connectServer(textField.getText());
+				
+				
 				frame.getContentPane().removeAll();
 				frame.getContentPane().add(roomPanel);
 				frame.getContentPane().repaint();

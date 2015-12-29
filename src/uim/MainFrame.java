@@ -7,21 +7,36 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import cdc.CDC;
+import gameobject.Player;
+import tcpcm.TCPCM;
+import tcpsm.TCPSM;
+import udpbc.UDPBC;
+import udpus.UDPUS;
+
+
 public class MainFrame extends JFrame {
 	
 	private MainPanel mainPanel;
+	private Player player;
+	protected TCPSM tcpServer;
+	protected TCPCM tcpClient;
+	protected CDC cdc;
+	protected UDPBC udpbc;
+	protected UDPUS udpus;
 	
 		
 	
 	/**
 	 * Launch the application.
-	 */
+	 
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
 					MainFrame frame=new MainFrame();
 					frame.setVisible(true);
+					frame.setResizable(false);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -29,12 +44,11 @@ public class MainFrame extends JFrame {
 		});
 	}
 
-	/**
+	
 	 * Create the frame.
 	 */
 	public MainFrame() {
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 800, 600);
+		
 		mainPanel = new MainPanel(this);
 		
 		mainPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -42,5 +56,12 @@ public class MainFrame extends JFrame {
 		setContentPane(mainPanel);
 	}
 	
-
+	public void setPlayer(Player player){
+		this.player = player;
+	}
+	
+	public Player getPlayer(){
+		return this.player;
+	}
+	
 }

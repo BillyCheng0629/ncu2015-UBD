@@ -9,6 +9,10 @@ import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+import cdc.CDC;
+import tcpcm.TCPCM;
+import tcpsm.TCPSM;
+
 public class CreateRoomPanel extends JPanel {
 	private JButton createRoom;
 	private JButton joinRoom;
@@ -17,7 +21,7 @@ public class CreateRoomPanel extends JPanel {
 	private JDialog ipInputDialog;
 	private RoomPanel roomPanel;
 	private MainPanel mainPanel;
-	private JFrame frame;
+	private MainFrame frame;
 	/**
 	 * Create the panel.
 	 */
@@ -48,6 +52,18 @@ public class CreateRoomPanel extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
 				
+				frame.cdc = new CDC();
+				
+				//start server
+				frame.tcpServer = new TCPSM();
+				frame.tcpServer.setCDC(frame.cdc);
+				frame.tcpServer.initTCPserver();
+				
+				//connect server
+				frame.tcpClient = new TCPCM(frame);
+				frame.tcpClient.connectServer("127.0.0.1");
+				
+				
 				frame.getContentPane().removeAll();
 				frame.getContentPane().add(roomPanel);
 				roomPanel.setBounds(20, 5, 780, 595);
@@ -61,6 +77,7 @@ public class CreateRoomPanel extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
+				//connect server
 				
 				ipInputDialog.setVisible(true);
 				

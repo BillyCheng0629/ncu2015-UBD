@@ -18,7 +18,7 @@ import gameobject.Player;
 public class TCPCM {
 	private int clientNo;
 	private String serverIP;
-	private int serverPort = 8888;
+	private int serverPort = 9876;
 	private Socket socket;
 	private Thread recieveThread;
 	private BufferedReader in;
@@ -38,13 +38,13 @@ public class TCPCM {
 	
 	
 	
-	public Boolean connectServer(String ip, int port) {
+	public Boolean connectServer(String ip) {
 		serverIP = ip;
-		serverPort = port;
+		
 		
 
 		try {
-			socket = new Socket(ip, port);
+			socket = new Socket(ip, serverPort);
 			return true;
 		} catch (IOException e) {
 			System.out.println("Error:"+e.getMessage());
@@ -60,8 +60,6 @@ public class TCPCM {
 			assert (actionCode >= 0 && actionCode<=5);
 			switch (actionCode) {
 			case 0:
-				out.println("SETISMOVEING,"+0);
-				break;
 			case 1:
 			case 2:
 			case 3:
