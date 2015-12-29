@@ -95,4 +95,9 @@ public class CDC {
 	 */
 	// type(player),playerID,x,y,speed,power,maxDumplingCount
 	// type(item),itemType.x,y
+
+	public void placedDumpling(int playerID) {
+		// TODO Auto-generated method stub
+		
+	}
 }
