@@ -2,14 +2,16 @@ package scenere;
 
 import java.awt.Point;
 
+import javax.swing.JFrame;
+
 import dom.DOM;
 import tcpcm.TCPCM;
 
-public class TCPCMstub{
+public class TCPCMstub extends TCPCM{
 	TCPSMstub tcpsm;
 	DOM dom;
-	public TCPCMstub(){
-		super();
+	public TCPCMstub(JFrame frm){
+		super(frm);
 	}
 	
 	public void setDOM(DOM dom){

@@ -60,12 +60,17 @@ public class TCPCM {
 			assert (actionCode >= 0 && actionCode<=5);
 			switch (actionCode) {
 			case 0:
+				out.println("SETISMOVEING,"+0);
+				break;
 			case 1:
 			case 2:
 			case 3:
 			case 4:
 				
 				out.println("MOVE,"+actionCode);
+				out.flush();
+				
+				out.println("SETISMOVEING,"+1);
 				out.flush();
 				
 				break;
@@ -88,6 +93,14 @@ public class TCPCM {
 	
 	
 	public void sendRoomAction(String msg) throws IOException {
+		/**
+		 * ADDPLAYER
+		 * SETNAME
+		 * SETMAP
+		 * SETCHARACTER
+		 * SETISREADY
+		 * START
+		 */
 		PrintStream out = new PrintStream(socket.getOutputStream());
 		out.println(msg);
 		out.flush();
@@ -107,10 +120,11 @@ public class TCPCM {
 						
 						switch (action) {
 						case "ADDPLAYER":
-							Player player = new Player("");
-							playerID = Integer.parseInt(msg.split(",")[1]);
+							String playName = msg.split(",")[1];
+							Player player = new Player(playName);
+							playerID = Integer.parseInt(msg.split(",")[2]);
 							player.setID(playerID);
-							//dom.setPlayer(playerID, player);
+							dom.updatePlayer(player);
 							break;
 						case "SETMAP":
 							int mapType = Integer.parseInt(msg.split(",")[1]);
@@ -120,19 +134,23 @@ public class TCPCM {
 						case "SETCHARACTER":
 							
 							playerID = Integer.parseInt(msg.split(",")[1]);
-							int charcterType = Integer.parseInt(msg.split(",")[2]);
-							//dom.getPlayer(playerID).setCharacter(character);
+							int characterNum = Integer.parseInt(msg.split(",")[2]);
+							
+							dom.getPlayer(playerID).getCharacter().setCharacterNum(characterNum);;
 							break;
-						case "SETREADYSTATE":
+						case "SETISREADY":
 							playerID = Integer.parseInt(msg.split(",")[1]);
-							boolean readyState = (Integer.parseInt(msg.split(",")[2])==1);
-							//dom.getPlayer(playerID).setReadyState(readyState);
+							boolean isReady = (Integer.parseInt(msg.split(",")[2])==1);
+							dom.getPlayer(playerID).setIsReady(isReady);
 							break;
 							
 						case "END":
-							/*
+							/**
+							 * 
 							close now gamePanel frame
 							show resultPanel
+							frm.frm.
+							*
 							*/
 							break;
 						default:

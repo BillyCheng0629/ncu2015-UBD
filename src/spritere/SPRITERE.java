@@ -76,7 +76,7 @@ public class SPRITERE{
 	}
 	
 	public void paintPlayer(Graphics gra,int playerID){
-		spritereData.loadRoleImage(dom.getPlayer(playerID).getCharacter().getCharacterImg());
+		//spritereData.loadRoleImage(dom.getPlayer(playerID).getCharacter().getCharacterImg());
 		isMoving = dom.getPlayer(playerID).getIsMoving();
 		towards = dom.getPlayer(playerID).getDirection();
 		playerLocation = dom.getPlayer(playerID).getPlayerLocation();

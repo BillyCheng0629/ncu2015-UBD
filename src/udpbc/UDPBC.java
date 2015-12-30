@@ -6,12 +6,15 @@ import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.SocketException;
 import java.net.UnknownHostException;
+import java.util.LinkedList;
+import java.util.Queue;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.Vector;
 
 import cdc.CDC;
 import dom.DOM;
+import gameobject.Dumpling;
 import tcpsm.TCPSM;
 
 public class UDPBC {
@@ -19,6 +22,7 @@ public class UDPBC {
 	private DatagramSocket clientSocket;
 	private byte[] sendData;
 	private Vector<String> IPTable;
+	private Queue<Object> deleteQueue;
 	private Vector itemVector;
 	private String itemInfo;
 	private DatagramPacket sendPacket;
@@ -34,6 +38,7 @@ public class UDPBC {
 		this.itemInfo = "";
 		this.sendPacket = null;
 		
+		this.deleteQueue = new LinkedList();
 		this.tcpsm = _TCPSM;
 		this.cdc = _CDC;
 	}
@@ -48,6 +53,24 @@ public class UDPBC {
 
 			@Override
 			public void run() {
+				
+				//deleteQueue = cdc.getDeleteQueue();
+				for (Object deleteItem : deleteQueue) {
+					itemInfo = deleteItem.toString();
+					int itemID = Integer.parseInt(itemInfo.split(" ")[1]);
+					if (deleteItem instanceof Dumpling){
+						//cdc.removeDumpling(itemID)
+					} else {
+						cdc.removeItem(itemID);
+					}
+					itemInfo = "DELETE" + itemInfo;
+					try {
+						broadcastMessage(clientSocket, itemInfo, IPTable);
+					} catch (UnknownHostException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
 				
 				itemVector = cdc.getUpdateInfo();
 				assert(itemVector.size()>0);
