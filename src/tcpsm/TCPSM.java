@@ -21,7 +21,7 @@ import gameobject.Player;
 
 public class TCPSM {
 
-	private int listenPort =8888; //default port
+	private int listenPort =9876; //default port
 	private ServerSocket serverSocket;
 
 	private Socket clientSocket; // the socket
@@ -38,14 +38,18 @@ public class TCPSM {
 	private PrintStream out = null;
 	private ArrayList<Integer> aList;
 	
+	public TCPSM() {
+		
+		
+		
+		
+	}
 	
 	public TCPSM(int listenPort) {
 		assert (listenPort>0 && listenPort<=65535);
 		this.listenPort = listenPort;
-		freePlayerIDTable.add(0);
-		freePlayerIDTable.add(1);
-		freePlayerIDTable.add(2);
-		freePlayerIDTable.add(3);
+		
+		
 		
 		
 		
@@ -63,8 +67,19 @@ public class TCPSM {
 	        public void run()
 	        {
 	        	
-					
+	        	clientIPTable = new Vector<String>();
+	    		clientSocketTable = new Vector<Socket>();
 	    		clientIPTable = new Vector<String>();
+	    		playerIDTable = new Vector<Integer>();
+	    		freePlayerIDTable = new Vector<Integer>();
+	    		freePlayerIDTable.add(3);
+	    		freePlayerIDTable.add(2);
+	    		freePlayerIDTable.add(1);
+	    		freePlayerIDTable.add(0);
+	    		
+	    		
+	    		
+	    		//clientIPTable = new Vector<String>();
 	    		connectiontable = new Vector();
 	    		count = 0;
 	    		
@@ -77,23 +92,23 @@ public class TCPSM {
 	    		}
 	    		
 
-	    		//System.out.println("the server information:" + serverSocket.getLocalSocketAddress());
+	    		System.out.println("the server start on" + serverSocket.getLocalSocketAddress());
 	    		Thread thread = null;
 	    		while (!serverSocket.isClosed()) {
 	    			try {
 	    				//System.out.println("wait to client....");
-	    				while(true) {
-	    					if (count<clientLimit)
-	    						break;
-	    				}
+	    				
+	    				
 	    				clientSocket = serverSocket.accept();
 	    				
-	    				clientSocketTable.add(clientSocket);
+	    				
 	    				ServerThread now;
 	    				
-	    				thread = new Thread(now = new ServerThread(count++, clientSocket, cdc, clientSocketTable, playerIDTable, freePlayerIDTable) );
-	    				connectiontable.addElement(now);
+	    				thread = new Thread(now = new ServerThread(count++, clientSocket, cdc, clientIPTable, clientSocketTable, playerIDTable, freePlayerIDTable) );
 	    				clientIPTable.add(clientSocket.getRemoteSocketAddress().toString().split("/")[1].split(":")[0]);
+	    				clientSocketTable.add(clientSocket);
+	    				connectiontable.addElement(now);
+	    				
 	    				thread.start();
 
 	    			} catch (IOException e) {
@@ -151,6 +166,7 @@ class ServerThread implements Runnable {
 	int clientNo;
 	CDC cdc;
 	
+	Vector<String> clientIPTable;
 	Vector<Socket> clientSocketTable;
 	Vector<Integer> playerIDTable;
 	Vector<Integer> freePlayerIDTable;
@@ -159,12 +175,13 @@ class ServerThread implements Runnable {
 	
 
 
-	public ServerThread(int clientNo, Socket clientSocket, CDC cdc, Vector<Socket> clientSocketTable, Vector<Integer> playerIDTable, Vector<Integer> freePlayerIDTable) {
+	public ServerThread(int clientNo, Socket clientSocket, CDC cdc, Vector<String> clientIPTable , Vector<Socket> clientSocketTable, Vector<Integer> playerIDTable, Vector<Integer> freePlayerIDTable) {
 		// TODO Auto-generated constructor stub
 		
 		this.clientNo = clientNo;
 		this.clientSocket = clientSocket;
 		this.cdc = cdc ;
+		this.clientIPTable = clientIPTable;
 		this.clientSocketTable = clientSocketTable;
 		this.playerIDTable = playerIDTable;
 		this.freePlayerIDTable = freePlayerIDTable;
@@ -175,6 +192,7 @@ class ServerThread implements Runnable {
 	
 	private void sendMessage(String msg) {
 		try {
+			System.out.println("server send  "+msg);
 			out = new PrintStream(clientSocket.getOutputStream());
 			out.println(msg);
 			out.flush();
@@ -188,11 +206,13 @@ class ServerThread implements Runnable {
 	public void  broadcast(String msg)  {
 		for (int i=0;i<clientSocketTable.size();i++) {
 			try {
+				System.out.println("server broadcst to "+i);
 				out = new PrintStream(clientSocketTable.get(i).getOutputStream());
 				out.println(msg);
 				out.flush();
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
+				System.out.println("server broadcst Error");
 				e.printStackTrace();
 			}
 			
@@ -202,8 +222,9 @@ class ServerThread implements Runnable {
 	@Override
 	public void run() {
 		// TODO Auto-generated method stub
-		//System.out.println("the client information :"+ (clientSocket.getRemoteSocketAddress()+"").split("/")[1].split(":")[0]);
-
+		System.out.println("the client information :"+ (clientSocket.getRemoteSocketAddress()+"").split("/")[1].split(":")[0]);
+		
+		
 
 		assert clientSocket.isConnected();
 		while (clientSocket.isConnected()) {
@@ -232,6 +253,7 @@ class ServerThread implements Runnable {
 						cdc.placedDumpling(playerID);
 						break;
 					case "ADDPLAYER":
+						System.out.println("server recieve ADDPLAYER sucess");
 						playerID = freePlayerIDTable.get(freePlayerIDTable.size()-1);
 						freePlayerIDTable.remove(freePlayerIDTable.size()-1);
 						
@@ -243,8 +265,16 @@ class ServerThread implements Runnable {
 						
 						
 						for (int i=0;i<playerIDTable.size();i++) {
-							sendMessage("ADDPLAYER,"+playerName+","+playerIDTable.get(i));
+							try {
+								Thread.sleep(500);
+							} catch (InterruptedException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}
+							System.out.println("server init local  player data");
+							sendMessage("ADDPLAYER,"+cdc.getPlayer(playerIDTable.get(i)).getName()+","+playerIDTable.get(i));
 						}
+						
 						//sendMessage("SETMAP,"+cdc.getMapType);
 						
 						playerIDTable.add(playerID);
@@ -266,11 +296,12 @@ class ServerThread implements Runnable {
 						cdc.getPlayer(playerID).getCharacter().setCharacterNum(characterNum);;;
 						broadcast(msg+","+playerID);
 						break;
+					/*
 					case "SETISMOVING":
 						boolean isMoving = Integer.parseInt(msg.split(",")[1])==1;
 						cdc.getPlayer(playerID).setIsMoving(isMoving);
 						broadcast(msg+","+playerID);
-						break;
+						break;*/
 					case "SETISREADY":
 						boolean isReady = Integer.parseInt(msg.split(",")[1])==1;
 						cdc.getPlayer(playerID).setIsReady(isReady);

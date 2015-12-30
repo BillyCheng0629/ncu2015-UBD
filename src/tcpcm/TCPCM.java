@@ -2,7 +2,7 @@
 
 package tcpcm;
 
-import java.awt.Frame;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -11,26 +11,27 @@ import java.net.Socket;
 
 import javax.print.event.PrintJobAdapter;
 import javax.security.auth.SubjectDomainCombiner;
+import javax.swing.JFrame;
 
-import dom.DOM;
+
 import gameobject.Player;
+import uim.MainFrame;
 
 public class TCPCM {
 	private int clientNo;
 	private String serverIP;
-	private int serverPort = 8888;
+	private int serverPort = 9876;
 	private Socket socket;
 	private Thread recieveThread;
 	private BufferedReader in;
-	private DOM dom;
-	private Frame frame;
+	private MainFrame frame;
 	
 	
 
 	
 	
 	
-	public TCPCM(Frame f) {
+	public TCPCM(MainFrame frame) {
 		this.frame = frame;
 		
 		
@@ -38,13 +39,13 @@ public class TCPCM {
 	
 	
 	
-	public Boolean connectServer(String ip, int port) {
+	public Boolean connectServer(String ip) {
 		serverIP = ip;
-		serverPort = port;
+		
 		
 
 		try {
-			socket = new Socket(ip, port);
+			socket = new Socket(ip, serverPort);
 			return true;
 		} catch (IOException e) {
 			System.out.println("Error:"+e.getMessage());
@@ -60,8 +61,6 @@ public class TCPCM {
 			assert (actionCode >= 0 && actionCode<=5);
 			switch (actionCode) {
 			case 0:
-				out.println("SETISMOVEING,"+0);
-				break;
 			case 1:
 			case 2:
 			case 3:
@@ -106,7 +105,7 @@ public class TCPCM {
 		out.flush();
 	}
 	
-	public void recieveMessage() {
+	public void startRecieveMessage() {
 		recieveThread = new Thread() {
 			private int playerID;
 			public void run()
@@ -120,15 +119,20 @@ public class TCPCM {
 						
 						switch (action) {
 						case "ADDPLAYER":
-							String playName = msg.split(",")[1];
-							Player player = new Player(playName);
+							String playerName = msg.split(",")[1];
+							Player player = new Player(playerName);
 							playerID = Integer.parseInt(msg.split(",")[2]);
 							player.setID(playerID);
-							dom.updatePlayer(player);
+							System.out.println("player"+playerID+": "+playerName);
+							
+							frame.dom.updatePlayer(player);
+							
+							System.out.println("receieve add player "+playerID);
+							frame.roomPanel.updateRoomInfo();
 							break;
 						case "SETMAP":
 							int mapType = Integer.parseInt(msg.split(",")[1]);
-							dom.setMapType(mapType);
+							frame.dom.setMapType(mapType);
 							break;
 							
 						case "SETCHARACTER":
@@ -136,12 +140,12 @@ public class TCPCM {
 							playerID = Integer.parseInt(msg.split(",")[1]);
 							int characterNum = Integer.parseInt(msg.split(",")[2]);
 							
-							dom.getPlayer(playerID).getCharacter().setCharacterNum(characterNum);;
+							frame.dom.getPlayer(playerID).getCharacter().setCharacterNum(characterNum);;
 							break;
 						case "SETISREADY":
 							playerID = Integer.parseInt(msg.split(",")[1]);
 							boolean isReady = (Integer.parseInt(msg.split(",")[2])==1);
-							dom.getPlayer(playerID).setIsReady(isReady);
+							frame.dom.getPlayer(playerID).setIsReady(isReady);
 							break;
 							
 						case "END":
@@ -163,11 +167,14 @@ public class TCPCM {
 						
 					} catch (IOException e) {
 						// TODO Auto-generated catch block
+						System.out.println("client recieveThread error");
 						e.printStackTrace();
 					}
 				}
 	        }
 		};
+		
+		recieveThread.start();
 	}
 	
 

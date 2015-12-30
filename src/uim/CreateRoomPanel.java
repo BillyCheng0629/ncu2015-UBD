@@ -3,11 +3,17 @@ package uim;
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+
+import cdc.CDC;
+import dom.DOM;
+import tcpcm.TCPCM;
+import tcpsm.TCPSM;
 
 public class CreateRoomPanel extends JPanel {
 	private JButton createRoom;
@@ -15,9 +21,9 @@ public class CreateRoomPanel extends JPanel {
 	private ActionListener createRoomListener;
 	private ActionListener joinRoomListener;
 	private JDialog ipInputDialog;
-	private RoomPanel roomPanel;
+	//private RoomPanel roomPanel;
 	private MainPanel mainPanel;
-	private JFrame frame;
+	private MainFrame frame;
 	/**
 	 * Create the panel.
 	 */
@@ -27,7 +33,7 @@ public class CreateRoomPanel extends JPanel {
 		
 		this.setSize(800,600);
 		ipInputDialog = new IPInputDialog(frame);
-		roomPanel=new RoomPanel(frame);
+		frame.roomPanel=new RoomPanel(frame);
 		setLayout(null);
 		createActionListener();
 		createRoom = new JButton("create room");
@@ -48,10 +54,35 @@ public class CreateRoomPanel extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
 				
+				//set cdc
+				frame.cdc = new CDC();
+				
+				//set dom
+				frame.dom = new DOM();
+				
+				//start tcp server
+				frame.tcpsm = new TCPSM();
+				frame.tcpsm.setCDC(frame.cdc);
+				frame.tcpsm.initTCPserver();
+				
+				//connect to server
+				frame.tcpcm = new TCPCM(frame);
+				frame.tcpcm.connectServer("127.0.0.1");
+				frame.tcpcm.startRecieveMessage();
+				
+				try {
+					frame.tcpcm.sendRoomAction("ADDPLAYER,"+frame.player.getName());
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					System.out.println("add player error");
+					e1.printStackTrace();
+				}
+				
+				
 				frame.getContentPane().removeAll();
-				frame.getContentPane().add(roomPanel);
-				roomPanel.setBounds(20, 5, 780, 595);
-				frame.getContentPane().add(roomPanel);
+				frame.getContentPane().add(frame.roomPanel);
+				frame.roomPanel.setBounds(20, 5, 780, 595);
+				frame.getContentPane().add(frame.roomPanel);
 				frame.getContentPane().repaint();
 				//frame.getContentPane().repaint();
 			}
@@ -61,6 +92,8 @@ public class CreateRoomPanel extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
+				
+				
 				
 				ipInputDialog.setVisible(true);
 				

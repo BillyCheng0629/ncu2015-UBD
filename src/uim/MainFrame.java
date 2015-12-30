@@ -7,15 +7,29 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import cdc.CDC;
+import dom.DOM;
+import gameobject.Player;
+import tcpcm.TCPCM;
+import tcpsm.TCPSM;
+
 public class MainFrame extends JFrame {
 	
 	private MainPanel mainPanel;
+	public RoomPanel roomPanel;
+	
+	Player player;
+	
+	TCPSM tcpsm;
+	TCPCM tcpcm;
+	CDC cdc;
+	public DOM dom; 
 	
 		
 	
 	/**
 	 * Launch the application.
-	 */
+	 
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -29,12 +43,11 @@ public class MainFrame extends JFrame {
 		});
 	}
 
-	/**
+	
 	 * Create the frame.
 	 */
 	public MainFrame() {
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 800, 600);
+		
 		mainPanel = new MainPanel(this);
 		
 		mainPanel.setBorder(new EmptyBorder(5, 5, 5, 5));

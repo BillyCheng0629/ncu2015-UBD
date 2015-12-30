@@ -30,7 +30,7 @@ public class NameInputDialog extends JDialog {
 	private JPanel createRoom;
 	
 	private JTextField nameInputField;
-	private JFrame frame;
+	private MainFrame frame;
 	/**
 	 * Launch the application.
 	 */
@@ -87,8 +87,10 @@ public class NameInputDialog extends JDialog {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				player= new Player(nameInputField.getText());
-				System.out.println(player.getNmae());
+				frame.player= new Player(nameInputField.getText());
+				System.out.println(frame.player.getName());
+				
+				
 				
 				frame.getContentPane().removeAll();
 				frame.getContentPane().add(createRoom);
