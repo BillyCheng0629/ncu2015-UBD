@@ -30,33 +30,33 @@ public class UpdateThread extends Thread{
 			}
 			
 			
-			if(moveCount==0){ //just a counter
+			
 			for(int i=0;i<4;i++){
 				if(player[i].getIsMoving()){ //while player is moving 
 					switch (player[i].getDirection()) {
 					case 1:
-						player[i].location.y+=1; //move N
+						player[i].location.y+=50; //move N
 						checkItem(player[i]);//check there is or not an item
 						break;
 					case 2:
-						player[i].location.x+=1;//move E
+						player[i].location.x+=50;//move E
 						checkItem(player[i]);
 						break;
 					case 3:
-						player[i].location.y-=1;//move S
+						player[i].location.y-=50;//move S
 						checkItem(player[i]);
 						break;
 					case 4:
-						player[i].location.x-=1;//move w
+						player[i].location.x-=50;//move w
 						checkItem(player[i]);
 						break;
 					default:
 						break;
 					}
 				}
-				moveCount=4;//just a counter
+				
 			}
-			}
+			
 			
 			moveCount--;//just a counter
 			time-=50;// time counter
@@ -102,18 +102,22 @@ public class UpdateThread extends Thread{
 	}
 	public void checkBombEffecet(Dumpling dumpling){
 		for(int i=0;i<4;i++){
-			if(player[i].location.x==dumpling.location.x&&player[i].location.y<(dumpling.location.y+dumpling.getPower())&&player[i].location.y>(dumpling.location.y-dumpling.getPower())){
+			if(((int)player[i].location.x/100)==((int)dumpling.location.x/100)&&((int)player[i].location.y/100)<(((int)dumpling.location.y)+dumpling.getPower())&&((int)player[i].location.y/100)>
+			(((int)dumpling.location.y/100)-dumpling.getPower())){
 				player[i].setAlive(false);    
 			}
-			else if(player[i].location.y==dumpling.location.y&&player[i].location.x<(dumpling.location.x+dumpling.getPower())&&player[i].location.x>(dumpling.location.x-dumpling.getPower())){
+			else if(((int)player[i].location.y/100)==((int)dumpling.location.y/100)&&((int)player[i].location.x/100)<(((int)dumpling.location.x)+dumpling.getPower())&&((int)player[i].location.x/100)>
+			(((int)dumpling.location.x/100)-dumpling.getPower())){
 				player[i].setAlive(false);
 			}
 		}
 		for(Object key:items.keySet()){
-			if(items.get(key).location.x==dumpling.location.x&&items.get(key).location.y<(dumpling.location.y+dumpling.getPower())&&items.get(key).location.y>(dumpling.location.y-dumpling.getPower())){
+			if(((int)items.get(key).location.x/100)==((int)dumpling.location.x/100)&&((int)items.get(key).location.y/100)<(((int)dumpling.location.y/100)+dumpling.getPower())&&((int)items.get(key).location.y/100)>
+			(((int)dumpling.location.y/100)-dumpling.getPower())){
 				items.remove(key);
 			}
-			else if(items.get(key).location.y==dumpling.location.y&&items.get(key).location.x<(dumpling.location.x+dumpling.getPower())&&items.get(key).location.x>(dumpling.location.y-dumpling.getPower())){
+			else if(((int)items.get(key).location.y/100)==((int)dumpling.location.y/100)&&((int)items.get(key).location.x/100)<(((int)dumpling.location.x/100)+dumpling.getPower())&&((int)items.get(key).location.x/100)>
+			(((int)dumpling.location.x/100)-dumpling.getPower())){
 				items.remove(key);
 			}
 		}
