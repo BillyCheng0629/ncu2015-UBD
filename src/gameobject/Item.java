@@ -5,7 +5,7 @@ import java.awt.Point;
 
 public class Item {
 	private Image itemImage;
-	private int type;
+	private int type;//0=increase dumplings amount;1=increase dumplings power
 	public Point location;
 	
 	public Image getImage(){

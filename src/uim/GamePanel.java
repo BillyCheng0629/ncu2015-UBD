@@ -25,6 +25,7 @@ public class GamePanel extends JPanel{
 		super();
 		this.frame=frame;
 		frame.setSize(1010, 620);
+		this.setSize(1010, 620);
 	}
 	
 	public void initGame(){

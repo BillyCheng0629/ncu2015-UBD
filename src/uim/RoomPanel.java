@@ -56,10 +56,12 @@ public class RoomPanel extends JPanel{
 		add(ipAddress);
 		mapImage=new ImageIcon("C:\\Users\\aker\\workspace\\PrototypeA\\map.png");
 		mapLabel = new JLabel("");
-		mapLabel.setIcon(new ImageIcon());
+		mapLabel.setBounds(5, 5, 150, 150);
 		
 		mapComboBox = new JComboBox();
+		mapLabel.setIcon(new ImageIcon("C:\\Users\\aker\\workspace\\PrototypeA\\hqdefault.jpg"));
 		mapComboBox.setModel(new DefaultComboBoxModel(new String[] {"\u967D\u5168\u9152\u5BB6", "\u5DE5\u4E94", "\u91D1\u9B5A\u5BB6"}));
+		
 		mapComboBox.addItemListener(new ItemListener() {
 			
 			@Override
@@ -80,17 +82,25 @@ public class RoomPanel extends JPanel{
 				}
 			}
 		});
+		
 		mapComboBox.setToolTipText("Map");
 		mapComboBox.setBounds(542, 96, 157, 21);
 		add(mapComboBox);
-		
+	
 		mapPanel = new JPanel();
 		mapPanel.setBounds(542, 127, 157, 139);
 		add(mapPanel);
-		mapPanel.setLayout(new GridLayout(0, 1, 0, 0));
+		mapPanel.setLayout(null);
+//		add()
+		
+		
+		
+		
 		
 		
 		mapPanel.add(mapLabel);
+		
+		
 		
 		playerInfo1 = new JPanel();
 		playerInfo1.setBounds(31, 84, 186, 182);
@@ -176,7 +186,11 @@ public class RoomPanel extends JPanel{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				
+				frame.getContentPane().removeAll();
+				frame.getContentPane().add(gamePanel);
+				gamePanel.setBounds(20, 5, 1010, 595);
+				frame.getContentPane().add(gamePanel);
+				frame.getContentPane().repaint();
 
 			}
 		};

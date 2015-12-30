@@ -27,24 +27,24 @@ public class MainPanel extends JPanel {
 	public MainPanel(MainFrame frame) {
 			super();
 			this.frame=frame;
-			this.setSize(800,600);
+			this.setSize(1010,620);
 			setLayout(null);
 			nameInput=new NameInputDialog(frame);
 			gameTitle = new JLabel("Dumpling Man");
 			gameTitle.setFont(new Font("Times New Roman", Font.PLAIN, 39));
 			gameTitle.setHorizontalAlignment(SwingConstants.CENTER);
-			gameTitle.setBounds(89, 114, 343, 81);
+			gameTitle.setBounds(218, 124, 369, 120);
 			
 			add(gameTitle);
 			createActionListener();
 			JButton startButton = new JButton("startButton");
 			startButton.addActionListener(startActionListener);
-			startButton.setBounds(500, 366, 202, 66);
+			startButton.setBounds(674, 357, 202, 66);
 			add(startButton);
 			
 			JButton exitButton = new JButton("exitButton");
 			exitButton.addActionListener(exitActionListener);
-			exitButton.setBounds(500, 470, 202, 66);
+			exitButton.setBounds(674, 464, 202, 66);
 			add(exitButton);
 			
 			

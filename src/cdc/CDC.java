@@ -29,6 +29,7 @@ public class CDC {
 	}
 	public void initGame(){
 		cleanState();
+		startItemPlacedThread();
 		startUpdatingThread();
 		
 	}

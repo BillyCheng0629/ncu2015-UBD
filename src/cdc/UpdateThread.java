@@ -13,7 +13,7 @@ public class UpdateThread extends Thread{
 	private HashMap<Integer, Item> items;
 	private Queue<Object> deleteQueue;
 	private Player player[];
-	private int moveCount=3;
+	private int moveCount=4;
 	private int time;
 	public void run() {
 		while(isContinue){
@@ -33,21 +33,25 @@ public class UpdateThread extends Thread{
 					switch (player[i].getDirection()) {
 					case 1:
 						player[i].location.y+=1;
+						checkItem(player[i]);
 						break;
 					case 2:
 						player[i].location.x+=1;
+						checkItem(player[i]);
 						break;
 					case 3:
 						player[i].location.y-=1;
+						checkItem(player[i]);
 						break;
 					case 4:
 						player[i].location.x-=1;
+						checkItem(player[i]);
 						break;
 					default:
 						break;
 					}
 				}
-				moveCount=3;
+				moveCount=4;
 			}
 			}
 			moveCount--;
@@ -92,5 +96,21 @@ public class UpdateThread extends Thread{
 	}
 	public void setDeleteQueue(Queue<Object> deleteQueue){
 		this.deleteQueue=deleteQueue;
+	}
+	public void checkItem(Player player){
+		for(Object key:items.keySet()){
+			if(items.get(key).location==player.location){
+				switch (items.get(key).getType()) {
+				case 0:
+					player.setMaxDumplingCount(player.getMaxDumplingCount()+1);
+					break;
+				case 1:
+					player.setPower(player.getPower()+1);
+					break;
+				default:
+					break;
+				}
+			}
+		}
 	}
 }

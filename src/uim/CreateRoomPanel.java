@@ -25,18 +25,18 @@ public class CreateRoomPanel extends JPanel {
 		super();
 		this.frame=frame;
 		
-		this.setSize(800,600);
+		this.setSize(1010,620);
 		ipInputDialog = new IPInputDialog(frame);
 		roomPanel=new RoomPanel(frame);
 		setLayout(null);
 		createActionListener();
 		createRoom = new JButton("create room");
-		createRoom.setBounds(289, 166, 178, 53);
+		createRoom.setBounds(427, 169, 178, 53);
 		createRoom.addActionListener(createRoomListener);
 		add(createRoom);
 		
 		joinRoom = new JButton("join room");
-		joinRoom.setBounds(289, 287, 178, 53);
+		joinRoom.setBounds(427, 284, 178, 53);
 		joinRoom.addActionListener(joinRoomListener);
 		add(joinRoom);
 

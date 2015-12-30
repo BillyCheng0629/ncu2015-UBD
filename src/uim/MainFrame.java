@@ -34,7 +34,7 @@ public class MainFrame extends JFrame {
 	 */
 	public MainFrame() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 800, 600);
+		setBounds(10, 20,800, 600);
 		mainPanel = new MainPanel(this);
 		
 		mainPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
