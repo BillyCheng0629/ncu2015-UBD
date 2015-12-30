@@ -87,9 +87,11 @@ public class NameInputDialog extends JDialog {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				player= new Player(nameInputField.getText());
-				System.out.println(player.getNmae());
-				frame.setPlayer(player);
+				frame.player= new Player(nameInputField.getText());
+				System.out.println(frame.player.getName());
+				
+				
+				
 				frame.getContentPane().removeAll();
 				frame.getContentPane().add(createRoom);
 				frame.getContentPane().repaint();

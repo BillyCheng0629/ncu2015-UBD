@@ -39,11 +39,7 @@ public class TCPSM {
 	private ArrayList<Integer> aList;
 	
 	public TCPSM() {
-		freePlayerIDTable = new Vector<Integer>();
-		freePlayerIDTable.add(0);
-		freePlayerIDTable.add(1);
-		freePlayerIDTable.add(2);
-		freePlayerIDTable.add(3);
+		
 		
 		
 		
@@ -53,10 +49,7 @@ public class TCPSM {
 		assert (listenPort>0 && listenPort<=65535);
 		this.listenPort = listenPort;
 		
-		freePlayerIDTable.add(0);
-		freePlayerIDTable.add(1);
-		freePlayerIDTable.add(2);
-		freePlayerIDTable.add(3);
+		
 		
 		
 		
@@ -79,12 +72,19 @@ public class TCPSM {
 	    		clientIPTable = new Vector<String>();
 	    		playerIDTable = new Vector<Integer>();
 	    		freePlayerIDTable = new Vector<Integer>();
+	    		freePlayerIDTable.add(3);
+	    		freePlayerIDTable.add(2);
+	    		freePlayerIDTable.add(1);
+	    		freePlayerIDTable.add(0);
+	    		
+	    		
+	    		
 	    		//clientIPTable = new Vector<String>();
 	    		connectiontable = new Vector();
 	    		count = 0;
 	    		
 	    		try {
-	    			serverSocket = new ServerSocket(listenPort);
+	    			serverSocket = new ServerSocket(listenPort,4);
 	    		} catch (IOException e1) {
 	    			// TODO Auto-generated catch block
 	    			System.out.println("server socket error ");
@@ -98,10 +98,7 @@ public class TCPSM {
 	    			try {
 	    				//System.out.println("wait to client....");
 	    				
-	    				while(true) {
-	    					if (count<clientLimit)
-	    						break;
-	    				}
+	    				
 	    				clientSocket = serverSocket.accept();
 	    				
 	    				
@@ -208,6 +205,7 @@ class ServerThread implements Runnable {
 	public void  broadcast(String msg)  {
 		for (int i=0;i<clientSocketTable.size();i++) {
 			try {
+				System.out.println("server broadcst to "+i);
 				out = new PrintStream(clientSocketTable.get(i).getOutputStream());
 				out.println(msg);
 				out.flush();
@@ -253,6 +251,7 @@ class ServerThread implements Runnable {
 						cdc.placedDumpling(playerID);
 						break;
 					case "ADDPLAYER":
+						System.out.println("server recieve ADDPLAYER sucess");
 						playerID = freePlayerIDTable.get(freePlayerIDTable.size()-1);
 						freePlayerIDTable.remove(freePlayerIDTable.size()-1);
 						
@@ -264,8 +263,10 @@ class ServerThread implements Runnable {
 						
 						
 						for (int i=0;i<playerIDTable.size();i++) {
-							sendMessage("ADDPLAYER,"+playerName+","+playerIDTable.get(i));
+							System.out.println("server init local  player data");
+							sendMessage("ADDPLAYER,"+cdc.getPlayer(playerIDTable.get(i)).getName()+","+playerIDTable.get(i));
 						}
+						
 						//sendMessage("SETMAP,"+cdc.getMapType);
 						
 						playerIDTable.add(playerID);

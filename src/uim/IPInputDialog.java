@@ -83,16 +83,22 @@ public class IPInputDialog extends JDialog {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				//connect server
 				
-				frame.tcpClient = new TCPCM(frame);
-				frame.tcpClient.connectServer(textField.getText());
-				
+				//connect to server
+				frame.tcpcm = new TCPCM(frame);
+				frame.tcpcm.connectServer(textField.getText());
 				
 				frame.getContentPane().removeAll();
 				frame.getContentPane().add(roomPanel);
 				frame.getContentPane().repaint();
 				IPInputDialog.this.dispose();
+				
+				
+				frame.getContentPane().removeAll();
+				frame.getContentPane().add(frame.roomPanel);
+				frame.roomPanel.setBounds(20, 5, 780, 595);
+				frame.getContentPane().add(frame.roomPanel);
+				frame.getContentPane().repaint();
 			}
 		};
 		cancelListener = new ActionListener() {

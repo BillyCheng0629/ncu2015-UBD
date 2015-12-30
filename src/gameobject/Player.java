@@ -82,7 +82,7 @@ public class Player {
 		this.name = name;
 	}
 	
-	public String getNmae(){
+	public String getName(){
 		return name;
 	}
 	

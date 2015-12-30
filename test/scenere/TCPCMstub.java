@@ -7,11 +7,11 @@ import javax.swing.JFrame;
 import dom.DOM;
 import tcpcm.TCPCM;
 
-public class TCPCMstub extends TCPCM{
+public class TCPCMstub  {
 	TCPSMstub tcpsm;
 	DOM dom;
 	public TCPCMstub(JFrame frm){
-		super(frm);
+		//super(frm);
 	}
 	
 	public void setDOM(DOM dom){
