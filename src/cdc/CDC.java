@@ -23,6 +23,7 @@ public class CDC {
 	int dumplingCount=0;
 	int time =90000;
 	boolean gameState;
+	int mapType;
 
 	public void addPlayer(Player player, int playerID){
 		this.player[playerID] = player;
@@ -71,6 +72,15 @@ public class CDC {
 	public boolean getGameState(){
 		return gameState;
 	}
+	
+	public void setMapType(int mapType){
+		this.mapType = mapType;
+	}
+	
+	public int getMapType(){
+		return mapType;
+	}
+	
 	public HashMap<Integer,Item> getItems(){
 		return items;
 	}

@@ -275,7 +275,7 @@ class ServerThread implements Runnable {
 							sendMessage("ADDPLAYER,"+cdc.getPlayer(playerIDTable.get(i)).getName()+","+playerIDTable.get(i));
 						}
 						
-						//sendMessage("SETMAP,"+cdc.getMapType);
+						sendMessage("SETMAP,"+cdc.getMapType());
 						
 						playerIDTable.add(playerID);
 						cdc.addPlayer(player, playerID);
@@ -287,7 +287,8 @@ class ServerThread implements Runnable {
 						break;
 						
 					case "SETMAP":
-						
+						int mapType = Integer.parseInt(msg.split(",")[1]);
+						cdc.setMapType(mapType);
 						broadcast(msg);
 						break;
 						

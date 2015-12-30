@@ -132,7 +132,9 @@ public class TCPCM {
 							break;
 						case "SETMAP":
 							int mapType = Integer.parseInt(msg.split(",")[1]);
+							
 							frame.dom.setMapType(mapType);
+							frame.roomPanel.updateRoomInfo();
 							break;
 							
 						case "SETCHARACTER":

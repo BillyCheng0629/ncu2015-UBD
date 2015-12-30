@@ -10,6 +10,7 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.awt.image.ImageObserver;
 import java.awt.image.ImageProducer;
+import java.io.IOException;
 
 import javax.swing.BorderFactory;
 import javax.swing.DefaultComboBoxModel;
@@ -81,8 +82,15 @@ public class RoomPanel extends JPanel{
 				if(e.getStateChange()==ItemEvent.SELECTED){
 					System.out.println("U are selecting map .");
 					for(int i=0;i<mapName.length;i++) {
-						if(mapComboBox.getSelectedItem()==mapName[i])
+						if(mapComboBox.getSelectedItem()==mapName[i]){
 							mapLabel.setIcon(new ImageIcon("imgs/mapbackgrounds/map"+i+".png"));
+							try {
+								frame.tcpcm.sendRoomAction("SETMAP," + i);
+							} catch (IOException e1) {
+								// TODO Auto-generated catch block
+								e1.printStackTrace();
+							}
+						}
 					}
 				}
 			}
@@ -279,6 +287,9 @@ public class RoomPanel extends JPanel{
 				
 			}
 		}
+		int mapType = frame.dom.getMapType();
+		mapImage = new ImageIcon("imgs/mapbackgrounds/map"+mapType+".png");
+		mapLabel.setIcon(mapImage);
 	}
 	
 	
