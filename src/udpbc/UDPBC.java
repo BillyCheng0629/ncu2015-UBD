@@ -57,11 +57,11 @@ public class UDPBC {
 				//deleteQueue = cdc.getDeleteQueue();
 				for (Object deleteItem : deleteQueue) {
 					itemInfo = deleteItem.toString();
-					int itemID = Integer.parseInt(itemInfo.split(" ")[1]);
+					int ID = Integer.parseInt(itemInfo.split(" ")[1]);
 					if (deleteItem instanceof Dumpling){
-						//cdc.removeDumpling(itemID)
+						//cdc.removeDumpling(ID)
 					} else {
-						cdc.removeItem(itemID);
+						cdc.removeItem(ID);
 					}
 					itemInfo = "DELETE" + itemInfo;
 					try {

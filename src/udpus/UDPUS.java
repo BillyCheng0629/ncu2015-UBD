@@ -74,15 +74,15 @@ public class UDPUS {
 			        		break;
 			        		
 			        	case "UPDATE TIME":
-			        		// message = "UPDATE TIME time" ( time = seconds)
-			        		// example = "UPDATE TIME 90"
+			        		// message = "UPDATE TIME time" ( time = ms)
+			        		// example = "UPDATE TIME 90000"
 			        		int intTime = Integer.parseInt(messageSplit[2]);
-			        		String gameTime = intTime / 60 + ":" + intTime % 60;
+			        		String gameTime = intTime / 1000 / 60 + ":" + intTime / 1000 % 60;
 			        		dom.setGameTime(gameTime);
 			        		break;
 			        		
 			        	case "DELETE DUMPLING":
-			        		dom.removeDumpling(Integer.parseInt(messageSplit[2]));
+			        		//dom.removeDumpling(Integer.parseInt(messageSplit[2]));
 			        		break;
 			        		
 			        	case "DELETE ITEM":
