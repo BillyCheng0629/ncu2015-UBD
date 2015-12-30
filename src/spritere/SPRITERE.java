@@ -20,6 +20,7 @@ public class SPRITERE{
     private double movingRapid;
     //time of keyboard pressing
     private int moving_p;
+    private int deadCounter;
     
     //for items
     private Image itemImages[];
@@ -38,6 +39,7 @@ public class SPRITERE{
 		towards = 2;
 		movingRapid = 1;
 		moving_p = 0;
+		deadCounter = 0;
 		//item
 		spritereData.loadItemImages();
 		itemImages = spritereData.getItemImages();
@@ -49,7 +51,12 @@ public class SPRITERE{
 	public void renderSprites(Graphics gra, DOM dom){
 		setDOM(dom);
 		for (Player player : dom.getPlayers()) {
-			paintPlayer(gra, player.getID());
+			if(player.getAlive()){
+				paintPlayer(gra, player.getID());
+			}
+			else if(player.getAlive()){
+				paintDeadPlayer(gra, player.getID());
+			}
 		}
 		
 		for (int i = 0; i < dom.getItems().size(); i++) {
@@ -69,7 +76,7 @@ public class SPRITERE{
 	}
 	
 	public void paintPlayer(Graphics gra,int playerID){
-		//spritereData.loadRoleImage(dom.getPlayer(playerID).getCharacter().getCharacterImg());
+		spritereData.loadRoleImage(dom.getPlayer(playerID).getCharacter().getCharacterNum());
 		isMoving = dom.getPlayer(playerID).getIsMoving();
 		towards = dom.getPlayer(playerID).getDirection();
 		playerLocation = dom.getPlayer(playerID).getPlayerLocation();
@@ -123,6 +130,37 @@ public class SPRITERE{
     	}	
 	}
 	
+	public void paintDeadPlayer(Graphics gra,int playerID) {
+		spritereData.loadRoleImage(dom.getPlayer(playerID).getCharacter().getCharacterNum());
+		isMoving = dom.getPlayer(playerID).getIsMoving();
+		towards = dom.getPlayer(playerID).getDirection();
+		playerLocation = dom.getPlayer(playerID).getPlayerLocation();
+		positionX = (int) playerLocation.getX();
+		positionY = (int) playerLocation.getY();
+		Image tempImage = spritereData.getRoleIcon().getImage();
+		deadCounter++;
+		if(deadCounter>50){deadCounter=50;}
+		switch (towards) {
+		case 1://North
+			if(deadCounter<20 && deadCounter>=10){gra.drawImage(tempImage, positionX, positionY, positionX+100, positionY+100,  64,64*3,64*2,64*4, null);}
+			if(deadCounter<40 && deadCounter>=30){gra.drawImage(tempImage, positionX, positionY, positionX+100, positionY+100,  64,64*3,64*2,64*4, null);}
+			break;
+		case 2://East
+			if(deadCounter<20 && deadCounter>=10){gra.drawImage(tempImage, positionX, positionY, positionX+100, positionY+100,  64,64*2,64*2,64*3, null);}
+			if(deadCounter<40 && deadCounter>=30){gra.drawImage(tempImage, positionX, positionY, positionX+100, positionY+100,  64,64*2,64*2,64*3, null);}
+			break;
+		case 3://South
+			if(deadCounter<20 && deadCounter>=10){gra.drawImage(tempImage, positionX, positionY, positionX+100, positionY+100,  64,64*0,64*2,64*1, null);}
+			if(deadCounter<40 && deadCounter>=30){gra.drawImage(tempImage, positionX, positionY, positionX+100, positionY+100,  64,64*0,64*2,64*1, null);}
+			break;
+		case 4://West
+			if(deadCounter<20 && deadCounter>=10){gra.drawImage(tempImage, positionX, positionY, positionX+100, positionY+100,  64,64*1,64*2,64*2, null);}
+			if(deadCounter<20 && deadCounter>=10){gra.drawImage(tempImage, positionX, positionY, positionX+100, positionY+100,  64,64*1,64*2,64*2, null);}
+			break;
+		default:break;
+		}  
+	}
+	
 	public void paintItem(Graphics gra, int itemID){
 		int posX = dom.getItem(itemID).location.x;
 		int posY = dom.getItem(itemID).location.y;
@@ -146,20 +184,48 @@ public class SPRITERE{
 		else if(stateCounter<70){ 
 			//Center
 			gra.drawImage(dumplingImages[1],posX, posY, posX+100, posY+100, 0, 0, 100, 100, null);
-			
-			//Middle
-			for (int i = 1; i < power; i++) {
-				gra.drawImage(dumplingImages[2], posX, posY+(100*i), posX+100, posY+(100*i)+100, 0, 0, 100, 100, null); 
-				gra.drawImage(dumplingImages[2], posX, posY-(100*i), posX+100, posY-(100*i)+100, 0, 0, 100, 100, null);
-				gra.drawImage(dumplingImages[3], posX+(100*i), posY, posX+(100*i)+100, posY+100, 0, 0, 100, 100, null); 
-				gra.drawImage(dumplingImages[3], posX-(100*i), posY, posX-(100*i)+100, posY+100, 0, 0, 100, 100, null); 
+			//barrier judgment
+			int north = (posY/100)+1;
+			int east = (posX/100)+1;
+			int south = (posY/100)-1;
+			int west = (posX/100-1);
+			if( (north%2) == 1 && (south%2) == 1){
+				//Middle
+				for (int i = 1; i < power; i++) {
+					gra.drawImage(dumplingImages[3], posX+(100*i), posY, posX+(100*i)+100, posY+100, 0, 0, 100, 100, null); 
+					gra.drawImage(dumplingImages[3], posX-(100*i), posY, posX-(100*i)+100, posY+100, 0, 0, 100, 100, null); 
+				}				
+				//tail
+				gra.drawImage(dumplingImages[5], posX+(100*power), posY, posX+(100*power)+100, posY+100, 0, 0, 100, 100, null);
+				gra.drawImage(dumplingImages[7], posX-(100*power), posY, posX-(100*power)+100, posY+100, 0, 0, 100, 100, null); 
 			}
 			
-			//tail
-			gra.drawImage(dumplingImages[4], posX, posY+(100*power), posX+100, posY+(100*power)+100, 0, 0, 100, 100, null); 
-			gra.drawImage(dumplingImages[5], posX+(100*power), posY, posX+(100*power)+100, posY+100, 0, 0, 100, 100, null);
-			gra.drawImage(dumplingImages[6], posX, posY-(100*power), posX+100, posY-(100*power)+100, 0, 0, 100, 100, null); 
-			gra.drawImage(dumplingImages[7], posX-(100*power), posY, posX-(100*power)+100, posY+100, 0, 0, 100, 100, null); 
+			else if( (east%2) == 1 && (west%2)==1){
+				//Middle
+				for (int i = 1; i < power; i++) {
+					gra.drawImage(dumplingImages[2], posX, posY+(100*i), posX+100, posY+(100*i)+100, 0, 0, 100, 100, null); 
+					gra.drawImage(dumplingImages[2], posX, posY-(100*i), posX+100, posY-(100*i)+100, 0, 0, 100, 100, null);
+				}				
+				//tail
+				gra.drawImage(dumplingImages[4], posX, posY+(100*power), posX+100, posY+(100*power)+100, 0, 0, 100, 100, null); 
+				gra.drawImage(dumplingImages[6], posX, posY-(100*power), posX+100, posY-(100*power)+100, 0, 0, 100, 100, null); 
+			}
+			
+			else{
+				//Middle
+				for (int i = 1; i < power; i++) {
+					gra.drawImage(dumplingImages[2], posX, posY+(100*i), posX+100, posY+(100*i)+100, 0, 0, 100, 100, null); 
+					gra.drawImage(dumplingImages[2], posX, posY-(100*i), posX+100, posY-(100*i)+100, 0, 0, 100, 100, null);
+					gra.drawImage(dumplingImages[3], posX+(100*i), posY, posX+(100*i)+100, posY+100, 0, 0, 100, 100, null); 
+					gra.drawImage(dumplingImages[3], posX-(100*i), posY, posX-(100*i)+100, posY+100, 0, 0, 100, 100, null); 
+				}
+				
+				//tail
+				gra.drawImage(dumplingImages[4], posX, posY+(100*power), posX+100, posY+(100*power)+100, 0, 0, 100, 100, null); 
+				gra.drawImage(dumplingImages[5], posX+(100*power), posY, posX+(100*power)+100, posY+100, 0, 0, 100, 100, null);
+				gra.drawImage(dumplingImages[6], posX, posY-(100*power), posX+100, posY-(100*power)+100, 0, 0, 100, 100, null); 
+				gra.drawImage(dumplingImages[7], posX-(100*power), posY, posX-(100*power)+100, posY+100, 0, 0, 100, 100, null); 
+			}
 		}		
 	}
 	
