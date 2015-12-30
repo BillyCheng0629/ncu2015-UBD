@@ -1,19 +1,37 @@
 package cdc;
 
+import java.awt.Point;
+import java.util.HashMap;
+import java.util.Queue;
 import java.util.Vector;
 
+import javax.management.Query;
+
+import gameobject.Dumpling;
 import gameobject.Item;
 import gameobject.Player;
 
 public class CDC {
 	Player[] player = new Player[4];
-	Vector<Item> items;
-	int mapType;
-	boolean readyState[];
+	HashMap<Integer,Item> items;
+	HashMap<Integer,Dumpling> dumplings;
+	Item item;
+	Dumpling dumpling;
 	UpdateThread updateThread;
-	
+	itemPlacedThread itemPlacedThread;
+	Queue<Object> deleteQueue;
+	int dumplingCount=0;
+	int time =90000;
+	boolean gameState;
+
 	public void addPlayer(Player player, int playerID){
 		this.player[playerID] = player;
+	}
+	public void initGame(){
+		cleanState();
+		startItemPlacedThread();
+		startUpdatingThread();
+		
 	}
 	
 	public Player getPlayer(int playerID){
@@ -27,6 +45,8 @@ public class CDC {
 	public int getPlayerY(int playerID){
 		return player[playerID].getPlayerLocation().y;
 	}
+	
+
 	
 	public int getPlayerPower(int playerID){
 		return player[playerID].getPower();
@@ -45,10 +65,13 @@ public class CDC {
 	}
 	
 	public void addItem(Item item){
-		items.add(item);
+		item.location.setLocation(0, 0);
+		//items.put(key, value)
 	}
-	
-	public Vector<Item> getItems(){
+	public boolean getGameState(){
+		return gameState;
+	}
+	public HashMap<Integer,Item> getItems(){
 		return items;
 	}
 	
@@ -56,22 +79,70 @@ public class CDC {
 		items.remove(itemID);
 	}
 	
-	public void updateDirection(int playerID, int direction){
-		player[playerID].setDirection(direction);
-	}
-	
-	public Vector<String> getUpdateInfo(){
-		Vector<String> infos = null; 
-		return infos;
-	}
-	
-	public void startUpdatingThread(){
-		
+	public void placedDumpling(int playerID){
+		player[playerID].setCurrentDumplingCount(player[playerID].getCurrentDumplingCount()+1);
+		dumpling.location=player[playerID].getPlayerLocation();
+		dumplings.put(dumplingCount, dumpling);
+		dumplingCount++;
 	}
 
-	public void itemPlacedThread() {
-		// TODO Auto-generated method stub
+	public void updateDirection(int playerID, int direction){
+		if(direction==0){
+		player[playerID].setIsMoving(false);
+		}
+		else{
+		player[playerID].setIsMoving(true);
+		player[playerID].setDirection(direction);
+		}
+	}
+	
+	public Vector getUpdateInfo(){
+		Vector infos = null; 
+		for(int i=0;i<4;i++){
+			infos.add("Player ");
+			infos.add(player[i]);
+		}
+		for(int i=0;i<items.size();i++){
+			infos.add("Item ");
+			infos.add(items);
+		}
+		infos.add("Time "+time);
+		return infos;
+	}
+	class timeCountThread extends Thread{
 		
+	}
+	public void cleanState(){
+		for(int i=0;i<4;i++){
+			player[i].setAlive(true);
+			player[i].setCurrentDumplingCount(0);
+			player[i].setIsMoving(false);
+			player[i].setIsReady(false);
+			player[i].setDirection(0);
+			player[i].setPlayerLocation(new Point(i*6, i*10));
+			player[i].setPower(1);
+			player[i].setMaxDumplingCount(1);
+		}
+		for(Object key:dumplings.keySet()){
+			dumplings.remove(key);
+		}
+		for(Object key:items.keySet()){
+			items.remove(key);
+		}
+	}
+	public void startUpdatingThread(){
+		updateThread=new UpdateThread();
+		updateThread.setDumplings(dumplings);
+		updateThread.setPlayer(player);
+		updateThread.setItems(items);
+		updateThread.setDeleteQueue(deleteQueue);
+		updateThread.setTime(time);
+		updateThread.setGameState(gameState);
+		updateThread.run();
+	}
+	public void startItemPlacedThread(){
+		itemPlacedThread.setItems(items);
+		itemPlacedThread.run();
 	}
 	/* player {
 	 *   type: player,
@@ -95,9 +166,4 @@ public class CDC {
 	 */
 	// type(player),playerID,x,y,speed,power,maxDumplingCount
 	// type(item),itemType.x,y
-
-	public void placedDumpling(int playerID) {
-		// TODO Auto-generated method stub
-		
-	}
 }

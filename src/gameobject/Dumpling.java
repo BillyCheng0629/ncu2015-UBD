@@ -6,6 +6,7 @@ import javax.swing.Timer;
 
 public class Dumpling {
 	private int stateCounter;
+	private int count=3000;
 	//animation
 	private int power;
 	public Point location;
@@ -46,5 +47,11 @@ public class Dumpling {
 	
 	public int getState() {
 		return stateCounter;
+	}
+	public int getCount(){
+		return count;
+	}
+	public void setCount(int count){
+		this.count=count;
 	}
 }

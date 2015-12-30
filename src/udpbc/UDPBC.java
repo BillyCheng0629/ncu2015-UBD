@@ -114,6 +114,6 @@ public class UDPBC {
 	}
 	
 	public void startGenerateItem(){
-		cdc.itemPlacedThread();
+		cdc.startItemPlacedThread();
 	}
 }
