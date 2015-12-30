@@ -266,7 +266,7 @@ class ServerThread implements Runnable {
 						
 						for (int i=0;i<playerIDTable.size();i++) {
 							try {
-								Thread.sleep(50);
+								Thread.sleep(500);
 							} catch (InterruptedException e) {
 								// TODO Auto-generated catch block
 								e.printStackTrace();
