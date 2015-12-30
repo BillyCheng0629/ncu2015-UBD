@@ -15,8 +15,9 @@ public class UpdateThread extends Thread{
 	private Player player[];
 	private int moveCount=4;
 	private int time;
+	private boolean gameState;
 	public void run() {
-		while(isContinue){
+		while(gameState()){
 			for(Object key:dumplings.keySet()){
 				if(dumplings.get(key).getCount()==0){
 					deleteQueue.add(dumplings.get(key));
@@ -27,6 +28,8 @@ public class UpdateThread extends Thread{
 					dumplings.get(key).setCount(dumplings.get(key).getCount()-50);
 				}
 			}
+			
+			
 			if(moveCount==0){
 			for(int i=0;i<4;i++){
 				if(player[i].getIsMoving()){
@@ -54,6 +57,7 @@ public class UpdateThread extends Thread{
 				moveCount=4;
 			}
 			}
+			
 			moveCount--;
 			time-=50;
 			try{
@@ -75,6 +79,26 @@ public class UpdateThread extends Thread{
 	}
 	public void setItems(HashMap<Integer, Item> items){
 		this.items=items;
+	}
+	public void setGameState(boolean gameState){
+		this.gameState=gameState;
+	}
+	public boolean gameState(){
+		
+		int k=0;
+		int myInt;
+		for(int i=0;i<4;i++){
+			myInt = (player[i].getAlive()) ? 1 : 0;
+			k+=myInt;
+		}
+		if(k>1){
+		gameState=true;
+		return gameState;
+				}
+		else{
+		gameState=false;
+		return gameState;
+		}
 	}
 	public void checkBombEffecet(Dumpling dumpling){
 		for(int i=0;i<4;i++){

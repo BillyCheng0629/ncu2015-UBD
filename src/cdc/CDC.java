@@ -78,21 +78,7 @@ public class CDC {
 	public void removeItem(int itemID){
 		items.remove(itemID);
 	}
-	public boolean gameState(){
-		boolean flag;
-		int k=0;
-		int myInt;
-		for(int i=0;i<4;i++){
-			myInt = (player[i].getAlive()) ? 1 : 0;
-			k+=myInt;
-		}
-		if(k>1){
-		return true;
-				}
-		else{
-		return false;
-		}
-	}
+	
 	public void placedDumpling(int playerID){
 		player[playerID].setCurrentDumplingCount(player[playerID].getCurrentDumplingCount()+1);
 		dumpling.location=player[playerID].getPlayerLocation();
@@ -151,6 +137,7 @@ public class CDC {
 		updateThread.setItems(items);
 		updateThread.setDeleteQueue(deleteQueue);
 		updateThread.setTime(time);
+		updateThread.setGameState(gameState);
 		updateThread.run();
 	}
 	public void startItemPlacedThread(){
