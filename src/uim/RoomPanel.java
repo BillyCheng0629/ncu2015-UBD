@@ -29,8 +29,10 @@ import gameobject.Player;
 
 public class RoomPanel extends JPanel{
 	private JButton startButton;
+	private JButton readyButton;
 	private JButton exitButton;
 	private ActionListener startListener;
+	private ActionListener readyListener;
 	private ActionListener exitListener;
 	private JLabel playe1Name,playe2Name,playe3Name,playe4Name;
 	private JLabel playeName[] = new JLabel[4];
@@ -43,6 +45,7 @@ public class RoomPanel extends JPanel{
 	private JPanel playerInfo[] = new JPanel[4];
 	private JLabel player1Img,player2Img,player3Img,player4Img;
 	private JLabel playerImg[] = new JLabel[4];
+	private JLabel playerReadyState[] = new JLabel[4];
 	private JLabel OwnerLabel;
 	private ActionListener playerImgListener;
 	private ActionListener mapChooseListener;
@@ -127,6 +130,16 @@ public class RoomPanel extends JPanel{
 			playeName[i].setBounds(10, 10, 166, 19);
 			
 			playerInfo[i].add(playeName[i]);
+			
+			playerReadyState[i] = new JLabel("");
+			if(i == 0){
+				playerReadyState[i].setText("Ready");
+			}
+			
+			playerReadyState[i].setBounds(10,105, 120,120);
+			playerInfo[i].add(playerReadyState[i]);
+			
+		
 		}
 		
 		
@@ -264,11 +277,21 @@ public class RoomPanel extends JPanel{
 		playerInfo4.add(playe4Name);
 		*/
 		
-		startButton = new JButton("Start/Ready");
-		startButton.addActionListener( startListener);
+		if (frame.isHost){
+			startButton = new JButton("Start");
+			startButton.addActionListener( startListener);
+			
+			startButton.setBounds(542, 350, 157, 54);
+			add(startButton);
+		} else {
+			readyButton = new JButton("Ready");
+			readyButton.addActionListener( readyListener);
+			
+			readyButton.setBounds(542, 350, 157, 54);
+			add(readyButton);
+		}
 		
-		startButton.setBounds(542, 350, 157, 54);
-		add(startButton);
+		
 		
 		exitButton = new JButton("Exit");
 		exitButton.addActionListener(exitListener);
@@ -279,17 +302,25 @@ public class RoomPanel extends JPanel{
 	}
 	
 	public void updateRoomInfo() {
+		
 		for(int i=0;i<playerInfo.length;i++) {
 			Player player = frame.dom.getPlayer(i);
 			if(player!=null) {
 				playeName[i].setText(player.getName());
 				System.out.println("set player "+i);
 				
+				if (player.getIsReady()){
+					playerReadyState[i].setText("Ready");
+				} else {
+					playerReadyState[i].setText("");
+				}
+				
 			}
 		}
 		int mapType = frame.dom.getMapType();
 		mapImage = new ImageIcon("imgs/mapbackgrounds/map"+mapType+".png");
 		mapLabel.setIcon(mapImage);
+		
 	}
 	
 	
@@ -299,10 +330,38 @@ public class RoomPanel extends JPanel{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				
 
 			}
 		};
+		
+		readyListener = new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if (readyButton.getText() == "Ready"){
+					playerReadyState[frame.player.getID()].setText("Ready");
+					try {
+						frame.tcpcm.sendRoomAction("SETISREADY,1");
+					} catch (IOException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}	
+					readyButton.setText("Not Ready");
+				} else {
+					playerReadyState[frame.player.getID()].setText("");
+					try {
+						frame.tcpcm.sendRoomAction("SETISREADY,0");
+					} catch (IOException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}	
+					readyButton.setText("Ready");
+				}
+							
+
+			}
+		};
+		
 		exitListener = new ActionListener() {
 			
 			@Override

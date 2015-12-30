@@ -18,7 +18,9 @@ public class MainFrame extends JFrame {
 	private MainPanel mainPanel;
 	public RoomPanel roomPanel;
 	
-	Player player;
+	boolean isHost = false;
+	
+	public Player player = new Player();
 	
 	TCPSM tcpsm;
 	TCPCM tcpcm;

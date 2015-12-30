@@ -1,7 +1,5 @@
 package tcpsm;
 
-
-
 import java.util.*;
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -13,11 +11,8 @@ import java.net.Socket;
 import java.sql.Time;
 import java.util.Vector;
 
-
 import cdc.CDC;
 import gameobject.Player;
-
-
 
 public class TCPSM {
 
@@ -40,26 +35,16 @@ public class TCPSM {
 	
 	public TCPSM() {
 		
-		
-		
-		
 	}
 	
 	public TCPSM(int listenPort) {
 		assert (listenPort>0 && listenPort<=65535);
 		this.listenPort = listenPort;
-		
-		
-		
-		
-		
 	}
 	
 	private void assertPlayerID() {
 		
 	}
-	
-	
 
 	public void initTCPserver() {
 		t = new Thread()
@@ -256,10 +241,16 @@ class ServerThread implements Runnable {
 						System.out.println("server recieve ADDPLAYER sucess");
 						playerID = freePlayerIDTable.get(freePlayerIDTable.size()-1);
 						freePlayerIDTable.remove(freePlayerIDTable.size()-1);
+						int characterNum = Integer.parseInt(msg.split(",")[2]);
+						boolean isReady = Integer.parseInt(msg.split(",")[3])==1;
 						
+						sendMessage("SETFRAMEID,"+playerID);
 						
 						playerName = msg.split(",")[1];
 						player = new Player(playerName);
+						player.setID(playerID);
+						player.getCharacter().setCharacterNum(characterNum);
+						player.setIsReady(isReady);
 						
 						broadcast(msg+","+playerID);
 						
@@ -271,8 +262,11 @@ class ServerThread implements Runnable {
 								// TODO Auto-generated catch block
 								e.printStackTrace();
 							}
+							Player player = cdc.getPlayer(playerIDTable.get(i));
 							System.out.println("server init local  player data");
-							sendMessage("ADDPLAYER,"+cdc.getPlayer(playerIDTable.get(i)).getName()+","+playerIDTable.get(i));
+							sendMessage("ADDPLAYER,"+player.getName()+","
+											+player.getCharacter().getCharacterNum()+","
+											+(player.getIsReady()?1:0) + "," + playerIDTable.get(i));
 						}
 						
 						sendMessage("SETMAP,"+cdc.getMapType());
@@ -293,7 +287,7 @@ class ServerThread implements Runnable {
 						break;
 						
 					case "SETCHARACTER":
-						int characterNum = Integer.parseInt(msg.split(",")[1]);
+						characterNum = Integer.parseInt(msg.split(",")[1]);
 						cdc.getPlayer(playerID).getCharacter().setCharacterNum(characterNum);;;
 						broadcast(msg+","+playerID);
 						break;
@@ -304,7 +298,7 @@ class ServerThread implements Runnable {
 						broadcast(msg+","+playerID);
 						break;*/
 					case "SETISREADY":
-						boolean isReady = Integer.parseInt(msg.split(",")[1])==1;
+						isReady = Integer.parseInt(msg.split(",")[1])==1;
 						cdc.getPlayer(playerID).setIsReady(isReady);
 						broadcast(msg+","+playerID);
 						break;
@@ -345,15 +339,6 @@ class ServerThread implements Runnable {
 				e.printStackTrace();
 				break;
 			}
-
 		}
-		
-
 	}
-
-	
-
-
-
-
 }

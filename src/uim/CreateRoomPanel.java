@@ -33,6 +33,7 @@ public class CreateRoomPanel extends JPanel {
 		
 		this.setSize(1010,620);
 		ipInputDialog = new IPInputDialog(frame);
+		
 		frame.roomPanel=new RoomPanel(frame);
 		setLayout(null);
 		createActionListener();
@@ -45,7 +46,7 @@ public class CreateRoomPanel extends JPanel {
 		joinRoom.setBounds(289, 287, 178, 53);
 		joinRoom.addActionListener(joinRoomListener);
 		add(joinRoom);
-
+		
 	}
 	private void createActionListener(){
 		createRoomListener = new ActionListener() {
@@ -53,7 +54,9 @@ public class CreateRoomPanel extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				
+				frame.isHost = true;
+				frame.player.setIsReady(true);
+				frame.roomPanel=new RoomPanel(frame);
 				//set cdc
 				frame.cdc = new CDC();
 				
@@ -71,7 +74,9 @@ public class CreateRoomPanel extends JPanel {
 				frame.tcpcm.startRecieveMessage();
 				
 				try {
-					frame.tcpcm.sendRoomAction("ADDPLAYER,"+frame.player.getName());
+					int characterType = 0;
+					int isReady = 1;
+					frame.tcpcm.sendRoomAction("ADDPLAYER,"+frame.player.getName()+","+characterType+","+isReady);
 				} catch (IOException e1) {
 					// TODO Auto-generated catch block
 					System.out.println("add player error");

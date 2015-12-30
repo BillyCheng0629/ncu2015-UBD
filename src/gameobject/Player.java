@@ -31,6 +31,7 @@ public class Player {
 		location = new Point(0,0);
 		maxCurrentDumplingCount = 1;
 		currentDumplingCount = 0;
+		character = new Character();
 		power = 1;
 	}
 	

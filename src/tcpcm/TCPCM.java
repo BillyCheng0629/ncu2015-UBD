@@ -118,11 +118,20 @@ public class TCPCM {
 						String action = msg.split(",")[0];
 						
 						switch (action) {
+						case "SETFRAMEID":
+							playerID = Integer.parseInt(msg.split(",")[1]);
+							frame.player.setID(playerID);
+							break;
 						case "ADDPLAYER":
 							String playerName = msg.split(",")[1];
+							int characterNum = Integer.parseInt(msg.split(",")[2]);
+							boolean isReady = (Integer.parseInt(msg.split(",")[3])==1)?true:false;
 							Player player = new Player(playerName);
-							playerID = Integer.parseInt(msg.split(",")[2]);
+							playerID = Integer.parseInt(msg.split(",")[4]);
 							player.setID(playerID);
+							player.getCharacter().setCharacterNum(characterNum);
+							player.setIsReady(isReady);
+							
 							System.out.println("player"+playerID+": "+playerName);
 							
 							frame.dom.updatePlayer(player);
@@ -140,14 +149,15 @@ public class TCPCM {
 						case "SETCHARACTER":
 							
 							playerID = Integer.parseInt(msg.split(",")[1]);
-							int characterNum = Integer.parseInt(msg.split(",")[2]);
+							characterNum = Integer.parseInt(msg.split(",")[2]);
 							
 							frame.dom.getPlayer(playerID).getCharacter().setCharacterNum(characterNum);;
 							break;
 						case "SETISREADY":
-							playerID = Integer.parseInt(msg.split(",")[1]);
-							boolean isReady = (Integer.parseInt(msg.split(",")[2])==1);
+							playerID = Integer.parseInt(msg.split(",")[2]);
+							isReady = (Integer.parseInt(msg.split(",")[1])==1)?true:false;
 							frame.dom.getPlayer(playerID).setIsReady(isReady);
+							frame.roomPanel.updateRoomInfo();
 							break;
 							
 						case "END":

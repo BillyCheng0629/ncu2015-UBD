@@ -48,14 +48,14 @@ public class IPInputDialog extends JDialog {
 		contentPanel.setLayout(null);
 		{
 			textField = new JTextField();
-			textField.setFont(new Font("·s²Ó©úÅé", Font.PLAIN, 50));
+			textField.setFont(new Font("ï¿½sï¿½Ó©ï¿½ï¿½ï¿½", Font.PLAIN, 50));
 			textField.setBounds(0, 105, 434, 58);
 			contentPanel.add(textField);
 			textField.setColumns(10);
 		}
 		
 		JLabel lblInputIp = new JLabel("Input IP");
-		lblInputIp.setFont(new Font("·s²Ó©úÅé", Font.PLAIN, 50));
+		lblInputIp.setFont(new Font("ï¿½sï¿½Ó©ï¿½ï¿½ï¿½", Font.PLAIN, 50));
 		lblInputIp.setHorizontalAlignment(SwingConstants.CENTER);
 		lblInputIp.setBounds(92, 37, 233, 58);
 		contentPanel.add(lblInputIp);
@@ -102,7 +102,9 @@ public class IPInputDialog extends JDialog {
 				frame.tcpcm.startRecieveMessage();
 				
 				try {
-					frame.tcpcm.sendRoomAction("ADDPLAYER,"+frame.player.getName());
+					int characterType = 0;
+					int isReady = 0;
+					frame.tcpcm.sendRoomAction("ADDPLAYER,"+frame.player.getName()+","+characterType+","+isReady);
 				} catch (IOException e1) {
 					// TODO Auto-generated catch block
 					System.out.println("add player error");
