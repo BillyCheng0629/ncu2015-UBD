@@ -93,21 +93,7 @@ public class CreateRoomPanel extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
 				
-				//set dom
-				frame.dom = new DOM();
 				
-				//connect to server
-				frame.tcpcm = new TCPCM(frame);
-				frame.tcpcm.connectServer("127.0.0.1");
-				frame.tcpcm.startRecieveMessage();
-				
-				try {
-					frame.tcpcm.sendRoomAction("ADDPLAYER,"+frame.player.getName());
-				} catch (IOException e1) {
-					// TODO Auto-generated catch block
-					System.out.println("add player error");
-					e1.printStackTrace();
-				}
 				
 				ipInputDialog.setVisible(true);
 				

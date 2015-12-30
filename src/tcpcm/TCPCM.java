@@ -124,11 +124,10 @@ public class TCPCM {
 							playerID = Integer.parseInt(msg.split(",")[2]);
 							player.setID(playerID);
 							System.out.println("player"+playerID+": "+playerName);
-							if (frame.dom==null)
-								System.out.println("dom is null");
+							
 							frame.dom.updatePlayer(player);
 							
-							System.out.println("receieve add player");
+							System.out.println("receieve add player "+playerID);
 							frame.roomPanel.updateRoomInfo();
 							break;
 						case "SETMAP":
@@ -168,6 +167,7 @@ public class TCPCM {
 						
 					} catch (IOException e) {
 						// TODO Auto-generated catch block
+						System.out.println("client recieveThread error");
 						e.printStackTrace();
 					}
 				}

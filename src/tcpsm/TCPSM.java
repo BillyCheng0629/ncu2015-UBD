@@ -84,7 +84,7 @@ public class TCPSM {
 	    		count = 0;
 	    		
 	    		try {
-	    			serverSocket = new ServerSocket(listenPort,4);
+	    			serverSocket = new ServerSocket(listenPort);
 	    		} catch (IOException e1) {
 	    			// TODO Auto-generated catch block
 	    			System.out.println("server socket error ");
@@ -192,6 +192,7 @@ class ServerThread implements Runnable {
 	
 	private void sendMessage(String msg) {
 		try {
+			System.out.println("server send  "+msg);
 			out = new PrintStream(clientSocket.getOutputStream());
 			out.println(msg);
 			out.flush();
@@ -211,6 +212,7 @@ class ServerThread implements Runnable {
 				out.flush();
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
+				System.out.println("server broadcst Error");
 				e.printStackTrace();
 			}
 			
@@ -263,6 +265,12 @@ class ServerThread implements Runnable {
 						
 						
 						for (int i=0;i<playerIDTable.size();i++) {
+							try {
+								Thread.sleep(50);
+							} catch (InterruptedException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}
 							System.out.println("server init local  player data");
 							sendMessage("ADDPLAYER,"+cdc.getPlayer(playerIDTable.get(i)).getName()+","+playerIDTable.get(i));
 						}

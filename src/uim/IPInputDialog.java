@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -11,6 +12,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import dom.DOM;
 import tcpcm.TCPCM;
 
 import javax.swing.JTextField;
@@ -84,13 +86,30 @@ public class IPInputDialog extends JDialog {
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
 				
+				
+				
+				
+				
+				
+				
+				
+				//set dom
+				frame.dom = new DOM();
+				
 				//connect to server
 				frame.tcpcm = new TCPCM(frame);
 				frame.tcpcm.connectServer(textField.getText());
+				frame.tcpcm.startRecieveMessage();
 				
-				frame.getContentPane().removeAll();
-				frame.getContentPane().add(roomPanel);
-				frame.getContentPane().repaint();
+				try {
+					frame.tcpcm.sendRoomAction("ADDPLAYER,"+frame.player.getName());
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					System.out.println("add player error");
+					e1.printStackTrace();
+				}
+				
+
 				IPInputDialog.this.dispose();
 				
 				
