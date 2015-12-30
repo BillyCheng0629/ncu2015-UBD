@@ -1,15 +1,10 @@
 package spritere;
 
-import gameobject.Character;
-import gameobject.Dumpling;
-import gameobject.Item;
 import gameobject.Player;
 
-import java.awt.Canvas;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.Point;
-import java.util.Vector;
 
 import dom.DOM;
 
@@ -32,8 +27,6 @@ public class SPRITERE{
     //for dumplings
     private Image dumplingImages[];
     private int stateCounter;
-    
-    private Vector<String> allDom;
     
     private SpritereData spritereData;
     
