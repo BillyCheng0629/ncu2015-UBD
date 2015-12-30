@@ -1,6 +1,7 @@
 
 package dom;
 
+import java.awt.List;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Queue;
@@ -30,6 +31,10 @@ public class DOM {
 	
 	public Player getPlayer(int playerID){
 		return player[playerID];
+	}
+	
+	public Player[] getPlayers(){
+		return player;
 	}
 	
 	public void setMapType(int mapType){
@@ -76,6 +81,10 @@ public class DOM {
 	
 	public Dumpling getDumpling(int dumplingID){
 		return dumplings.get(dumplingID);
+	}
+	
+	public HashMap<Integer, Dumpling> getDumplings(){
+		return dumplings;
 	}
 	
 	public void setClientPlayerID(int playerID){

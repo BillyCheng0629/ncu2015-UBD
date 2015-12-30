@@ -12,7 +12,7 @@ public class Dumpling {
 	private int ID;
 	
 	public Dumpling() {		
-		stateCounter = 3;
+		stateCounter = 0;
 	}
 	
 

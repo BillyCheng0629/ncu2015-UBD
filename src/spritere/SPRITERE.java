@@ -1,12 +1,15 @@
 package spritere;
 
 import gameobject.Character;
+import gameobject.Dumpling;
+import gameobject.Item;
 import gameobject.Player;
 
 import java.awt.Canvas;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.Point;
+import java.util.Vector;
 
 import dom.DOM;
 
@@ -23,6 +26,15 @@ public class SPRITERE{
     //time of keyboard pressing
     private int moving_p;
     
+    //for items
+    private Image itemImages[];
+    
+    //for dumplings
+    private Image dumplingImages[];
+    private int stateCounter;
+    
+    private Vector<String> allDom;
+    
     private SpritereData spritereData;
     
     public SPRITERE() {
@@ -33,14 +45,34 @@ public class SPRITERE{
 		towards = 2;
 		movingRapid = 1;
 		moving_p = 0;
-		
+		//item
+		spritereData.loadItemImages();
+		itemImages = spritereData.getItemImages();
+		//dumplings
+		spritereData.loadDumplingImages();
+		dumplingImages = spritereData.getDumplingImages();
 	}
     
-	public void renderSprites(Graphics gra){
-		paintPlayer(gra, 1);
-		paintPlayer(gra, 2);
-		paintPlayer(gra, 3);
-		paintPlayer(gra, 4);		
+	public void renderSprites(Graphics gra, DOM dom){
+		setDOM(dom);
+		for (Player player : dom.getPlayers()) {
+			paintPlayer(gra, player.getID());
+		}
+		
+		for (int i = 0; i < dom.getItems().size(); i++) {
+			paintItem(gra, dom.getItems().get(i).getID());
+		}
+		
+		for (int i = 0; i < dom.getDumplings().size(); i++) {
+			paintDumpling(gra, dom.getDumplings().get(i).getID());
+			//update dumpling
+			if(stateCounter==70){
+				dom.removeDumpling(dom.getDumplings().get(i).getID());
+			}
+			else {
+				dom.getDumpling(dom.getDumplings().get(i).getID()).setState(stateCounter);
+			}	
+		}
 	}
 	
 	public void paintPlayer(Graphics gra,int playerID){
@@ -98,12 +130,44 @@ public class SPRITERE{
     	}	
 	}
 	
-	public void paintItem(){
-		
+	public void paintItem(Graphics gra, int itemID){
+		int posX = dom.getItem(itemID).location.x;
+		int posY = dom.getItem(itemID).location.y;
+		gra.drawImage(itemImages[dom.getItem(itemID).getType()], posX, posY, posX+100, posY+100, 0,0,100,100, null); 
 	}
 	
-	public void paintDumpling(){
-		
+	public void paintDumpling(Graphics gra, int dumplingID){	
+		int posX = dom.getDumpling(dumplingID).location.x;
+		int posY = dom.getDumpling(dumplingID).location.y;
+		int power = dom.getDumpling(dumplingID).getPower();
+		stateCounter = dom.getDumpling(dumplingID).getState();
+		stateCounter++;
+			
+		if(stateCounter<10)		{ gra.drawImage(dumplingImages[0], posX+5, posY+5, posX+95, posY+95, 0,0,100,100, null); } //small
+		else if(stateCounter<20){ gra.drawImage(dumplingImages[0], posX, posY, posX+100, posY+100, 0,0,100,100, null); } //big
+		else if(stateCounter<30){ gra.drawImage(dumplingImages[0], posX+5, posY+5, posX+95, posY+95, 0,0,100,100, null); } //small
+		else if(stateCounter<40){ gra.drawImage(dumplingImages[0], posX, posY, posX+100, posY+100, 0,0,100,100, null); } //big
+		else if(stateCounter<50){ gra.drawImage(dumplingImages[0], posX+5, posY+5, posX+95, posY+95, 0,0,100,100, null); } //small
+		else if(stateCounter<60){ gra.drawImage(dumplingImages[0], posX, posY, posX+100, posY+100, 0,0,100,100, null); } //big
+		//explosion happen
+		else if(stateCounter<70){ 
+			//Center
+			gra.drawImage(dumplingImages[1],posX, posY, posX+100, posY+100, 0, 0, 100, 100, null);
+			
+			//Middle
+			for (int i = 1; i < power; i++) {
+				gra.drawImage(dumplingImages[2], posX, posY+(100*i), posX+100, posY+(100*i)+100, 0, 0, 100, 100, null); 
+				gra.drawImage(dumplingImages[2], posX, posY-(100*i), posX+100, posY-(100*i)+100, 0, 0, 100, 100, null);
+				gra.drawImage(dumplingImages[3], posX+(100*i), posY, posX+(100*i)+100, posY+100, 0, 0, 100, 100, null); 
+				gra.drawImage(dumplingImages[3], posX-(100*i), posY, posX-(100*i)+100, posY+100, 0, 0, 100, 100, null); 
+			}
+			
+			//tail
+			gra.drawImage(dumplingImages[4], posX, posY+(100*power), posX+100, posY+(100*power)+100, 0, 0, 100, 100, null); 
+			gra.drawImage(dumplingImages[5], posX+(100*power), posY, posX+(100*power)+100, posY+100, 0, 0, 100, 100, null);
+			gra.drawImage(dumplingImages[6], posX, posY-(100*power), posX+100, posY-(100*power)+100, 0, 0, 100, 100, null); 
+			gra.drawImage(dumplingImages[7], posX-(100*power), posY, posX-(100*power)+100, posY+100, 0, 0, 100, 100, null); 
+		}		
 	}
 	
 	public void setDOM(DOM dom){
