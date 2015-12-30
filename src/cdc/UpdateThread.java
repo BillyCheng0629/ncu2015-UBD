@@ -19,47 +19,47 @@ public class UpdateThread extends Thread{
 	public void run() {
 		while(gameState()){
 			for(Object key:dumplings.keySet()){
-				if(dumplings.get(key).getCount()==0){
-					deleteQueue.add(dumplings.get(key));
-					checkBombEffecet(dumplings.get(key));
-					dumplings.remove(key);
+				if(dumplings.get(key).getCount()==0){ //while count is count to 0 
+					deleteQueue.add(dumplings.get(key)); //add to delete queue send to udp 
+					checkBombEffecet(dumplings.get(key));//check bomb's effect
+					dumplings.remove(key); //remove it
 				}
 				else{
-					dumplings.get(key).setCount(dumplings.get(key).getCount()-50);
+					dumplings.get(key).setCount(dumplings.get(key).getCount()-50); //if count != 0 decrease count
 				}
 			}
 			
 			
-			if(moveCount==0){
+			if(moveCount==0){ //just a counter
 			for(int i=0;i<4;i++){
-				if(player[i].getIsMoving()){
+				if(player[i].getIsMoving()){ //while player is moving 
 					switch (player[i].getDirection()) {
 					case 1:
-						player[i].location.y+=1;
-						checkItem(player[i]);
+						player[i].location.y+=1; //move N
+						checkItem(player[i]);//check there is or not an item
 						break;
 					case 2:
-						player[i].location.x+=1;
+						player[i].location.x+=1;//move E
 						checkItem(player[i]);
 						break;
 					case 3:
-						player[i].location.y-=1;
+						player[i].location.y-=1;//move S
 						checkItem(player[i]);
 						break;
 					case 4:
-						player[i].location.x-=1;
+						player[i].location.x-=1;//move w
 						checkItem(player[i]);
 						break;
 					default:
 						break;
 					}
 				}
-				moveCount=4;
+				moveCount=4;//just a counter
 			}
 			}
 			
-			moveCount--;
-			time-=50;
+			moveCount--;//just a counter
+			time-=50;// time counter
 			try{
 				UpdateThread.sleep(50);
 			}catch (InterruptedException e) {
@@ -87,15 +87,15 @@ public class UpdateThread extends Thread{
 		
 		int k=0;
 		int myInt;
-		for(int i=0;i<4;i++){
+		for(int i=0;i<4;i++){ //check alive amoumt
 			myInt = (player[i].getAlive()) ? 1 : 0;
 			k+=myInt;
 		}
-		if(k>1){
-		gameState=true;
+		if(k>1){ //if survied >1 game keepgoing
+		gameState=true; 
 		return gameState;
 				}
-		else{
+		else{//if not game is end
 		gameState=false;
 		return gameState;
 		}
@@ -103,7 +103,7 @@ public class UpdateThread extends Thread{
 	public void checkBombEffecet(Dumpling dumpling){
 		for(int i=0;i<4;i++){
 			if(player[i].location.x==dumpling.location.x&&player[i].location.y<(dumpling.location.y+dumpling.getPower())&&player[i].location.y>(dumpling.location.y-dumpling.getPower())){
-				player[i].setAlive(false);
+				player[i].setAlive(false);    
 			}
 			else if(player[i].location.y==dumpling.location.y&&player[i].location.x<(dumpling.location.x+dumpling.getPower())&&player[i].location.x>(dumpling.location.x-dumpling.getPower())){
 				player[i].setAlive(false);
