@@ -27,7 +27,7 @@ public class MainPanel extends JPanel {
 	public MainPanel(MainFrame frame) {
 			super();
 			this.frame=frame;
-			this.setSize(800,600);
+			this.setSize(1010,620);
 			setLayout(null);
 			nameInput=new NameInputDialog(frame);
 			gameTitle = new JLabel("Dumpling Man");

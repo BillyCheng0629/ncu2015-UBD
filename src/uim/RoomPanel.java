@@ -50,7 +50,7 @@ public class RoomPanel extends JPanel{
 	public RoomPanel(MainFrame frame){
 		super();
 		this.frame=frame;
-		frame.setSize(800,600);
+		frame.setSize(1010,620);
 		gamePanel =new GamePanel(frame);
 	
 		setLayout(null);
