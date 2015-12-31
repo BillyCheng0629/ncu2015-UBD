@@ -22,7 +22,7 @@ public class UDPUS {
 	private TimerTask task;
 	
 	public UDPUS(DOM _DOM) throws SocketException{
-		this.serverSocket = new DatagramSocket(12345);
+		this.serverSocket = new DatagramSocket(7654);
 		this.BUFFERSIZE = 256;
 		this.receivePacket = new DatagramPacket(new byte[BUFFERSIZE],BUFFERSIZE);
 		this.message = "";

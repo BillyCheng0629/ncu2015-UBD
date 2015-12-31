@@ -125,15 +125,38 @@ public class CDC {
 	}
 	public void cleanState(){
 		for(int i=0;i<4;i++){
-			player[i].setAlive(true);
-			player[i].setCurrentDumplingCount(0);
-			player[i].setIsMoving(false);
-			player[i].setIsReady(false);
-			player[i].setDirection(0);
-			player[i].setPlayerLocation(new Point(i*6, i*10));
-			player[i].setPower(1);
-			player[i].setMaxDumplingCount(1);
+			if(player[i]!=null){
+				player[i].setAlive(true);
+				player[i].setCurrentDumplingCount(0);
+				player[i].setIsMoving(false);
+				player[i].setIsReady(false);
+				player[i].setDirection(0);
+				player[i].setPower(1);
+				player[i].setMaxDumplingCount(1);
+			}
 		}
+		
+		for(Player p : player){
+			if(p!=null){
+				switch(p.getID()){
+				case(0):
+					p.setPlayerLocation(new Point(0,0));
+					break;
+				case(1):
+					p.setPlayerLocation(new Point(5000, 0));
+					break;
+				case(2):
+					p.setPlayerLocation(new Point(0, 2000));
+					break;
+				case(3):
+					p.setPlayerLocation(new Point(5000, 2000));
+					break;
+				default:
+					break;
+				}
+			}
+		}
+		
 		for(Object key:dumplings.keySet()){
 			dumplings.remove(key);
 		}
