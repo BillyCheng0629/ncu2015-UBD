@@ -192,6 +192,10 @@ public class SceneData {
 		return mapHeight;
 	}
 	
+	public int[][] getMapbit(){
+		return mapBit;
+	}
+	
 	public int getBackimg(int x, int y){
 		return mapBit[x][y];
 	}
