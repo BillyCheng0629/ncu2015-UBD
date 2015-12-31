@@ -72,7 +72,12 @@ public class CreateRoomPanel extends JPanel {
 				frame.tcpcm = new TCPCM(frame);
 				frame.tcpcm.connectServer("127.0.0.1");
 				frame.tcpcm.startRecieveMessage();
-				
+				try {
+					Thread.sleep(300);
+				} catch (InterruptedException e2) {
+					// TODO Auto-generated catch block
+					e2.printStackTrace();
+				}
 				try {
 					int characterType = 0;
 					int isReady = 1;

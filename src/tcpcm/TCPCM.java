@@ -159,6 +159,10 @@ public class TCPCM {
 							frame.dom.getPlayer(playerID).setIsReady(isReady);
 							frame.roomPanel.updateRoomInfo();
 							break;
+						
+						case "START":
+							
+							break;
 							
 						case "END":
 							/**

@@ -303,6 +303,7 @@ class ServerThread implements Runnable {
 						broadcast(msg+","+playerID);
 						break;
 					case "START":
+						broadcast(msg);
 						Thread gameMoniterThread;
 						gameMoniterThread = new Thread() {
 							

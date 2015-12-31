@@ -329,7 +329,14 @@ public class RoomPanel extends JPanel{
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
+				if (detectStart()){
+					try {
+						frame.tcpcm.sendRoomAction("START");
+					} catch (IOException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+				}
 
 			}
 		};
@@ -371,6 +378,26 @@ public class RoomPanel extends JPanel{
 				
 			}
 		};
+	}
+	
+	public boolean detectStart(){
+		boolean isStart = true; // player's readyState
+		boolean result = true; // game can start or not
+		int count = 0; // to count the person of the room
+		
+		for(int i = 0 ; i < playerInfo.length ; i++) {
+			Player player = frame.dom.getPlayer(i);
+			if(player != null) {
+				count++;
+				isStart = (isStart && player.getIsReady());
+			}
+		}
+		if (count >= 2) { 
+			result = result && isStart;
+		} else {
+			result = false; 
+		}
+		return result;
 	}
 
 }
