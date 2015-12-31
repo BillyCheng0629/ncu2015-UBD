@@ -56,8 +56,8 @@ public class SceneData {
 			backimg[2] = ImageIO.read(new File("./imgs/mapbackgrounds/desert.png"));
 			backimg[3] = ImageIO.read(new File("./imgs/mapbackgrounds/lego.png"));
 			backimg[4] = ImageIO.read(new File("./imgs/mapbackgrounds/rock.png"));
-			dumpling = ImageIO.read(new File("./imgs/items/dumpling.png"));
-			bombitem = ImageIO.read(new File("./imgs/items/bombitem.png"));
+			//dumpling = ImageIO.read(new File("./imgs/items/dumpling.png"));
+			//bombitem = ImageIO.read(new File("./imgs/items/bombitem.png"));
 			character = ImageIO.read(new File("./imgs/character/053.png"));
 		}catch(IOException e){
 			e.printStackTrace();

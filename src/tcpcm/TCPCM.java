@@ -3,6 +3,7 @@
 package tcpcm;
 
 
+import java.awt.Container;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -15,6 +16,11 @@ import javax.swing.JFrame;
 
 
 import gameobject.Player;
+import scenere.CharacterMoveListener;
+import scenere.KeyActionPerformer;
+import scenere.SceneData;
+import scenere.ScenePanel;
+import udpus.UDPUS;
 import uim.MainFrame;
 
 public class TCPCM {
@@ -161,7 +167,9 @@ public class TCPCM {
 							break;
 						
 						case "START":
-							
+							frame.udpus = new UDPUS(frame.dom);
+							frame.udpus.initUDPServer();
+							frame.getIntoGame();
 							break;
 							
 						case "END":

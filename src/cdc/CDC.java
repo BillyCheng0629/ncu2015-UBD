@@ -2,6 +2,7 @@ package cdc;
 
 import java.awt.Point;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.Queue;
 import java.util.Vector;
 
@@ -13,13 +14,13 @@ import gameobject.Player;
 
 public class CDC {
 	Player[] player = new Player[4];
-	HashMap<Integer,Item> items;
-	HashMap<Integer,Dumpling> dumplings;
+	HashMap<Integer,Item> items = new HashMap<Integer, Item>();
+	HashMap<Integer,Dumpling> dumplings = new HashMap<Integer, Dumpling>();
 	Item item;
 	Dumpling dumpling;
 	UpdateThread updateThread;
 	itemPlacedThread itemPlacedThread;
-	Queue<Object> deleteQueue;
+	Queue<Object> deleteQueue = new LinkedList<Object>();
 	int dumplingCount=0;
 	int time =90000;
 	boolean gameState;
@@ -106,17 +107,17 @@ public class CDC {
 		}
 	}
 	
-	public Vector getUpdateInfo(){
-		Vector infos = null; 
+	public Vector<Object> getUpdateInfo(){
+		Vector<Object> infos = new Vector<Object>(); 
 		for(int i=0;i<4;i++){
-			infos.add("Player ");
+			//infos.add("Player ");
 			infos.add(player[i]);
 		}
 		for(int i=0;i<items.size();i++){
-			infos.add("Item ");
-			infos.add(items);
+			//infos.add("Item ");
+			infos.add(items.get(i));
 		}
-		infos.add("Time "+time);
+		infos.add("TIME "+time);
 		return infos;
 	}
 	class timeCountThread extends Thread{
@@ -151,6 +152,7 @@ public class CDC {
 		updateThread.run();
 	}
 	public void startItemPlacedThread(){
+		itemPlacedThread = new itemPlacedThread();
 		itemPlacedThread.setItems(items);
 		itemPlacedThread.run();
 	}

@@ -11,6 +11,7 @@ import java.awt.event.ItemListener;
 import java.awt.image.ImageObserver;
 import java.awt.image.ImageProducer;
 import java.io.IOException;
+import java.net.SocketException;
 
 import javax.swing.BorderFactory;
 import javax.swing.DefaultComboBoxModel;
@@ -24,6 +25,7 @@ import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
 import gameobject.Player;
+import udpbc.UDPBC;
 
 
 
@@ -332,8 +334,13 @@ public class RoomPanel extends JPanel{
 				if (detectStart()){
 					try {
 						frame.tcpcm.sendRoomAction("START");
-					} catch (IOException e1) {
-						// TODO Auto-generated catch block
+						frame.udpbc = new UDPBC(frame.tcpsm, frame.cdc);
+						frame.udpbc.startUDPBroadcast();
+					} catch (SocketException e1) {
+						e1.printStackTrace();
+					} catch(IOException e1){
+						e1.printStackTrace();
+					} catch(Exception e1){
 						e1.printStackTrace();
 					}
 				}
