@@ -38,7 +38,7 @@ public class Player {
 	@Override
 	public String toString(){
 		String t = "";
-		t = "PLAYER " + ID + " " + name + " " + character + " " + alive + " "
+		t = "PLAYER " + ID + " " + name + " " + character.getCharacterNum() + " " + alive + " "
 				+ location.x + " " + location.y + " "
 				+ isMoving + " " + direction + " " + power + " " 
 				+ maxCurrentDumplingCount + " " + currentDumplingCount;

@@ -23,7 +23,7 @@ public class UDPBC {
 	private byte[] sendData;
 	private Vector<String> IPTable;
 	private Queue<Object> deleteQueue;
-	private Vector itemVector;
+	private Vector<Object> itemVector;
 	private String itemInfo;
 	private DatagramPacket sendPacket;
 	
@@ -37,6 +37,7 @@ public class UDPBC {
 		this.itemVector = null;
 		this.itemInfo = "";
 		this.sendPacket = null;
+		this.itemVector = new Vector<Object>();
 		
 		this.deleteQueue = new LinkedList();
 		this.tcpsm = _TCPSM;
@@ -75,18 +76,20 @@ public class UDPBC {
 				itemVector = cdc.getUpdateInfo();
 				assert(itemVector.size()>0);
 				for (Object item : itemVector){
-					itemInfo = item.toString();
-					
-					if ( item instanceof String){ // TIME
-						itemInfo = itemInfo.substring(1, itemInfo.length()-1);
-					}
-					
-					itemInfo = "UPDATE " + itemInfo;
-					try {
-						broadcastMessage(clientSocket, itemInfo, IPTable);
-					} catch (UnknownHostException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
+					if (item != null) {
+						itemInfo = item.toString();
+						
+						if ( item instanceof String){ // TIME
+							itemInfo = itemInfo.substring(1, itemInfo.length()-1);
+						}
+						
+						itemInfo = "UPDATE " + itemInfo;
+						try {
+							broadcastMessage(clientSocket, itemInfo, IPTable);
+						} catch (UnknownHostException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
 					}
 				}
 			}
@@ -99,7 +102,7 @@ public class UDPBC {
 		sendData = message.getBytes();
 		for(String ip : IPTable){
 			InetAddress IPAddress = InetAddress.getByName(ip);
-			sendPacket = new DatagramPacket(sendData, sendData.length, IPAddress, 9876);
+			sendPacket = new DatagramPacket(sendData, sendData.length, IPAddress, 7654);
 			try {
 				socket.send(sendPacket);
 			} catch (IOException e) {

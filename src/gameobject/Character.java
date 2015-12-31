@@ -9,6 +9,11 @@ public class Character {
 	//animation
 	private String name;
 	
+	public Character() {
+		characterNum = 0;
+		name = "";
+	}
+	
 	public void setCharacterNum(int characterNum){
 		this.characterNum = characterNum;
 	}

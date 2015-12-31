@@ -111,7 +111,8 @@ public class IPInputDialog extends JDialog {
 					e1.printStackTrace();
 				}
 				
-
+				
+				
 				IPInputDialog.this.dispose();
 				
 				
