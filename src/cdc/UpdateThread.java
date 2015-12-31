@@ -38,7 +38,7 @@ public class UpdateThread extends Thread{
 					switch (player[i].getDirection()) {
 					
 					case 1:
-						if(checkObs(px,py-1)&&px-1>=0){
+						if(checkObs(px,py-1)&&py-1>=0){
 						player[i].location.y-=100; //move N
 						checkItem(player[i]);//check there is or not an item
 						}
@@ -59,7 +59,7 @@ public class UpdateThread extends Thread{
 						}
 						break;
 					case 4:
-						if(checkObs(px-1,py)&&py-1>=0){
+						if(checkObs(px-1,py)&&px-1>=0){
 						
 						player[i].location.x-=100;//move w
 						checkItem(player[i]);
