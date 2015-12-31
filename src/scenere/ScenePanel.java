@@ -5,11 +5,13 @@ import java.awt.Graphics;
 import javax.swing.JPanel;
 
 import dom.DOM;
+import spritere.SPRITERE;
 
 @SuppressWarnings("serial")
 public class ScenePanel extends JPanel{
 	private SceneData scenedata;
 	private DOM dom;
+	private SPRITERE spritere;
 	private Graphics g;
 	private KeyActionPerformer performer;
 	
@@ -26,6 +28,7 @@ public class ScenePanel extends JPanel{
 		g.setClip(0, 0, scenedata.getPanelWidth(), scenedata.getPanelHeight());
 		scenedata.setClientView(scenedata.getVirtualCharacterPosition());
 		drawBackground();
+		spritere.renderSprites(g, this.dom);
 	}
 	
 	private void drawBackground(){
@@ -46,6 +49,7 @@ public class ScenePanel extends JPanel{
 	
 	public void setSceneData(SceneData scenedata){
 		this.scenedata = scenedata;
+		spritere = new SPRITERE(this.scenedata);
 	}
 
 	public void setKeyActionPerformer(KeyActionPerformer performer){
