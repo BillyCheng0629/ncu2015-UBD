@@ -333,6 +333,7 @@ public class RoomPanel extends JPanel{
 			public void actionPerformed(ActionEvent e) {
 				if (detectStart()){
 					try {
+						frame.cdc.initGame();
 						frame.tcpcm.sendRoomAction("START");
 						frame.udpbc = new UDPBC(frame.tcpsm, frame.cdc);
 						frame.udpbc.startUDPBroadcast();

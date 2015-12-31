@@ -23,7 +23,7 @@ public class DOM {
 	}
 	
 	public void updatePlayer(Player player){
-		System.out.println("dom update player"+player.getID());
+		//System.out.println("dom update player"+player.getID());
 		this.player[player.getID()] = player;
 	}
 	

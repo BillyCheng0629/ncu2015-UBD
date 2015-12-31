@@ -84,12 +84,14 @@ public class UDPBC {
 						}
 						
 						itemInfo = "UPDATE " + itemInfo;
+						
 						try {
 							broadcastMessage(clientSocket, itemInfo, IPTable);
 						} catch (UnknownHostException e) {
 							// TODO Auto-generated catch block
 							e.printStackTrace();
 						}
+						
 					}
 				}
 			}

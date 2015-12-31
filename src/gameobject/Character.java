@@ -10,7 +10,7 @@ public class Character {
 	private String name;
 	
 	public Character() {
-		characterNum = 0;
+		characterNum = 1;
 		name = "";
 	}
 	
