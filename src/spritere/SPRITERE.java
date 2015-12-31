@@ -6,6 +6,7 @@ import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.Point;
 
+import scenere.SceneData;
 import dom.DOM;
 
 public class SPRITERE{
@@ -30,8 +31,9 @@ public class SPRITERE{
     private int stateCounter;
     
     private SpritereData spritereData;
+    private SceneData sceneData;
     
-    public SPRITERE() {
+    public SPRITERE(SceneData sceneData) {
     	spritereData = new SpritereData();
     	
     	//playerConfiguration
@@ -46,23 +48,27 @@ public class SPRITERE{
 		//dumplings
 		spritereData.loadDumplingImages();
 		dumplingImages = spritereData.getDumplingImages();
+		this.sceneData = sceneData;
 	}
     
 	public void renderSprites(Graphics gra, DOM dom){
 		setDOM(dom);
+		//paint player
 		for (Player player : dom.getPlayers()) {
-			if(player.getAlive()){
-				paintPlayer(gra, player.getID());
-			}
-			else if(player.getAlive()){
-				paintDeadPlayer(gra, player.getID());
+			if(player!=null){			
+				if(player.getAlive()){
+					paintPlayer(gra, player.getID());
+				}
+				else if(player.getAlive()){
+					paintDeadPlayer(gra, player.getID());
+				}
 			}
 		}
-		
+		//paint item
 		for (int i = 0; i < dom.getItems().size(); i++) {
 			paintItem(gra, dom.getItems().get(i).getID());
 		}
-		
+		//paint dumpling
 		for (int i = 0; i < dom.getDumplings().size(); i++) {
 			paintDumpling(gra, dom.getDumplings().get(i).getID());
 			//update dumpling
@@ -80,8 +86,8 @@ public class SPRITERE{
 		isMoving = dom.getPlayer(playerID).getIsMoving();
 		towards = dom.getPlayer(playerID).getDirection();
 		playerLocation = dom.getPlayer(playerID).getPlayerLocation();
-		positionX = (int) playerLocation.getX();
-		positionY = (int) playerLocation.getY();
+		positionX = playerLocation.x-sceneData.getPositionX();
+		positionY = playerLocation.y-sceneData.getPositionY();
 		if(isMoving){ moving_p++; }
 		if(moving_p>40){ moving_p = 0; }
 		
@@ -135,8 +141,8 @@ public class SPRITERE{
 		isMoving = dom.getPlayer(playerID).getIsMoving();
 		towards = dom.getPlayer(playerID).getDirection();
 		playerLocation = dom.getPlayer(playerID).getPlayerLocation();
-		positionX = (int) playerLocation.getX();
-		positionY = (int) playerLocation.getY();
+		positionX = playerLocation.x-sceneData.getPositionX();
+		positionY = playerLocation.y-sceneData.getPositionY();
 		Image tempImage = spritereData.getRoleIcon().getImage();
 		deadCounter++;
 		if(deadCounter>50){deadCounter=50;}
@@ -162,20 +168,20 @@ public class SPRITERE{
 	}
 	
 	public void paintItem(Graphics gra, int itemID){
-		int posX = dom.getItem(itemID).location.x;
-		int posY = dom.getItem(itemID).location.y;
+		int posX = dom.getItem(itemID).location.x - sceneData.getPositionX();
+		int posY = dom.getItem(itemID).location.y - sceneData.getPositionY();
 		gra.drawImage(itemImages[dom.getItem(itemID).getType()], posX, posY, posX+100, posY+100, 0,0,100,100, null); 
 	}
 	
 	public void paintDumpling(Graphics gra, int dumplingID){	
-		int posX = dom.getDumpling(dumplingID).location.x;
-		int posY = dom.getDumpling(dumplingID).location.y;
+		int posX = dom.getDumpling(dumplingID).location.x - sceneData.getPositionX();
+		int posY = dom.getDumpling(dumplingID).location.y - sceneData.getPositionY();
 		int power = dom.getDumpling(dumplingID).getPower();
 		stateCounter = dom.getDumpling(dumplingID).getState();
 		stateCounter++;
 			
 		if(stateCounter<10)		{ gra.drawImage(dumplingImages[0], posX+5, posY+5, posX+95, posY+95, 0,0,100,100, null); } //small
-		else if(stateCounter<20){ gra.drawImage(dumplingImages[0], posX, posY, posX+100, posY+100, 0,0,100,100, null); } //big
+		else if(stateCounter<20){ gra.drawImage(dumplingImages[0], posX, posY, posX+100, posY+100, 0, 0,100,100, null); } //big
 		else if(stateCounter<30){ gra.drawImage(dumplingImages[0], posX+5, posY+5, posX+95, posY+95, 0,0,100,100, null); } //small
 		else if(stateCounter<40){ gra.drawImage(dumplingImages[0], posX, posY, posX+100, posY+100, 0,0,100,100, null); } //big
 		else if(stateCounter<50){ gra.drawImage(dumplingImages[0], posX+5, posY+5, posX+95, posY+95, 0,0,100,100, null); } //small
@@ -185,10 +191,10 @@ public class SPRITERE{
 			//Center
 			gra.drawImage(dumplingImages[1],posX, posY, posX+100, posY+100, 0, 0, 100, 100, null);
 			//barrier judgment
-			int north = (posY/100)+1;
-			int east = (posX/100)+1;
-			int south = (posY/100)-1;
-			int west = (posX/100-1);
+			int north = (dom.getDumpling(dumplingID).location.y/100)+1;
+			int east = (dom.getDumpling(dumplingID).location.x/100)+1;
+			int south = (dom.getDumpling(dumplingID).location.y/100)-1;
+			int west = (dom.getDumpling(dumplingID).location.x/100-1);
 			if( (north%2) == 1 && (south%2) == 1){
 				//Middle
 				for (int i = 1; i < power; i++) {
@@ -229,8 +235,11 @@ public class SPRITERE{
 		}		
 	}
 	
+
 	public void setDOM(DOM dom){
 		this.dom = dom;
 	}
+	
+	
 	
 }
