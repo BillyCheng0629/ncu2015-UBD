@@ -32,6 +32,7 @@ public class SPRITERE{
     
     private SpritereData spritereData;
     private SceneData sceneData;
+    private int mapBit[][];    
     
     public SPRITERE(SceneData sceneData) {
     	spritereData = new SpritereData();
@@ -49,6 +50,7 @@ public class SPRITERE{
 		spritereData.loadDumplingImages();
 		dumplingImages = spritereData.getDumplingImages();
 		this.sceneData = sceneData;
+		this.mapBit = sceneData.getMapbit();
 	}
     
 	public void renderSprites(Graphics gra, DOM dom){
@@ -191,11 +193,20 @@ public class SPRITERE{
 			//Center
 			gra.drawImage(dumplingImages[1],posX, posY, posX+100, posY+100, 0, 0, 100, 100, null);
 			//barrier judgment
-			int north = (dom.getDumpling(dumplingID).location.y/100)+1;
-			int east = (dom.getDumpling(dumplingID).location.x/100)+1;
-			int south = (dom.getDumpling(dumplingID).location.y/100)-1;
-			int west = (dom.getDumpling(dumplingID).location.x/100-1);
-			if( (north%2) == 1 && (south%2) == 1){
+			
+			int north = (dom.getDumpling(dumplingID).location.y/100)-1;
+			int east =  (dom.getDumpling(dumplingID).location.x/100)+1;
+			int south = (dom.getDumpling(dumplingID).location.y/100)+1;
+			int west =  (dom.getDumpling(dumplingID).location.x/100)-1;
+			int southBoundry= sceneData.getMapHeight()/100;
+			int eastBoundry = sceneData.getMapWidth()/100;
+			
+			if(south>southBoundry){south=1;}
+			if(east>eastBoundry){east=1;}
+			if(west<0){west=1;}
+			if(north<=0){north=1;}
+			
+			if(mapBit[(dom.getDumpling(dumplingID).location.x/100)][north]==4 && mapBit[(dom.getDumpling(dumplingID).location.x/100)][south]==4){				
 				//Middle
 				for (int i = 1; i < power; i++) {
 					gra.drawImage(dumplingImages[3], posX+(100*i), posY, posX+(100*i)+100, posY+100, 0, 0, 100, 100, null); 
@@ -206,7 +217,7 @@ public class SPRITERE{
 				gra.drawImage(dumplingImages[7], posX-(100*power), posY, posX-(100*power)+100, posY+100, 0, 0, 100, 100, null); 
 			}
 			
-			else if( (east%2) == 1 && (west%2)==1){
+			else if(mapBit[east][(dom.getDumpling(dumplingID).location.y/100)]==4 && mapBit[west][(dom.getDumpling(dumplingID).location.y/100)]==4){
 				//Middle
 				for (int i = 1; i < power; i++) {
 					gra.drawImage(dumplingImages[2], posX, posY+(100*i), posX+100, posY+(100*i)+100, 0, 0, 100, 100, null); 
