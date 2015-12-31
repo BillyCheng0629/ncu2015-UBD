@@ -13,7 +13,7 @@ public class UpdateThread extends Thread{
 	private HashMap<Integer, Item> items;
 	private Queue<Object> deleteQueue;
 	private Player player[];
-	private int moveCount=4;
+	private int px=0,py=0;
 	private int time;
 	private boolean gameState;
 	public void run() {
@@ -32,23 +32,38 @@ public class UpdateThread extends Thread{
 			
 			
 			for(int i=0;i<4;i++){
-				if(player[i]!=null&&player[i].getIsMoving()){ //while player is moving 
+					if(player[i]!=null&&player[i].getIsMoving()){ //while player is moving 
+					py=(int)player[i].location.y/100;
+					px=(int)player[i].location.x/100;
 					switch (player[i].getDirection()) {
+					
 					case 1:
-						player[i].location.y-=50; //move N
+						if(checkObs(px,py-1)&&px-1>=0){
+						player[i].location.y-=100; //move N
 						checkItem(player[i]);//check there is or not an item
+						}
 						break;
 					case 2:
-						player[i].location.x+=50;//move E
-						checkItem(player[i]);
+						if(checkObs(px+1,py)&&px+1<=50){
+						
+							player[i].location.x+=100;//move E
+							checkItem(player[i]);
+						}
+						
 						break;
 					case 3:
-						player[i].location.y+=50;//move S
+						if(checkObs(px,py+1)&&py+1<=20){
+					
+						player[i].location.y+=100;//move S
 						checkItem(player[i]);
+						}
 						break;
 					case 4:
-						player[i].location.x-=50;//move w
+						if(checkObs(px-1,py)&&py-1>=0){
+						
+						player[i].location.x-=100;//move w
 						checkItem(player[i]);
+						}
 						break;
 					default:
 						break;
@@ -58,7 +73,7 @@ public class UpdateThread extends Thread{
 			}
 			
 			
-			moveCount--;//just a counter
+			//just a counter
 			time-=50;// time counter
 			try{
 				UpdateThread.sleep(50);
@@ -142,6 +157,14 @@ public class UpdateThread extends Thread{
 					break;
 				}
 			}
+		}
+	}
+	public boolean checkObs(int x,int y){
+		if(x%2==1&&y%2==1){
+			return false;
+		}
+		else {
+			return true;
 		}
 	}
 
