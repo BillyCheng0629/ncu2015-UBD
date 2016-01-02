@@ -27,6 +27,7 @@ public class MainFrame extends JFrame {
 	private MainPanel mainPanel;
 	public RoomPanel roomPanel;
 	private Timer timer;
+	private Timer keyTimer;
 	boolean isHost = false;
 	
 	public Player player = new Player();
@@ -88,6 +89,12 @@ public class MainFrame extends JFrame {
 		RePaintActionListener repaint = new RePaintActionListener(scenePanel);
 		timer = new Timer(50, repaint);
 		timer.start();
+		
+		keyTimer = new Timer(50, key ->{
+			scenePanel.moveCharacter();
+			scenePanel.placeBomb();
+		});
+		keyTimer.start();
 	}
 	
 }
