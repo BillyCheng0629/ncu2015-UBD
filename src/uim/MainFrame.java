@@ -70,6 +70,7 @@ public class MainFrame extends JFrame {
 	}
 	
 	public void getIntoGame(){
+		this.setVisible(false);
 		Container cp = this.getContentPane();
 		cp.removeAll();
 		cp.setLayout(null);
@@ -84,6 +85,7 @@ public class MainFrame extends JFrame {
 		KeyActionPerformer performer = new KeyActionPerformer(sceneData, keyListener, tcpcm);
 		scenePanel.setKeyActionPerformer(performer);
 		cp.add(scenePanel);
+		this.setVisible(true);
 		cp.repaint();
 		
 		RePaintActionListener repaint = new RePaintActionListener(scenePanel);
