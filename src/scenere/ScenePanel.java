@@ -1,10 +1,13 @@
 package scenere;
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Point;
 
 import javax.swing.JPanel;
 
 import dom.DOM;
+import gameobject.Character;
+import gameobject.Player;
 import spritere.SPRITERE;
 
 @SuppressWarnings("serial")
@@ -24,11 +27,26 @@ public class ScenePanel extends JPanel{
 	public synchronized void paint(Graphics g){
 		super.paint(g);
 		this.g = g;
+		//testDom();
 		g.setColor(Color.BLACK);
 		g.setClip(0, 0, scenedata.getPanelWidth(), scenedata.getPanelHeight());
 		scenedata.setClientView(scenedata.getVirtualCharacterPosition());
 		drawBackground();
 		spritere.renderSprites(g, this.dom);
+	}
+	
+	private void testDom(){
+		dom = new DOM();
+		Player player = new Player();
+		player.setID(0);
+		player.location = new Point(((int)(Math.random()*10000))%800, ((int)(Math.random()*10000))%600);
+		Character test = new Character();
+		test.setCharacterNum(1);
+		player.setCharacter(test);
+		player.setAlive(true);
+		player.setIsMoving(true);
+		player.setDirection(3);
+		dom.updatePlayer(player);
 	}
 	
 	private void drawBackground(){

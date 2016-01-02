@@ -81,7 +81,7 @@ public class MainFrame extends JFrame {
 		sceneData.setPlayer(this.dom.getPlayer(this.dom.getClientPlayerID()));
 		scenePanel.setSceneData(sceneData);
 		CharacterMoveListener keyListener = new CharacterMoveListener();
-		scenePanel.addKeyListener(keyListener);
+		this.addKeyListener(keyListener);
 		KeyActionPerformer performer = new KeyActionPerformer(sceneData, keyListener, tcpcm);
 		scenePanel.setKeyActionPerformer(performer);
 		cp.add(scenePanel);

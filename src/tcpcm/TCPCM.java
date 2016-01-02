@@ -137,7 +137,11 @@ public class TCPCM {
 							playerID = Integer.parseInt(msg.split(",")[4]);
 							player.setID(playerID);
 							player.getCharacter().setCharacterNum(characterNum);
+							player.getCharacter().setCharacterNum(1);
 							player.setIsReady(isReady);
+							player.setDirection(3);
+							player.setIsMoving(false);
+							player.setAlive(true);
 							
 							System.out.println("player"+playerID+": "+playerName);
 							

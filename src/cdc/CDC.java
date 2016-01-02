@@ -130,7 +130,7 @@ public class CDC {
 				player[i].setCurrentDumplingCount(0);
 				player[i].setIsMoving(false);
 				player[i].setIsReady(false);
-				player[i].setDirection(0);
+				player[i].setDirection(3);
 				player[i].setPower(1);
 				player[i].setMaxDumplingCount(1);
 			}
@@ -172,12 +172,12 @@ public class CDC {
 		updateThread.setDeleteQueue(deleteQueue);
 		updateThread.setTime(time);
 		updateThread.setGameState(gameState);
-		updateThread.run();
+		updateThread.start();
 	}
 	public void startItemPlacedThread(){
 		itemPlacedThread = new itemPlacedThread();
 		itemPlacedThread.setItems(items);
-		itemPlacedThread.run();
+		itemPlacedThread.start();
 	}
 	/* player {
 	 *   type: player,
