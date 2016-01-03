@@ -79,6 +79,7 @@ public class MainFrame extends JFrame {
 		scenePanel.setBounds(0, 0, 800, 600);
 		scenePanel.setDOM(this.dom);
 		SceneData sceneData = new SceneData(scenePanel);
+		sceneData.setMapType(this.dom.getMapType());
 		sceneData.setPlayer(this.dom.getPlayer(this.dom.getClientPlayerID()));
 		scenePanel.setSceneData(sceneData);
 		CharacterMoveListener keyListener = new CharacterMoveListener();

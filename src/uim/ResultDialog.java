@@ -33,7 +33,7 @@ public class ResultDialog extends JDialog{
 		contentPanel.setLayout(null);
 		
 		int playerID = frame.player.getID();
-		
+
 		if (frame.dom.getPlayer(playerID).getAlive()) {
 			resultLabel = new JLabel("You Win!!");
 		} else {
@@ -86,6 +86,7 @@ public class ResultDialog extends JDialog{
 			 @Override
 			 public void mouseClicked(MouseEvent e){
 				 if(frame.isHost){
+					 frame.udpbc.t.cancel();
 					 frame.udpbc.closeUPDBC();
 					 
 				 }

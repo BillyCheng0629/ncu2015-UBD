@@ -40,7 +40,6 @@ public class UDPUS {
 			public void run() {
 				while(gameState){
 					String classify = "";
-					int aliveCount = 0;
 					
 					try {
 						serverSocket.receive(receivePacket);
@@ -100,16 +99,19 @@ public class UDPUS {
 					} catch (IOException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
-					}
-					
-					for (Player player : dom.getPlayers()) {
-						if ( player != null && player.getAlive()) {
-							aliveCount += 1;
+					} finally {
+						int aliveCount = 0;
+						for (Player player : dom.getPlayers()) {
+							if ( player != null && player.getAlive()) {
+								aliveCount += 1;
+							}
 						}
+						
+						if (aliveCount==1) { gameState = false; 
+						} else { gameState = true; }
 					}
 					
-					if (aliveCount==1) { gameState = false; 
-					} else { gameState = true; }
+					
 				}
 			}
 		};

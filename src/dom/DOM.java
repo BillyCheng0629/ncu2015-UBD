@@ -1,6 +1,7 @@
 
 package dom;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Vector;
 
@@ -9,6 +10,7 @@ import gameobject.Item;
 import gameobject.Player;
 
 public class DOM {
+	private ArrayList<Integer> removeItems;
 	private Player player[];
 	private HashMap<Integer, Item> items;
 	private HashMap<Integer, Dumpling> dumplings; 
@@ -21,7 +23,7 @@ public class DOM {
 		items = new HashMap<Integer, Item>();
 		dumplings = new HashMap<Integer, Dumpling> ();
 	}
-	
+
 	public void updatePlayer(Player player){
 		//System.out.println("dom update player"+player.getID());
 		this.player[player.getID()] = player;
@@ -104,6 +106,29 @@ public class DOM {
 		items.forEach((k,v)->temp.add(v.toString()));
 		temp.add("gameTime,"+gameTime);
 		return temp;
+	}
+	public void cleanState(){
+		removeItems = new ArrayList<>();
+		for(Object key:dumplings.keySet()){
+			removeItems.add((Integer)key);
+		}
+		for(int t:removeItems){
+			dumplings.remove(t);
+			
+		}
+		
+		for(Player p : player) {
+			if (p != null)
+				p.setAlive(true);
+		}
+		
+		removeItems.clear();
+		for(Object key:items.keySet()){
+			removeItems.add((Integer)key);
+		}
+		for(int t:removeItems){
+			items.remove(t);
+		}
 	}
 	
 }
