@@ -4,6 +4,7 @@ import java.awt.Point;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Queue;
+import java.util.Random;
 import java.util.Vector;
 
 import javax.management.Query;
@@ -25,6 +26,7 @@ public class CDC {
 	int time =90000;
 	boolean gameState;
 	int mapType;
+	int tempx,tempy;
 
 	public void addPlayer(Player player, int playerID){
 		this.player[playerID] = player;
@@ -73,7 +75,9 @@ public class CDC {
 	public boolean getGameState(){
 		return gameState;
 	}
-	
+	public Queue<Object> getDeleteQueue(){
+		return deleteQueue;
+	}
 	public void setMapType(int mapType){
 		this.mapType = mapType;
 	}
@@ -91,8 +95,13 @@ public class CDC {
 	}
 	
 	public void placedDumpling(int playerID){
+		dumpling=new Dumpling();
+		//Random random=new Random();
 		player[playerID].setCurrentDumplingCount(player[playerID].getCurrentDumplingCount()+1);
-		dumpling.location=player[playerID].getPlayerLocation();
+		dumpling.setPower(player[playerID].getPower());
+
+		dumpling.location=new Point(player[playerID].location.x, player[playerID].location.y);
+		dumpling.setID(dumplingCount);
 		dumplings.put(dumplingCount, dumpling);
 		dumplingCount++;
 	}
@@ -113,9 +122,12 @@ public class CDC {
 			//infos.add("Player ");
 			infos.add(player[i]);
 		}
-		for(int i=0;i<items.size();i++){
+		for(Object key:items.keySet()){
 			//infos.add("Item ");
-			infos.add(items.get(i));
+			infos.add(items.get(key));
+		}
+		for(Object key:dumplings.keySet()){
+			infos.add(dumplings.get(key));
 		}
 		infos.add("TIME "+time);
 		return infos;
@@ -131,7 +143,7 @@ public class CDC {
 				player[i].setIsMoving(false);
 				player[i].setIsReady(false);
 				player[i].setDirection(3);
-				player[i].setPower(1);
+				player[i].setPower(4);
 				player[i].setMaxDumplingCount(1);
 			}
 		}
@@ -172,6 +184,7 @@ public class CDC {
 		updateThread.setDeleteQueue(deleteQueue);
 		updateThread.setTime(time);
 		updateThread.setGameState(gameState);
+		updateThread.setDumplingCount(dumplingCount);
 		updateThread.start();
 	}
 	public void startItemPlacedThread(){

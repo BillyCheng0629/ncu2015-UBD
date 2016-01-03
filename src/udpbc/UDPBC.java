@@ -55,15 +55,17 @@ public class UDPBC {
 			@Override
 			public void run() {
 				
-				//deleteQueue = cdc.getDeleteQueue();
+				deleteQueue = cdc.getDeleteQueue();
 				for (Object deleteItem : deleteQueue) {
 					itemInfo = deleteItem.toString();
 					int ID = Integer.parseInt(itemInfo.split(" ")[1]);
+					/*
 					if (deleteItem instanceof Dumpling){
 						//cdc.removeDumpling(ID)
 					} else {
 						cdc.removeItem(ID);
-					}
+					}*/
+					deleteQueue.remove();
 					itemInfo = "DELETE" + itemInfo;
 					try {
 						broadcastMessage(clientSocket, itemInfo, IPTable);

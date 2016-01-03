@@ -14,6 +14,8 @@ public class Dumpling {
 	
 	public Dumpling() {		
 		stateCounter = 0;
+		location=new Point(-1, -1);
+		power=0;
 	}
 	
 
@@ -21,7 +23,7 @@ public class Dumpling {
 	@Override
 	public String toString(){
 		String t = "";
-		t = "DUMPLING " + ID + " " + location.x + " " + location.y + " " + power;
+		t = "DUMPLING " + ID + " " + location.x + " " + location.y + " " + power+" "+count;
 		return t;
 	}
 	

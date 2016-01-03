@@ -5,6 +5,7 @@ import gameobject.Player;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.Point;
+import java.util.ArrayList;
 
 import scenere.SceneData;
 import dom.DOM;
@@ -71,16 +72,22 @@ public class SPRITERE{
 			paintItem(gra, dom.getItems().get(i).getID());
 		}
 		//paint dumpling
-		for (int i = 0; i < dom.getDumplings().size(); i++) {
-			paintDumpling(gra, dom.getDumplings().get(i).getID());
+		ArrayList<Integer> removeItems  = new ArrayList<>();
+		for (Object key:dom.getDumplings().keySet()) {
+			System.out.println(dom.getDumplings());
+			paintDumpling(gra, dom.getDumplings().get(key).getID());
 			//update dumpling
 			if(stateCounter==70){
-				dom.removeDumpling(dom.getDumplings().get(i).getID());
+				removeItems.add(dom.getDumplings().get(key).getID());
 			}
 			else {
-				dom.getDumpling(dom.getDumplings().get(i).getID()).setState(stateCounter);
+				dom.getDumpling(dom.getDumplings().get(key).getID()).setState(stateCounter);
 			}	
 		}
+		for(int t:removeItems){
+			dom.removeDumpling(t);
+		}
+		removeItems.clear();
 	}
 	
 	public void paintPlayer(Graphics gra,int playerID){
@@ -201,9 +208,9 @@ public class SPRITERE{
 			int southBoundry= sceneData.getMapHeight()/100;
 			int eastBoundry = sceneData.getMapWidth()/100;
 			
-			if(south>southBoundry){south=1;}
-			if(east>eastBoundry){east=1;}
-			if(west<0){west=1;}
+			if(south>=southBoundry){south=1;}
+			if(east>=eastBoundry){east=1;}
+			if(west<=0){west=1;}
 			if(north<=0){north=1;}
 			
 			if(mapBit[(dom.getDumpling(dumplingID).location.x/100)][north]==4 && mapBit[(dom.getDumpling(dumplingID).location.x/100)][south]==4){				
