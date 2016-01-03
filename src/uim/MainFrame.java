@@ -96,14 +96,14 @@ public class MainFrame extends JFrame {
 			scenePanel.moveCharacter();
 			scenePanel.placeBomb();
 		});
-		keyTimer.start();
-		
+		keyTimer.start();		
 		StatePanel statePanel = new StatePanel();
+		statePanel.setVisible(true);
 		statePanel.setDOM(dom);
 		this.add(statePanel);
 		stateTimer = new Timer(50, e ->statePanel.updateState());
 		stateTimer.start();
-		
+		//statePanel.setStateBackground();
 		this.setVisible(true);
 
 	}
