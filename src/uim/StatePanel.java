@@ -47,7 +47,7 @@ public class StatePanel extends JPanel {
 		playerIcon = new JLabel[4];
 		for(int i=0;i<4;i++){
 			if(player[i]!=null)
-				playerIcon[i] = new JLabel(new ImageIcon("./imgs/character/role/role"+player[i].getCharacter().getCharacterNum()+".png"), JLabel.CENTER);
+				playerIcon[i] = new JLabel(new ImageIcon("./imgs/character/face/face"+player[i].getCharacter().getCharacterNum()+".png"), JLabel.CENTER);
 			else
 				playerIcon[i] = new JLabel();
 		}
