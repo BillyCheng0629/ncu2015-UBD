@@ -23,7 +23,7 @@ public class Dumpling {
 	@Override
 	public String toString(){
 		String t = "";
-		t = "DUMPLING " + ID + " " + location.x + " " + location.y + " " + power;
+		t = "DUMPLING " + ID + " " + location.x + " " + location.y + " " + power+" "+count;
 		return t;
 	}
 	

@@ -119,19 +119,20 @@ public class UpdateThread extends Thread{
 		}
 	}
 	public void checkBombEffecet(Dumpling dumpling){
-		
+		dx=(int)dumpling.location.x/100;
+		dy=(int)dumpling.location.x/100;
 		for(int i=0;i<4;i++){
-			py=(int)player[i].location.y/100;
-			px=(int)player[i].location.x/100;
 			
 			
-			if(player[i]!=null&&px==((int)dumpling.location.x/100)&&((int)player[i].location.y/100)<(((int)dumpling.location.y)+dumpling.getPower())&&((int)player[i].location.y/100)>
-			(((int)dumpling.location.y/100)-dumpling.getPower())){
-				player[i].setAlive(false);    
-			}
-			else if(player[i]!=null&&((int)player[i].location.y/100)==((int)dumpling.location.y/100)&&((int)player[i].location.x/100)<(((int)dumpling.location.x)+dumpling.getPower())&&((int)player[i].location.x/100)>
-			(((int)dumpling.location.x/100)-dumpling.getPower())){
-				player[i].setAlive(false);
+			if(player[i]!=null){
+				py=(int)player[i].location.y/100;
+				px=(int)player[i].location.x/100;
+				if(px==dx&&py<dy+dumpling.getPower()&&py>dy-dumpling.getPower()){
+					player[i].setAlive(false);
+				}
+				else if(py==dy&&px<dx+dumpling.getPower()&&px>dx-dumpling.getPower()){
+					player[i].setAlive(false);
+				}
 			}
 		}
 		for(Object key:items.keySet()){
