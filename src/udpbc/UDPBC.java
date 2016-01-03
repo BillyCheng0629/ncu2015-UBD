@@ -26,6 +26,7 @@ public class UDPBC {
 	private Vector<Object> itemVector;
 	private String itemInfo;
 	private DatagramPacket sendPacket;
+	public Timer t;
 	
 	private CDC cdc;
 	private TCPSM tcpsm;
@@ -49,7 +50,7 @@ public class UDPBC {
 		IPTable = tcpsm.getClientIPTable();
 		assert(IPTable.size()<=4 && IPTable.size()>=2);
 
-		Timer t = new Timer();
+		t = new Timer();
 		t.schedule(new TimerTask(){
 
 			@Override

@@ -23,6 +23,7 @@ import scenere.SceneData;
 import scenere.ScenePanel;
 import udpus.UDPUS;
 import uim.MainFrame;
+import uim.ResultDialog;
 
 public class TCPCM {
 	private int clientNo;
@@ -32,7 +33,7 @@ public class TCPCM {
 	private Thread recieveThread;
 	private BufferedReader in;
 	private MainFrame frame;
-	
+	ResultDialog resultDialog;
 	
 
 	
@@ -193,13 +194,7 @@ public class TCPCM {
 							break;
 							
 						case "END":
-							/**
-							 * 
-							close now gamePanel frame
-							show resultPanel
-							frm.frm.
-							*
-							*/
+							endGame();
 							break;
 						default:
 							
@@ -219,6 +214,24 @@ public class TCPCM {
 		};
 		
 		recieveThread.start();
+	}
+	
+	public void endGame() {
+		try {
+			Thread.sleep(300);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		frame.udpus.receiveThread.interrupt();
+		frame.udpus.closeUDPUS();
+		/*
+		frame.timer.cancel();
+		frame.keyTimer.cancel();
+		*/
+		resultDialog = new ResultDialog(frame);
+		resultDialog.setTitle("Game Result");
+		resultDialog.setVisible(true);
 	}
 	
 

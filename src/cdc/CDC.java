@@ -24,7 +24,7 @@ public class CDC {
 	Queue<Object> deleteQueue = new LinkedList<Object>();
 	int dumplingCount=0;
 	int time =90000;
-	boolean gameState;
+	boolean gameState = true;
 	int mapType;
 	int tempx,tempy;
 
@@ -136,6 +136,7 @@ public class CDC {
 		
 	}
 	public void cleanState(){
+		gameState = true;
 		for(int i=0;i<4;i++){
 			if(player[i]!=null){
 				player[i].setAlive(true);
@@ -178,6 +179,7 @@ public class CDC {
 	}
 	public void startUpdatingThread(){
 		updateThread=new UpdateThread();
+		updateThread.setCDC(this);
 		updateThread.setDumplings(dumplings);
 		updateThread.setPlayer(player);
 		updateThread.setItems(items);
@@ -191,6 +193,9 @@ public class CDC {
 		itemPlacedThread = new itemPlacedThread();
 		itemPlacedThread.setItems(items);
 		itemPlacedThread.start();
+	}
+	public void setGameState(boolean gameState){
+		this.gameState=gameState;
 	}
 	/* player {
 	 *   type: player,

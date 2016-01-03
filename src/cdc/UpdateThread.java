@@ -7,6 +7,8 @@ import java.util.Queue;
 
 import javax.swing.text.html.HTMLDocument.Iterator;
 
+import org.junit.validator.PublicClassValidator;
+
 import gameobject.*;
 
 public class UpdateThread extends Thread{
@@ -21,10 +23,11 @@ public class UpdateThread extends Thread{
 	private int count=4;
 	private int dumplingCount;
 	private ArrayList<Integer> removeItems;
+	private CDC cdc;
 	public void run() {
 		removeItems = new ArrayList<>();
 		
-		while(gameState()){
+		while(gameState){
 			  //java.util.Iterator<Integer> iterate = dumplings.keySet().iterator();
 			
 			for(Object key:dumplings.keySet()){
@@ -57,7 +60,7 @@ public class UpdateThread extends Thread{
 					player[i].location.y-=50; //move N
 					checkItem(player[i]);//check there is or not an item
 					}
-					break;
+					break; 
 				case 2:
 					if(checkObs(player[i]) && player[i].location.x<5000){
 						player[i].location.x+=50;//move E
@@ -80,7 +83,8 @@ public class UpdateThread extends Thread{
 					break;
 				}
 			}
-			
+				gameState();
+				cdc.setGameState(gameState);
 		}
 			
 			
@@ -255,6 +259,9 @@ public class UpdateThread extends Thread{
 			break;
 		}
 		return true;
+	}
+	public void setCDC(CDC cdc){
+		this.cdc=cdc;
 	}
 
 }

@@ -397,8 +397,18 @@ public class RoomPanel extends JPanel{
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
+				ResultDialog resultDialog = new ResultDialog(frame);
+				resultDialog.setTitle("Game Result");
+				resultDialog.setVisible(true);
 				
+				/*ResultPanel resultPanel = new ResultPanel(frame);
+				
+				frame.getContentPane().removeAll();
+				frame.getContentPane().add(resultPanel);
+				frame.roomPanel.setBounds(20, 5, 810, 420);
+				frame.getContentPane().add(resultPanel);
+				frame.getContentPane().repaint();
+				*/
 				
 			}
 		};
