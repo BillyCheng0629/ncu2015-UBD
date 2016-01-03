@@ -143,7 +143,7 @@ public class CDC {
 				player[i].setIsMoving(false);
 				player[i].setIsReady(false);
 				player[i].setDirection(3);
-				player[i].setPower(1);
+				player[i].setPower(4);
 				player[i].setMaxDumplingCount(1);
 			}
 		}
