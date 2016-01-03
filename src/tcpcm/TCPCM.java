@@ -195,6 +195,7 @@ public class TCPCM {
 							
 						case "END":
 							endGame();
+							frame.dom.cleanState();
 							break;
 						default:
 							

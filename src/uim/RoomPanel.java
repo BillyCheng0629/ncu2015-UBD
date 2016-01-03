@@ -356,6 +356,7 @@ public class RoomPanel extends JPanel{
 		for(int i = 0 ; i < playerInfo.length ; i++) {
 			Player player = frame.dom.getPlayer(i);
 			if(player != null) {
+				player.setAlive(true);
 				count++;
 				isStart = (isStart && player.getIsReady());
 			}

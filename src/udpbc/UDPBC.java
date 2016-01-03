@@ -80,8 +80,9 @@ public class UDPBC {
 				assert(itemVector.size()>0);
 				for (Object item : itemVector){
 					if (item != null) {
-						itemInfo = item.toString();
 						
+						itemInfo = item.toString();
+						System.out.println(itemInfo);
 						if ( item instanceof String){ // TIME
 							//itemInfo = itemInfo.substring(1, itemInfo.length()-1);
 						}

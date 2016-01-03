@@ -89,7 +89,10 @@ public class UpdateThread extends Thread{
 			
 			
 			//just a counter
-			//time-=50;// time counter
+			if(cdc.time>=50){
+			cdc.time-=50;// time counter
+			}
+			
 			count--;
 			try{
 				UpdateThread.sleep(50);

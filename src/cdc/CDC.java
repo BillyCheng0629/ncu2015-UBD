@@ -1,6 +1,7 @@
 package cdc;
 
 import java.awt.Point;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Queue;
@@ -27,7 +28,7 @@ public class CDC {
 	boolean gameState = true;
 	int mapType;
 	int tempx,tempy;
-
+	private ArrayList<Integer> removeItems;
 	public void addPlayer(Player player, int playerID){
 		this.player[playerID] = player;
 	}
@@ -137,6 +138,7 @@ public class CDC {
 	}
 	public void cleanState(){
 		gameState = true;
+		time=90000;
 		for(int i=0;i<4;i++){
 			if(player[i]!=null){
 				player[i].setAlive(true);
@@ -169,12 +171,21 @@ public class CDC {
 				}
 			}
 		}
-		
+		removeItems = new ArrayList<>();
 		for(Object key:dumplings.keySet()){
-			dumplings.remove(key);
+			removeItems.add((Integer)key);
 		}
+		for(int t:removeItems){
+			dumplings.remove(t);
+			dumplingCount--;
+		}
+		
+		removeItems.clear();
 		for(Object key:items.keySet()){
-			items.remove(key);
+			removeItems.add((Integer)key);
+		}
+		for(int t:removeItems){
+			items.remove(t);
 		}
 	}
 	public void startUpdatingThread(){
