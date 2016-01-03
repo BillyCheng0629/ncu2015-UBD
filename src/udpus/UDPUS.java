@@ -37,68 +37,70 @@ public class UDPUS {
 	public void initUDPServer() throws IOException{
 		receiveThread = new Thread() {
 			public void run() {
-				String classify = "";
-				try {
-					serverSocket.receive(receivePacket);
-					message = new String(receivePacket.getData(), 0, receivePacket.getLength());
-					assert(message.length()>=0);
-					
-					messageSplit = message.split(" ");
-			        assert(messageSplit.length>=2);
-			        
-			        classify = messageSplit[0]+" "+messageSplit[1];
-			        switch(classify){
-			        	case "UPDATE PLAYER":
-			        		// message = "UPDATE PLAYER ID name character alive location.x location.y isMoving direction \
-			        		//            power maxCurrentDumplingCount currentDumplingCount "
-			        		// example : "UPDATE PLAYER 3 name2 character TRUE 20 30 FALSE 2 5 6 3
-			        		int playerID = Integer.parseInt(messageSplit[2]);
-			        		Player player = dom.getPlayer(playerID);
-			        		setPlayerGamingInfo(player, messageSplit[5], messageSplit[6], messageSplit[7],
-			        				messageSplit[8], messageSplit[9], messageSplit[10], messageSplit[11],messageSplit[12]);
-			        		break;
-			        		
-			        	case "UPDATE DUMPLING":
-			        		// message = "UPDATE DUMPLING ID location.x location.y power"
-			        		// example : "UPDATE DUMPLING  2 50         100        3
-			        		Dumpling dumpling = setDumplingGamingInfo(messageSplit);
-			        		dom.addDumpling(dumpling);
-			        		break;
-			        		
-			        	case "UPDATE ITEM":
-			        		// message = "UPDATE ITEM ID TYPE location.x location.y"
-			        		// example : "UPDATE ITEM 2  3    20         50
-			        		Item item = setItemGamingInfo(messageSplit);
-			        		dom.addItem(item);
-			        		break;
-			        		
-			        	case "UPDATE TIME":
-			        		// message = "UPDATE TIME time" ( time = ms)
-			        		// example = "UPDATE TIME 90000"
-			        		int intTime = Integer.parseInt(messageSplit[2]);
-			        		String gameTime = intTime / 1000 / 60 + ":" + intTime / 1000 % 60;
-			        		dom.setGameTime(gameTime);
-			        		break;
-			        		
-			        	case "DELETE DUMPLING":
-			        		//dom.removeDumpling(Integer.parseInt(messageSplit[2]));
-			        		break;
-			        		
-			        	case "DELETE ITEM":
-			        		dom.removeItem(Integer.parseInt(messageSplit[2]));
-			        		break;
-			        		
-			        	default:
-			        		break;
-			        }
-			        
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+				while(true){
+					String classify = "";
+					try {
+						serverSocket.receive(receivePacket);
+						message = new String(receivePacket.getData(), 0, receivePacket.getLength());
+						System.out.println(message);
+						assert(message.length()>=0);
+						
+						messageSplit = message.split(" ");
+				        assert(messageSplit.length>=2);
+				        
+				        classify = messageSplit[0]+" "+messageSplit[1];
+				        switch(classify){
+				        	case "UPDATE PLAYER":
+				        		// message = "UPDATE PLAYER ID name character alive location.x location.y isMoving direction \
+				        		//            power maxCurrentDumplingCount currentDumplingCount "
+				        		// example : "UPDATE PLAYER 3 name2 character TRUE 20 30 FALSE 2 5 6 3
+				        		int playerID = Integer.parseInt(messageSplit[2]);
+				        		Player player = dom.getPlayer(playerID);
+				        		setPlayerGamingInfo(player, messageSplit[5], messageSplit[6], messageSplit[7],
+				        				messageSplit[8], messageSplit[9], messageSplit[10], messageSplit[11],messageSplit[12]);
+				        		break;
+				        		
+				        	case "UPDATE DUMPLING":
+				        		// message = "UPDATE DUMPLING ID location.x location.y power"
+				        		// example : "UPDATE DUMPLING  2 50         100        3
+				        		Dumpling dumpling = setDumplingGamingInfo(messageSplit);
+				        		dom.addDumpling(dumpling);
+				        		break;
+				        		
+				        	case "UPDATE ITEM":
+				        		// message = "UPDATE ITEM ID TYPE location.x location.y"
+				        		// example : "UPDATE ITEM 2  3    20         50
+				        		Item item = setItemGamingInfo(messageSplit);
+				        		dom.addItem(item);
+				        		break;
+				        		
+				        	case "UPDATE TIME":
+				        		// message = "UPDATE TIME time" ( time = ms)
+				        		// example = "UPDATE TIME 90000"
+				        		int intTime = Integer.parseInt(messageSplit[2]);
+				        		String gameTime = intTime / 1000 / 60 + ":" + intTime / 1000 % 60;
+				        		dom.setGameTime(gameTime);
+				        		break;
+				        		
+				        	case "DELETE DUMPLING":
+				        		//dom.removeDumpling(Integer.parseInt(messageSplit[2]));
+				        		break;
+				        		
+				        	case "DELETE ITEM":
+				        		dom.removeItem(Integer.parseInt(messageSplit[2]));
+				        		break;
+				        		
+				        	default:
+				        		break;
+				        }
+				        
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 				}
 			}
 		};
-		
 		receiveThread.start();
 	}
 	

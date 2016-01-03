@@ -80,7 +80,7 @@ public class UDPBC {
 						itemInfo = item.toString();
 						
 						if ( item instanceof String){ // TIME
-							itemInfo = itemInfo.substring(1, itemInfo.length()-1);
+							//itemInfo = itemInfo.substring(1, itemInfo.length()-1);
 						}
 						
 						itemInfo = "UPDATE " + itemInfo;
