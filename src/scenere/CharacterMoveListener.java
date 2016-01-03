@@ -26,7 +26,7 @@ public class CharacterMoveListener extends KeyAdapter {
 			down = true;
 			break;
 		case(KeyEvent.VK_SPACE):
-			space = true;
+			space = false;
 			break;
 		default:
 			break;
@@ -50,7 +50,7 @@ public class CharacterMoveListener extends KeyAdapter {
 			down = false;
 			break;
 		case(KeyEvent.VK_SPACE):
-			space = false;
+			space = true;
 			break;
 		default:
 			break;

@@ -1,6 +1,8 @@
 package cdc;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map.Entry;
 import java.util.Queue;
 
 import javax.swing.text.html.HTMLDocument.Iterator;
@@ -16,20 +18,32 @@ public class UpdateThread extends Thread{
 	private int px=0,py=0,dx=0,dy=0;
 	private int time;
 	private boolean gameState;
+	private int dumplingCount;
+	private ArrayList<Integer> removeItems;
 	public void run() {
+		removeItems = new ArrayList<>();
+		
 		while(gameState()){
+			  //java.util.Iterator<Integer> iterate = dumplings.keySet().iterator();
+			
 			for(Object key:dumplings.keySet()){
 				if(dumplings.get(key).getCount()==0){ //while count is count to 0 
 					deleteQueue.add(dumplings.get(key)); //add to delete queue send to udp 
 					checkBombEffecet(dumplings.get(key));//check bomb's effect
-					dumplings.remove(key); //remove it
+					removeItems.add((Integer)key);
+					//dumplings.remove(key); //remove it
 				}
 				else{
 					dumplings.get(key).setCount(dumplings.get(key).getCount()-50); //if count != 0 decrease count
 				}
 			}
 			
+			for(int t:removeItems){
+				dumplings.remove(t);
+				dumplingCount--;
+			}
 			
+			removeItems.clear();
 			
 			for(int i=0;i<4;i++){
 					if(player[i]!=null&&player[i].getIsMoving()){ //while player is moving 
@@ -74,7 +88,7 @@ public class UpdateThread extends Thread{
 			
 			
 			//just a counter
-			time-=50;// time counter
+			//time-=50;// time counter
 			try{
 				UpdateThread.sleep(50);
 			}catch (InterruptedException e) {
@@ -83,6 +97,8 @@ public class UpdateThread extends Thread{
 			}
 		}
 	}
+
+ 
 	public void setDumplings(HashMap<Integer, Dumpling> dumplings){
 		this.dumplings=dumplings;
 	}
@@ -97,6 +113,9 @@ public class UpdateThread extends Thread{
 	}
 	public void setGameState(boolean gameState){
 		this.gameState=gameState;
+	}
+	public void setDumplingCount(int dumplingCount){
+		this.dumplingCount=dumplingCount;
 	}
 	public boolean gameState(){
 		

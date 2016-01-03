@@ -5,6 +5,7 @@ import gameobject.Player;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.Point;
+import java.util.ArrayList;
 
 import scenere.SceneData;
 import dom.DOM;
@@ -71,15 +72,20 @@ public class SPRITERE{
 			paintItem(gra, dom.getItems().get(i).getID());
 		}
 		//paint dumpling
-		for (int i = 0; i < dom.getDumplings().size(); i++) {
-			paintDumpling(gra, dom.getDumplings().get(i).getID());
+		ArrayList<Integer> removeItems  = new ArrayList<>();
+		for (Object key:dom.getDumplings().keySet()) {
+			System.out.println(dom.getDumplings());
+			paintDumpling(gra, dom.getDumplings().get(key).getID());
 			//update dumpling
 			if(stateCounter==70){
-				dom.removeDumpling(dom.getDumplings().get(i).getID());
+				removeItems.add(dom.getDumplings().get(key).getID());
 			}
 			else {
-				dom.getDumpling(dom.getDumplings().get(i).getID()).setState(stateCounter);
+				dom.getDumpling(dom.getDumplings().get(key).getID()).setState(stateCounter);
 			}	
+		}
+		for(int t:removeItems){
+			dom.removeDumpling(t);
 		}
 	}
 	

@@ -4,6 +4,7 @@ import java.awt.Point;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Queue;
+import java.util.Random;
 import java.util.Vector;
 
 import javax.management.Query;
@@ -25,6 +26,7 @@ public class CDC {
 	int time =90000;
 	boolean gameState;
 	int mapType;
+	int tempx,tempy;
 
 	public void addPlayer(Player player, int playerID){
 		this.player[playerID] = player;
@@ -94,9 +96,12 @@ public class CDC {
 	
 	public void placedDumpling(int playerID){
 		dumpling=new Dumpling();
+		//Random random=new Random();
 		player[playerID].setCurrentDumplingCount(player[playerID].getCurrentDumplingCount()+1);
 		dumpling.setPower(player[playerID].getPower());
-		dumpling.location=player[playerID].getPlayerLocation();
+
+		dumpling.location=new Point(player[playerID].location.x, player[playerID].location.y);
+		dumpling.setID(dumplingCount);
 		dumplings.put(dumplingCount, dumpling);
 		dumplingCount++;
 	}
@@ -179,6 +184,7 @@ public class CDC {
 		updateThread.setDeleteQueue(deleteQueue);
 		updateThread.setTime(time);
 		updateThread.setGameState(gameState);
+		updateThread.setDumplingCount(dumplingCount);
 		updateThread.start();
 	}
 	public void startItemPlacedThread(){
