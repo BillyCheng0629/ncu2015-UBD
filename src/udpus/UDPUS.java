@@ -21,6 +21,7 @@ public class UDPUS {
 	private DOM dom;
 	private Timer t;
 	private TimerTask task;
+	private boolean gameState = true;
 	
 	public UDPUS(DOM _DOM) throws SocketException{
 		this.serverSocket = new DatagramSocket(7654);
@@ -37,8 +38,10 @@ public class UDPUS {
 	public void initUDPServer() throws IOException{
 		receiveThread = new Thread() {
 			public void run() {
-				while(true){
+				while(gameState){
 					String classify = "";
+					int aliveCount = 0;
+					
 					try {
 						serverSocket.receive(receivePacket);
 						message = new String(receivePacket.getData(), 0, receivePacket.getLength());
@@ -98,6 +101,15 @@ public class UDPUS {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
+					
+					for (Player player : dom.getPlayers()) {
+						if ( player != null && player.getAlive()) {
+							aliveCount += 1;
+						}
+					}
+					
+					if (aliveCount==1) { gameState = false; 
+					} else { gameState = true; }
 				}
 			}
 		};
