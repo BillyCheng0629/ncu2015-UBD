@@ -42,7 +42,7 @@ public class UDPUS {
 					try {
 						serverSocket.receive(receivePacket);
 						message = new String(receivePacket.getData(), 0, receivePacket.getLength());
-						//System.out.println(message);
+						System.out.println(message);
 						assert(message.length()>=0);
 						
 						messageSplit = message.split(" ");

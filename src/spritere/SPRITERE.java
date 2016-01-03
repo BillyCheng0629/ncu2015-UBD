@@ -87,6 +87,7 @@ public class SPRITERE{
 		for(int t:removeItems){
 			dom.removeDumpling(t);
 		}
+		removeItems.clear();
 	}
 	
 	public void paintPlayer(Graphics gra,int playerID){
@@ -207,9 +208,9 @@ public class SPRITERE{
 			int southBoundry= sceneData.getMapHeight()/100;
 			int eastBoundry = sceneData.getMapWidth()/100;
 			
-			if(south>southBoundry){south=1;}
-			if(east>eastBoundry){east=1;}
-			if(west<0){west=1;}
+			if(south>=southBoundry){south=1;}
+			if(east>=eastBoundry){east=1;}
+			if(west<=0){west=1;}
 			if(north<=0){north=1;}
 			
 			if(mapBit[(dom.getDumpling(dumplingID).location.x/100)][north]==4 && mapBit[(dom.getDumpling(dumplingID).location.x/100)][south]==4){				
