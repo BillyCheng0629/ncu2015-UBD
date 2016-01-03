@@ -1,21 +1,23 @@
 package uim;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import java.awt.event.ActionListener;
-import javax.swing.SwingConstants;
-import java.awt.Font;
-import java.awt.Frame;
-import java.awt.event.ActionEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+
 public class MainPanel extends JPanel {
 	private JLabel gameTitle;
 	private JButton startButton;
 	private JButton exitButton;
 	private ActionListener startActionListener;
 	private ActionListener exitActionListener;
+	private MouseAdapter mouseEnterStartBtListener;
+	private MouseAdapter mouseEnterExitBtListener;
 	private JDialog nameInput;
 	private JFrame frame;
 	
@@ -30,45 +32,58 @@ public class MainPanel extends JPanel {
 			this.setSize(1010,620);
 			setLayout(null);
 			nameInput=new NameInputDialog(frame);
-			gameTitle = new JLabel("Dumpling Man");
-			gameTitle.setFont(new Font("Times New Roman", Font.PLAIN, 39));
-			gameTitle.setHorizontalAlignment(SwingConstants.CENTER);
-			gameTitle.setBounds(89, 114, 343, 81);
+			gameTitle = new JLabel();
+			gameTitle.setIcon(new ImageIcon("./imgs/panelbackground/bgMainPanel.gif"));
+			gameTitle.setBounds(-7, -12, 1010, 620);
 			
-			add(gameTitle);
-			createActionListener();
-			JButton startButton = new JButton("startButton");
-			startButton.addActionListener(startActionListener);
-			startButton.setBounds(500, 366, 202, 66);
+			createMouseListener();
+			startButton = new JButton();
+			startButton.setIcon(new ImageIcon("./imgs/button/btStart.png"));
+			startButton.setBorder(null);
+			//startButton.addActionListener(startActionListener);
+			startButton.addMouseListener(mouseEnterStartBtListener);
+			startButton.setBounds(400, 300, 200, 50);
 			add(startButton);
 			
-			JButton exitButton = new JButton("exitButton");
-			exitButton.addActionListener(exitActionListener);
-			exitButton.setBounds(500, 470, 202, 66);
+			exitButton = new JButton();
+			exitButton.setIcon(new ImageIcon("./imgs/button/btExit.png"));
+			exitButton.setBorder(null);
+			//exitButton.addActionListener(exitActionListener);
+			exitButton.addMouseListener(mouseEnterExitBtListener);;
+			exitButton.setBounds(400, 380, 200, 50);
 			add(exitButton);
 			
-			
-			
+			add(gameTitle);			
 	}
-	private void createActionListener(){
-		startActionListener = new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				// TODO Auto-generated method stub
-				nameInput.setVisible(true);
-				//frame.removeAll();
-				
-			}
+	private void createMouseListener(){
+		mouseEnterStartBtListener = new MouseAdapter() {
+			 @Override
+			 public void mouseEntered(MouseEvent e) {
+				 startButton.setIcon(new ImageIcon("./imgs/button/btStart2.png"));
+			 }
+			 @Override
+			 public void mouseExited(MouseEvent e) {
+				 startButton.setIcon(new ImageIcon("./imgs/button/btStart.png"));
+			 }
+			 @Override
+			 public void mouseClicked(MouseEvent e){
+				 nameInput.setVisible(true);
+			 }
 		};
-		exitActionListener = new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				frame.dispose();
-				
-			}
-		};
+		
+		mouseEnterExitBtListener = new MouseAdapter() {
+			 @Override
+			 public void mouseEntered(MouseEvent e) {
+				 exitButton.setIcon(new ImageIcon("./imgs/button/btExit2.png"));
+			 }
+			 @Override
+			 public void mouseExited(MouseEvent e) {
+				 exitButton.setIcon(new ImageIcon("./imgs/button/btExit.png"));
+			 }
+			 @Override
+			 public void mouseClicked(MouseEvent e){
+				 frame.dispose();
+			 }
+		};	
 	}
 }

@@ -69,6 +69,7 @@ public class MainFrame extends JFrame {
 	}
 	
 	public void getIntoGame(){
+		this.setVisible(false);
 		Container cp = this.getContentPane();
 		cp.removeAll();
 		cp.setLayout(null);
@@ -88,6 +89,7 @@ public class MainFrame extends JFrame {
 		RePaintActionListener repaint = new RePaintActionListener(scenePanel);
 		timer = new Timer(50, repaint);
 		timer.start();
+		this.setVisible(true);
 	}
 	
 }
