@@ -80,6 +80,7 @@ public class TCPCM {
 				
 				break;
 			case 5:
+				Thread.sleep(100);
 				out.println("PLACE,");
 				out.flush();
 
@@ -87,6 +88,9 @@ public class TCPCM {
 				break;
 			}
 		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
