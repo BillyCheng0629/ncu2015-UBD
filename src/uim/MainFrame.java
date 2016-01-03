@@ -91,12 +91,14 @@ public class MainFrame extends JFrame {
 		RePaintActionListener repaint = new RePaintActionListener(scenePanel);
 		timer = new Timer(50, repaint);
 		timer.start();
-		
 		keyTimer = new Timer(50, key ->{
 			scenePanel.moveCharacter();
 			scenePanel.placeBomb();
 		});
 		keyTimer.start();
+
+		this.setVisible(true);
+
 	}
 	
 }
