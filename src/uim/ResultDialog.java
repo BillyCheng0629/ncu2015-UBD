@@ -87,7 +87,13 @@ public class ResultDialog extends JDialog{
 			 public void mouseClicked(MouseEvent e){
 				 if(frame.isHost){
 					 frame.udpbc.closeUPDBC();
+					 
 				 }
+				 ResultDialog.this.dispose();
+					frame.getContentPane().removeAll();
+					frame.getContentPane().add(frame.roomPanel);
+					frame.roomPanel.setBounds(20, 5, 780, 595);
+					frame.repaint();
 					// TODO Auto-generated method stub
 					/*frame.player=new Player(nameInputField.getText());
 					System.out.println(frame.player.getName());
