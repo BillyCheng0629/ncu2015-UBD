@@ -124,10 +124,11 @@ public class TCPCM {
 						String action = msg.split(",")[0];
 						
 						switch (action) {
-						case "SETFRAMEID":
+						case "INITFRAME":
 							playerID = Integer.parseInt(msg.split(",")[1]);
 							frame.player.setID(playerID);
 							frame.dom.updatePlayer(frame.player);
+							frame.roomPanel.initLocal();
 							break;
 						case "ADDPLAYER":
 							String playerName = msg.split(",")[1];
@@ -154,11 +155,11 @@ public class TCPCM {
 							break;
 							
 						case "SETCHARACTER":
-							
-							playerID = Integer.parseInt(msg.split(",")[1]);
-							characterNum = Integer.parseInt(msg.split(",")[2]);
+							characterNum = Integer.parseInt(msg.split(",")[1]);
+							playerID = Integer.parseInt(msg.split(",")[2]);
 							
 							frame.dom.getPlayer(playerID).getCharacter().setCharacterNum(characterNum);;
+							frame.roomPanel.updateRoomInfo();
 							break;
 						case "SETISREADY":
 							playerID = Integer.parseInt(msg.split(",")[2]);

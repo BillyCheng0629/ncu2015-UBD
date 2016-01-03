@@ -1,5 +1,6 @@
 package uim;
 
+import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.GridLayout;
@@ -8,6 +9,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.awt.image.ImageObserver;
 import java.awt.image.ImageProducer;
 import java.io.IOException;
@@ -53,6 +56,8 @@ public class RoomPanel extends JPanel{
 	private ActionListener mapChooseListener;
 	private MainFrame frame;
 	private JPanel gamePanel;
+	private MouseListener changeCharacterListener;
+	private int localCharacterNum = 0;
 	public RoomPanel(MainFrame frame){
 		super();
 		this.frame=frame;
@@ -61,7 +66,7 @@ public class RoomPanel extends JPanel{
 	
 		setLayout(null);
 		createActionListener();
-		ipAddress = new JLabel("Room:140.115.123.123");
+		ipAddress = new JLabel("Dumpling Man");
 		ipAddress.setFont(new Font("新細明體", Font.PLAIN, 24));
 		ipAddress.setHorizontalAlignment(SwingConstants.CENTER);
 		ipAddress.setBounds(31, 30, 217, 37);
@@ -121,7 +126,7 @@ public class RoomPanel extends JPanel{
 			playerInfo[i].setBorder(BorderFactory.createRaisedBevelBorder());
 			
 			playerImg[i] = new JLabel("");
-			playerImg[i].setIcon(new ImageIcon("imgs/character/face/face"+i+".png"));
+			playerImg[i].setIcon(new ImageIcon("imgs/character/face/face"+0+".png"));
 			playerImg[i].setBounds(10, 39, 166, 133);
 			
 			playerInfo[i].add(playerImg[i]);
@@ -316,13 +321,18 @@ public class RoomPanel extends JPanel{
 				} else {
 					playerReadyState[i].setText("");
 				}
-				
+				playerImg[i].setIcon(new ImageIcon("imgs/character/face/face"+player.getCharacter().getCharacterNum()+".png"));
 			}
 		}
 		int mapType = frame.dom.getMapType();
 		mapImage = new ImageIcon("imgs/mapbackgrounds/map"+mapType+".png");
 		mapLabel.setIcon(mapImage);
 		
+	}
+	
+	public void initLocal() {
+		playerInfo[frame.player.getID()].addMouseListener(changeCharacterListener);
+		playerInfo[frame.player.getID()].setBorder(BorderFactory.createLineBorder(Color.MAGENTA));
 	}
 	
 	
@@ -385,6 +395,57 @@ public class RoomPanel extends JPanel{
 				
 			}
 		};
+		
+		changeCharacterListener = new MouseListener() {
+		
+		
+		
+		
+
+			@Override
+			public void mouseReleased(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+				
+				
+			}
+			
+			@Override
+			public void mousePressed(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+				
+			}
+			
+			@Override
+			public void mouseExited(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				// TODO Auto-generated method stub
+				System.out.println("roomPanel changeCharacterListener");
+				localCharacterNum++;
+				if (localCharacterNum>8) localCharacterNum=0;
+				playerImg[frame.player.getID()].setIcon(new ImageIcon("imgs/character/face/face"+localCharacterNum+".png"));
+				try {
+					frame.tcpcm.sendRoomAction("SETCHARACTER,"+localCharacterNum);
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			}
+		};
+		
+		
 	}
 	
 	public boolean detectStart(){

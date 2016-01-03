@@ -32,6 +32,7 @@ public class Player {
 		maxCurrentDumplingCount = 1;
 		currentDumplingCount = 0;
 		character = new Character();
+		character.setCharacterNum(0);
 		power = 1;
 	}
 	

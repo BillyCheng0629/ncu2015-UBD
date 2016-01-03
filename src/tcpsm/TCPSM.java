@@ -244,7 +244,7 @@ class ServerThread implements Runnable {
 						int characterNum = Integer.parseInt(msg.split(",")[2]);
 						boolean isReady = Integer.parseInt(msg.split(",")[3])==1;
 						
-						sendMessage("SETFRAMEID,"+playerID);
+						sendMessage("INITFRAME,"+playerID);
 						
 						playerName = msg.split(",")[1];
 						player = new Player(playerName);
@@ -288,7 +288,7 @@ class ServerThread implements Runnable {
 						
 					case "SETCHARACTER":
 						characterNum = Integer.parseInt(msg.split(",")[1]);
-						cdc.getPlayer(playerID).getCharacter().setCharacterNum(characterNum);;;
+						cdc.getPlayer(playerID).getCharacter().setCharacterNum(characterNum);
 						broadcast(msg+","+playerID);
 						break;
 					/*
