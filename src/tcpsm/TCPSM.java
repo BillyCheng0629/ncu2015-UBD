@@ -33,6 +33,7 @@ public class TCPSM {
 	private PrintStream out = null;
 	private ArrayList<Integer> aList;
 	
+	
 	public TCPSM() {
 		
 	}
@@ -42,9 +43,7 @@ public class TCPSM {
 		this.listenPort = listenPort;
 	}
 	
-	private void assertPlayerID() {
-		
-	}
+
 
 	public void initTCPserver() {
 		t = new Thread()
@@ -69,6 +68,7 @@ public class TCPSM {
 	    		count = 0;
 	    		
 	    		try {
+	    			//serverSocket = new S
 	    			serverSocket = new ServerSocket(listenPort);
 	    		} catch (IOException e1) {
 	    			// TODO Auto-generated catch block
@@ -83,7 +83,9 @@ public class TCPSM {
 	    			try {
 	    				//System.out.println("wait to client....");
 	    				
-	    				
+	    				while(clientIPTable.size()>=4) {
+	    					//lock
+	    				}
 	    				clientSocket = serverSocket.accept();
 	    				
 	    				
@@ -151,6 +153,7 @@ class ServerThread implements Runnable {
 	int clientNo;
 	CDC cdc;
 	
+	
 	Vector<String> clientIPTable;
 	Vector<Socket> clientSocketTable;
 	Vector<Integer> playerIDTable;
@@ -172,8 +175,7 @@ class ServerThread implements Runnable {
 		this.freePlayerIDTable = freePlayerIDTable;
 
 	}
-	
-	
+
 	
 	private void sendMessage(String msg) {
 		try {
@@ -202,6 +204,25 @@ class ServerThread implements Runnable {
 			}
 			
 		}
+	}
+	
+	
+	private void handleDisconnect() {
+		broadcast("REMOVEPLAYER,"+playerID);
+		int index = 0;
+		for (int i=0;i<playerIDTable.size();i++) {
+			if (playerID == playerIDTable.get(i)) {
+				index =i;
+				break;
+			}
+		}
+		System.out.println(clientSocket.getRemoteSocketAddress() + " exit");
+		
+		clientIPTable.remove(index);
+		clientSocketTable.remove(index);
+		freePlayerIDTable.add(playerIDTable.get(index));
+		playerIDTable.remove(index);
+		
 	}
 
 	@Override
@@ -275,6 +296,7 @@ class ServerThread implements Runnable {
 						sendMessage("SETMAP,"+cdc.getMapType());
 						
 						playerIDTable.add(playerID);
+						
 						cdc.addPlayer(player, playerID);
 						break;
 						
@@ -340,7 +362,8 @@ class ServerThread implements Runnable {
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				
-				e.printStackTrace();
+				//e.printStackTrace();
+				handleDisconnect();
 				break;
 			}
 		}

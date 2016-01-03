@@ -8,6 +8,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintStream;
+import java.net.InetSocketAddress;
 import java.net.Socket;
 
 import javax.print.event.PrintJobAdapter;
@@ -51,8 +52,10 @@ public class TCPCM {
 		
 
 		try {
+			//Socket socket = new Socket();
+			//socket.connect(new InetSocketAddress(ip, serverPort), 1000);
+			
 			socket = new Socket(ip, serverPort);
-			//socket = new So
 			return true;
 		} catch (IOException e) {
 			System.out.println("Error:"+e.getMessage());
@@ -151,6 +154,10 @@ public class TCPCM {
 							frame.dom.updatePlayer(player);
 							
 							System.out.println("receieve add player "+playerID);
+							frame.roomPanel.updateRoomInfo();
+							break;
+						case "REMOVEPLAYER":
+							frame.dom.removePlayer(Integer.parseInt(msgArray[1]));
 							frame.roomPanel.updateRoomInfo();
 							break;
 						case "SETMAP":
