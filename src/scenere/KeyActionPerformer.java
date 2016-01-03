@@ -41,8 +41,8 @@ public class KeyActionPerformer {
 	
 	public void placeBomb(){
 		if(KeyListener.space){
-
 			clientToServer.inputAction(5);
+			KeyListener.space = false;
 		}
 	}
 }
