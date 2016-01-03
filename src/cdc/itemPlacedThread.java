@@ -50,7 +50,9 @@ public class itemPlacedThread extends Thread{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}	
-		}	
+	
+		}
+		
 	}
 	public void setItems(HashMap<Integer, Item> items){
 		itemID=0;

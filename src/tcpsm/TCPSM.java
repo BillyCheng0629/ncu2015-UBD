@@ -342,30 +342,29 @@ class ServerThread implements Runnable {
 						broadcast(msg);
 						Thread gameMoniterThread;
 						gameMoniterThread = new Thread() {
-							
-							
 							@Override
 							public void run() {
 								// TODO Auto-generated method stub
 								while(true) {
-									/*
 									
+									if (!cdc.getGameState()) {
 										
-									
-									if (cdc.getGameState()) {
 										broadcast("END");
 										break;
-									}*/
-									
-									
+									}
+									try {
+										Thread.sleep(50);
+									} catch (InterruptedException e) {
+										// TODO Auto-generated catch block
+										e.printStackTrace();
+									}
 								}
 							}
-							
 						};
-						//
+						
+						gameMoniterThread.start();
 						break;
-					
-	
+
 					default:
 						
 						break;

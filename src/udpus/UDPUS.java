@@ -16,7 +16,7 @@ public class UDPUS {
 	private DatagramSocket serverSocket;
 	public DatagramPacket receivePacket;
 	private String message;
-	private Thread receiveThread;
+	public Thread receiveThread;
 	private String[] messageSplit;
 	private DOM dom;
 	private Timer t;
@@ -139,8 +139,3 @@ public class UDPUS {
 	}
 }
 
-class ReceiverThread extends Thread {
-	
-	
-	
-}
