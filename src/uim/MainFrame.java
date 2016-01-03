@@ -27,6 +27,7 @@ public class MainFrame extends JFrame {
 	private MainPanel mainPanel;
 	public RoomPanel roomPanel;
 	private Timer timer;
+	private Timer keyTimer;
 	boolean isHost = false;
 	
 	public Player player = new Player();
@@ -69,6 +70,7 @@ public class MainFrame extends JFrame {
 	}
 	
 	public void getIntoGame(){
+		this.setVisible(false);
 		Container cp = this.getContentPane();
 		cp.removeAll();
 		cp.setLayout(null);
@@ -83,11 +85,18 @@ public class MainFrame extends JFrame {
 		KeyActionPerformer performer = new KeyActionPerformer(sceneData, keyListener, tcpcm);
 		scenePanel.setKeyActionPerformer(performer);
 		cp.add(scenePanel);
+		this.setVisible(true);
 		cp.repaint();
 		
 		RePaintActionListener repaint = new RePaintActionListener(scenePanel);
 		timer = new Timer(50, repaint);
 		timer.start();
+		
+		keyTimer = new Timer(50, key ->{
+			scenePanel.moveCharacter();
+			scenePanel.placeBomb();
+		});
+		keyTimer.start();
 	}
 	
 }

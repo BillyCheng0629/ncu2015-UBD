@@ -128,6 +128,7 @@ public class TCPCM {
 							playerID = Integer.parseInt(msg.split(",")[1]);
 							frame.player.setID(playerID);
 							frame.dom.updatePlayer(frame.player);
+							frame.dom.setClientPlayerID(playerID);
 							break;
 						case "ADDPLAYER":
 							String playerName = msg.split(",")[1];

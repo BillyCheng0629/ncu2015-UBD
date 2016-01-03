@@ -67,6 +67,7 @@ public class ScenePanel extends JPanel{
 	
 	public void setSceneData(SceneData scenedata){
 		this.scenedata = scenedata;
+		this.scenedata.setPlayer(dom.getPlayer(dom.getClientPlayerID()));
 		spritere = new SPRITERE(this.scenedata);
 	}
 
