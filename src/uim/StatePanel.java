@@ -105,7 +105,7 @@ public class StatePanel extends JPanel {
 		for(int i=0;i<4;i++){
 			if(player[i]!=null){
 				playerState[i].setText((player[i].getAlive()?"Live":"Dead"));
-				if(playerState[i].getText().equalsIgnoreCase("Dead")){
+				if(!player[i].getAlive()){
 					playerState[i].setForeground(Color.RED);
 				}
 			}
