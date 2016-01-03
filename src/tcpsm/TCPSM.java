@@ -305,6 +305,17 @@ class ServerThread implements Runnable {
 						broadcast(msg+","+playerID);
 						break;
 					case "START":
+						//handle character ID user chose is 0
+						for (int i = 0; i < playerIDTable.size(); i++) {
+							if(cdc.getPlayer(i).getCharacter().getCharacterNum()==0){
+								Random ran = new Random();
+								int ranCh = ran.nextInt(10)+1;
+								cdc.getPlayer(i).getCharacter().setCharacterNum(ranCh);
+								broadcast("SETCHARACTER,"+ranCh+","+playerIDTable.get(i));
+								Thread.sleep(200);
+							}
+						}
+						
 						broadcast(msg);
 						Thread gameMoniterThread;
 						gameMoniterThread = new Thread() {
@@ -341,6 +352,9 @@ class ServerThread implements Runnable {
 				
 				e.printStackTrace();
 				break;
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
 		}
 	}

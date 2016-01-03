@@ -1,6 +1,7 @@
 package uim;
 
 import java.awt.Color;
+import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.GridLayout;
@@ -9,6 +10,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.image.ImageObserver;
@@ -36,19 +38,17 @@ public class RoomPanel extends JPanel{
 	private JButton startButton;
 	private JButton readyButton;
 	private JButton exitButton;
-	private ActionListener startListener;
-	private ActionListener readyListener;
-	private ActionListener exitListener;
-	private JLabel playe1Name,playe2Name,playe3Name,playe4Name;
+	private boolean isReady;
+	private MouseListener startBtListener;
+	private MouseListener readyBtListener;
+	private MouseListener exitBtListener;
 	private JLabel playeName[] = new JLabel[4];
 	private JComboBox mapComboBox;
 	private ImageIcon mapImage;
 	private JLabel mapLabel;
-	private JLabel ipAddress;
+	private JLabel playerLabel;
 	private JPanel mapPanel;
-	private JPanel playerInfo1,playerInfo2,playerInfo3,playerInfo4;
 	private JPanel playerInfo[] = new JPanel[4];
-	private JLabel player1Img,player2Img,player3Img,player4Img;
 	private JLabel playerImg[] = new JLabel[4];
 	private JLabel playerReadyState[] = new JLabel[4];
 	private JLabel OwnerLabel;
@@ -58,6 +58,8 @@ public class RoomPanel extends JPanel{
 	private JPanel gamePanel;
 	private MouseListener changeCharacterListener;
 	private int localCharacterNum = 0;
+	private JLabel bgLabel,g8face;
+	
 	public RoomPanel(MainFrame frame){
 		super();
 		this.frame=frame;
@@ -66,26 +68,22 @@ public class RoomPanel extends JPanel{
 	
 		setLayout(null);
 		createActionListener();
-		ipAddress = new JLabel("Dumpling Man");
-		ipAddress.setFont(new Font("新細明體", Font.PLAIN, 24));
-		ipAddress.setHorizontalAlignment(SwingConstants.CENTER);
-		ipAddress.setBounds(31, 30, 217, 37);
-		add(ipAddress);
+		
+		bgLabel = new JLabel();
+		bgLabel.setIcon(new ImageIcon("./imgs/panelbackground/bgRoomPanel.gif"));
+		bgLabel.setBounds(0,0,1010,620);
 		
 		mapImage=new ImageIcon("imgs/mapbackgrounds/map0.png");
 		mapLabel = new JLabel();
 		mapLabel.setIcon(mapImage);
-		mapLabel.setBounds(5, 5,150,150);
-		
-		
+		mapLabel.setBounds(5, 5,330,210);
+				
 		mapComboBox = new JComboBox();
 		
-		String mapName[] = {"陽全酒家", "金魚家", "石頭", "沙漠"};
+		String mapName[] = {"Ice", "Cake", "Desert", "Lego"};
 		mapComboBox.setModel(new DefaultComboBoxModel(mapName));
 		
-		
-		mapComboBox.addItemListener(new ItemListener() {
-			
+		mapComboBox.addItemListener(new ItemListener() {			
 			@Override
 			public void itemStateChanged(ItemEvent e) {
 				// TODO Auto-generated method stub
@@ -93,7 +91,7 @@ public class RoomPanel extends JPanel{
 					System.out.println("U are selecting map .");
 					for(int i=0;i<mapName.length;i++) {
 						if(mapComboBox.getSelectedItem()==mapName[i]){
-							mapLabel.setIcon(new ImageIcon("imgs/mapbackgrounds/map"+i+".png"));
+							mapLabel.setIcon(new ImageIcon("imgs/panelbackground/cbMap"+i+".png"));
 							try {
 								frame.tcpcm.sendRoomAction("SETMAP," + i);
 							} catch (IOException e1) {
@@ -108,18 +106,17 @@ public class RoomPanel extends JPanel{
 		
 		// set map ComboBox
 		mapComboBox.setToolTipText("Map");
-		mapComboBox.setBounds(542, 96, 157, 21);
-		add(mapComboBox);
+		mapComboBox.setFont(new Font("Microsoft JhengHei", Font.BOLD, 25));
+		mapComboBox.setBounds(542, 96, 330, 50);
+		
 		
 		//set mapPanel
 		mapPanel = new JPanel();
-		mapPanel.setBounds(542, 127, 157, 139);
-		add(mapPanel);
-		mapPanel.setLayout(null);
+		mapPanel.setBounds(542, 160, 350, 220);
+		mapPanel.setBackground(Color.BLACK);
+		mapPanel.setLayout(new FlowLayout());
 		mapPanel.add(mapLabel);
-		
-		
-		
+	
 		for(int i=0;i<playerInfo.length;i++) {
 			playerInfo[i] = new JPanel();
 			playerInfo[i].setLayout(null);
@@ -127,14 +124,15 @@ public class RoomPanel extends JPanel{
 			
 			playerImg[i] = new JLabel("");
 			playerImg[i].setIcon(new ImageIcon("imgs/character/face/face"+0+".png"));
-			playerImg[i].setBounds(10, 39, 166, 133);
+			playerImg[i].setBounds(45, 40, 100, 100);
 			
 			playerInfo[i].add(playerImg[i]);
 			
 			playeName[i] = new JLabel();
-			
-			playeName[i].setFont(new Font(Font.DIALOG_INPUT, Font.PLAIN, 18));
-			playeName[i].setBounds(10, 10, 166, 19);
+			playeName[i].setBounds(10, 5, 180, 30);
+			playeName[i].setFont(new Font("Microsoft JhengHei", Font.BOLD, 25));
+			playeName[i].setHorizontalAlignment(JLabel.CENTER);
+
 			
 			playerInfo[i].add(playeName[i]);
 			
@@ -143,168 +141,63 @@ public class RoomPanel extends JPanel{
 				playerReadyState[i].setText("Ready");
 			}
 			
-			playerReadyState[i].setBounds(10,105, 120,120);
+			playerReadyState[i].setBounds(10,140, 180, 40);
+			playerReadyState[i].setFont(new Font("Microsoft JhengHei", Font.BOLD, 30));
+			playerReadyState[i].setHorizontalAlignment(JLabel.CENTER);
 			playerInfo[i].add(playerReadyState[i]);
 			
-		
+			playerLabel = new JLabel();
+			playerLabel.setIcon(new ImageIcon("./imgs/panelbackground/bgPlayer.png"));
+			playerLabel.setBounds(5,5,190,190);
+			playerInfo[i].add(playerLabel);
+			playerInfo[i].setOpaque(false);
+			
 		}
 		
-		
-		
 		//set player place
-		playerInfo[0].setBounds(31, 84, 186, 182);
-		playerInfo[1].setBounds(268, 84, 186, 182);
-		playerInfo[2].setBounds(31, 303, 186, 182);	
-		playerInfo[3].setBounds(268, 303, 186, 182);
+		playerInfo[0].setBounds(50, 150, 200, 200);
+		playerInfo[1].setBounds(270, 150, 200, 200);
+		playerInfo[2].setBounds(50, 360, 200, 200);	
+		playerInfo[3].setBounds(270, 360, 200, 200);
 		
 		for(int i=0;i<playerInfo.length;i++) {
 			add(playerInfo[i]);
 		}
-		
-		
-		/*
-		mapImage=new ImageIcon("imgs/mapbackgrounds/cake.png");
-		mapLabel = new JLabel();
-		mapLabel.setBounds(5, 5,150,150);
-		
-		mapComboBox = new JComboBox();
-		mapLabel.setIcon(new ImageIcon("imgs/mapbackgrounds/cake.png"));
-		mapComboBox.setModel(new DefaultComboBoxModel(new String[] {"\u967D\u5168\u9152\u5BB6", "\u5DE5\u4E94", "\u91D1\u9B5A\u5BB6"}));
-		
-		
-		
-		
-		mapComboBox.addItemListener(new ItemListener() {
-			
-			@Override
-			public void itemStateChanged(ItemEvent e) {
-				// TODO Auto-generated method stub
-				if(e.getStateChange()==ItemEvent.SELECTED){
-					System.out.println("U are selecting map .");
-					if(mapComboBox.getSelectedItem()=="\u967D\u5168\u9152\u5BB6"){
-						
-						mapLabel.setIcon(new ImageIcon("imgs/mapbackgrounds/cake.png"));
-						
-					}
-					if(mapComboBox.getSelectedItem()=="\u5DE5\u4E94"){
-						mapLabel.setIcon(new ImageIcon("imgs/mapbackgrounds/desert.png"));
-						System.out.println("select aaaaaaaaa");
-					}
-					if(mapComboBox.getSelectedItem()=="\u91D1\u9B5A\u5BB6"){
-						mapLabel.setIcon(new ImageIcon("imgs/mapbackgrounds/ice.png"));
-					}
-				}
-			}
-		});
-		
-		mapComboBox.setToolTipText("Map");
-		mapComboBox.setBounds(542, 96, 157, 21);
-		add(mapComboBox);
-	
-		mapPanel = new JPanel();
-		mapPanel.setBounds(542, 127, 157, 139);
-		add(mapPanel);
-		mapPanel.setLayout(null);
-//		add()
-		
-		
-		
-		
-		
-		
-		mapPanel.add(mapLabel);
-		
-		
-		
-		playerInfo1 = new JPanel();
-		playerInfo1.setBounds(31, 84, 186, 182);
-		
-		playerInfo1.setLayout(null);
-		
-		player1Img = new JLabel("");
-		player1Img.setIcon(new ImageIcon("imgs/character/face/face0.png"));
-		player1Img.setBounds(10, 39, 166, 133);
-		playerInfo1.add(player1Img);
-		
-		playe1Name = new JLabel("\u897F\u8857\u901F\u5EA6\u738B");
-		playe1Name.setFont(new Font("QQQ", Font.PLAIN, 18));
-		playe1Name.setBounds(10, 10, 166, 19);
-		playerInfo1.add(playe1Name);
-		
-		OwnerLabel = new JLabel("");
-		OwnerLabel.setIcon(new ImageIcon("C:\\Users\\aker\\workspace\\PrototypeA\\star-icon (1).png"));
-		OwnerLabel.setBounds(148, 0, 38, 30);
-		playerInfo1.add(OwnerLabel);
-		add(playerInfo1);
-		
-		playerInfo2 = new JPanel();
-		playerInfo2.setLayout(null);
-		playerInfo2.setBounds(268, 84, 186, 182);
-		
-		
-		player1Img = new JLabel("");
-		player1Img.setIcon(new ImageIcon("imgs/character/face/face0.png"));
-		player1Img.setBounds(10, 39, 166, 133);
-		playerInfo2.add(player1Img);
-		
-		playe2Name= new JLabel("\u5B85\u7DB8");
-		playe2Name.setFont(new Font("·s²Ó©úÅé", Font.PLAIN, 18));
-		playe2Name.setBounds(10, 10, 166, 19);
-		playerInfo2.add(playe2Name);
-		add(playerInfo2);
-		
-		playerInfo3 = new JPanel();
-		playerInfo3.setLayout(null);
-		playerInfo3.setBounds(31, 303, 186, 182);
-		add(playerInfo3);
-		
-		player3Img = new JLabel("");
-		player3Img.setIcon(new ImageIcon("imgs/character/face/face0.png"));
-		player3Img.setBounds(10, 39, 166, 133);
-		playerInfo3.add(player3Img);
-		
-		playe3Name = new JLabel("Yu-Bing");
-		playe3Name.setFont(new Font("·s²Ó©úÅé", Font.PLAIN, 18));
-		playe3Name.setBounds(10, 10, 166, 19);
-		playerInfo3.add(playe3Name);
-		
-		playerInfo4 = new JPanel();
-		playerInfo4.setLayout(null);
-		playerInfo4.setBounds(268, 303, 186, 182);
-		add(playerInfo4);
-		
-		player4Img = new JLabel("");
-		player4Img.setIcon(new ImageIcon("imgs/character/face/face0.png"));
-		player4Img.setBounds(10, 39, 166, 133);
-		playerInfo4.add(player4Img);
-		
-		playe4Name = new JLabel("YaFishPhD");
-		playe4Name.setFont(new Font("·s²Ó©úÅé", Font.PLAIN, 18));
-		playe4Name.setBounds(10, 10, 166, 19);
-		playerInfo4.add(playe4Name);
-		*/
+
+		isReady = false;
 		
 		if (frame.isHost){
-			startButton = new JButton("Start");
-			startButton.addActionListener( startListener);
-			
-			startButton.setBounds(542, 350, 157, 54);
+			startButton = new JButton();
+			startButton.setIcon(new ImageIcon("./imgs/button/btRoomStart.png"));
+			startButton.addMouseListener(startBtListener);
+			startButton.setBounds(542, 420, 200, 50);		
 			add(startButton);
 		} else {
 			readyButton = new JButton("Ready");
-			readyButton.addActionListener( readyListener);
-			
-			readyButton.setBounds(542, 350, 157, 54);
+			readyButton.setIcon(new ImageIcon("./imgs/button/btRoomReady.png"));
+			readyButton.addMouseListener( readyBtListener);			
+			readyButton.setBounds(542, 420, 200, 50);
 			add(readyButton);
 		}
 		
 		
 		
-		exitButton = new JButton("Exit");
-		exitButton.addActionListener(exitListener);
-		exitButton.setBounds(542, 431, 157, 54);
+		exitButton = new JButton();
+		exitButton.setIcon(new ImageIcon("./imgs/button/btRoomExit.png"));
+		exitButton.addMouseListener(exitBtListener);
+		exitButton.setBounds(542, 500, 200, 50);
+		exitButton.setVisible(true);
 		add(exitButton);
 		
+		g8face = new JLabel();
+		g8face.setIcon(new ImageIcon("./imgs/panelbackground/g8face.gif"));
+		g8face.setBounds(780, 390, 180, 180);
+		
+		add(mapComboBox);
+		add(mapPanel);
+		add(g8face);
+		bgLabel.setVisible(true);
+		add(bgLabel);
 		
 	}
 	
@@ -325,22 +218,30 @@ public class RoomPanel extends JPanel{
 			}
 		}
 		int mapType = frame.dom.getMapType();
-		mapImage = new ImageIcon("imgs/mapbackgrounds/map"+mapType+".png");
+		mapImage = new ImageIcon("imgs/panelbackground/cbMap"+mapType+".jpg");
 		mapLabel.setIcon(mapImage);
 		
 	}
 	
 	public void initLocal() {
 		playerInfo[frame.player.getID()].addMouseListener(changeCharacterListener);
-		playerInfo[frame.player.getID()].setBorder(BorderFactory.createLineBorder(Color.MAGENTA));
-	}
-	
+		playerInfo[frame.player.getID()].setBorder(BorderFactory.createLineBorder(Color.MAGENTA, 2, true));
+	}	
 	
 	private void createActionListener(){
-		startListener = new ActionListener() {
+		startBtListener = new MouseAdapter() {
+			@Override
+			public void mouseExited(MouseEvent e) {
+				startButton.setIcon(new ImageIcon("./imgs/button/btRoomStart.png"));
+			}
 			
 			@Override
-			public void actionPerformed(ActionEvent e) {
+			public void mouseEntered(MouseEvent e) {
+				startButton.setIcon(new ImageIcon("./imgs/button/btRoomStart2.png"));
+			}
+			
+			@Override
+			public void mouseClicked(MouseEvent e) {
 				if (detectStart()){
 					try {
 						frame.cdc.initGame();
@@ -354,16 +255,34 @@ public class RoomPanel extends JPanel{
 					} catch(Exception e1){
 						e1.printStackTrace();
 					}
-				}
-
+				}			
 			}
 		};
 		
-		readyListener = new ActionListener() {
+		readyBtListener = new MouseAdapter() {
+			@Override
+			public void mouseExited(MouseEvent e) {
+				if (isReady==false){
+					readyButton.setIcon(new ImageIcon("./imgs/button/btRoomReady.png"));
+				}
+				else {
+					readyButton.setIcon(new ImageIcon("./imgs/button/btRoomNotReady.png"));
+				}
+			}
 			
 			@Override
-			public void actionPerformed(ActionEvent e) {
-				if (readyButton.getText() == "Ready"){
+			public void mouseEntered(MouseEvent e) {
+				if (isReady==false){
+					readyButton.setIcon(new ImageIcon("./imgs/button/btRoomReady2.png"));
+				}
+				else {
+					readyButton.setIcon(new ImageIcon("./imgs/button/btRoomNotReady2.png"));
+				}
+			}
+			
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				if (isReady==false){
 					playerReadyState[frame.player.getID()].setText("Ready");
 					try {
 						frame.tcpcm.sendRoomAction("SETISREADY,1");
@@ -371,7 +290,8 @@ public class RoomPanel extends JPanel{
 						// TODO Auto-generated catch block
 						e1.printStackTrace();
 					}	
-					readyButton.setText("Not Ready");
+					isReady = true;
+					readyButton.setIcon(new ImageIcon("./imgs/button/btRoomNotReady.png"));
 				} else {
 					playerReadyState[frame.player.getID()].setText("");
 					try {
@@ -380,59 +300,32 @@ public class RoomPanel extends JPanel{
 						// TODO Auto-generated catch block
 						e1.printStackTrace();
 					}	
-					readyButton.setText("Ready");
+					isReady = false;
+					readyButton.setIcon(new ImageIcon("./imgs/button/btRoomReady.png"));
 				}
-							
-
 			}
 		};
 		
-		exitListener = new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				
-				
-			}
-		};
-		
-		changeCharacterListener = new MouseListener() {
-		
-		
-		
-		
-
-			@Override
-			public void mouseReleased(MouseEvent e) {
-				// TODO Auto-generated method stub
-				
-				
-				
-			}
-			
-			@Override
-			public void mousePressed(MouseEvent e) {
-				// TODO Auto-generated method stub
-				
-				
-			}
-			
+		exitBtListener = new MouseAdapter() {
 			@Override
 			public void mouseExited(MouseEvent e) {
-				// TODO Auto-generated method stub
-				
+				exitButton.setIcon(new ImageIcon("./imgs/button/btRoomExit.png"));
 			}
 			
 			@Override
 			public void mouseEntered(MouseEvent e) {
-				// TODO Auto-generated method stub
-				
+				exitButton.setIcon(new ImageIcon("./imgs/button/btRoomExit2.png"));
 			}
 			
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				// TODO Auto-generated method stub
+				
+			}
+		};
+		
+		changeCharacterListener = new MouseAdapter() {			
+			@Override
+			public void mouseClicked(MouseEvent e) {
 				System.out.println("roomPanel changeCharacterListener");
 				localCharacterNum++;
 				if (localCharacterNum>8) localCharacterNum=0;
