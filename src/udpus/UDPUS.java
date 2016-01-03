@@ -16,6 +16,7 @@ public class UDPUS {
 	private DatagramSocket serverSocket;
 	public DatagramPacket receivePacket;
 	private String message;
+	private Thread receiveThread;
 	private String[] messageSplit;
 	private DOM dom;
 	private Timer t;
@@ -34,9 +35,7 @@ public class UDPUS {
 	}
 	
 	public void initUDPServer() throws IOException{
-		t = new Timer();
-		task = new TimerTask(){
-			@Override
+		receiveThread = new Thread() {
 			public void run() {
 				String classify = "";
 				try {
@@ -99,7 +98,8 @@ public class UDPUS {
 				}
 			}
 		};
-		t.scheduleAtFixedRate(task, 0, 10);
+		
+		receiveThread.start();
 	}
 	
 	public void setPlayerGamingInfo(Player player, String alive, String locX, String locY, String isMoving, String dir, 
@@ -135,4 +135,10 @@ public class UDPUS {
 	public void closeUDPUS(){
 		this.serverSocket.close();
 	}
+}
+
+class ReceiverThread extends Thread {
+	
+	
+	
 }
