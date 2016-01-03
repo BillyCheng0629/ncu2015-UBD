@@ -33,6 +33,7 @@ public class TCPSM {
 	private PrintStream out = null;
 	private ArrayList<Integer> aList;
 	
+	
 	public TCPSM() {
 		
 	}
@@ -42,9 +43,7 @@ public class TCPSM {
 		this.listenPort = listenPort;
 	}
 	
-	private void assertPlayerID() {
-		
-	}
+
 
 	public void initTCPserver() {
 		t = new Thread()
@@ -69,6 +68,7 @@ public class TCPSM {
 	    		count = 0;
 	    		
 	    		try {
+	    			//serverSocket = new S
 	    			serverSocket = new ServerSocket(listenPort);
 	    		} catch (IOException e1) {
 	    			// TODO Auto-generated catch block
@@ -83,7 +83,9 @@ public class TCPSM {
 	    			try {
 	    				//System.out.println("wait to client....");
 	    				
-	    				
+	    				while(clientIPTable.size()>=4) {
+	    					//lock
+	    				}
 	    				clientSocket = serverSocket.accept();
 	    				
 	    				
@@ -151,6 +153,7 @@ class ServerThread implements Runnable {
 	int clientNo;
 	CDC cdc;
 	
+	
 	Vector<String> clientIPTable;
 	Vector<Socket> clientSocketTable;
 	Vector<Integer> playerIDTable;
@@ -172,8 +175,7 @@ class ServerThread implements Runnable {
 		this.freePlayerIDTable = freePlayerIDTable;
 
 	}
-	
-	
+
 	
 	private void sendMessage(String msg) {
 		try {
@@ -203,6 +205,25 @@ class ServerThread implements Runnable {
 			
 		}
 	}
+	
+	
+	private void handleDisconnect() {
+		broadcast("REMOVEPLAYER,"+playerID);
+		int index = 0;
+		for (int i=0;i<playerIDTable.size();i++) {
+			if (playerID == playerIDTable.get(i)) {
+				index =i;
+				break;
+			}
+		}
+		System.out.println(clientSocket.getRemoteSocketAddress() + " exit");
+		
+		clientIPTable.remove(index);
+		clientSocketTable.remove(index);
+		freePlayerIDTable.add(playerIDTable.get(index));
+		playerIDTable.remove(index);
+		
+	}
 
 	@Override
 	public void run() {
@@ -217,9 +238,7 @@ class ServerThread implements Runnable {
 				in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
 
 				String msg = in.readLine();
-				
-				String action = msg.split(",")[0];
-				
+				String[] msgArray = msg.split(",");
 				
 				
 				
@@ -227,9 +246,12 @@ class ServerThread implements Runnable {
 				
 				
 				
-				switch (action) {
+				
+				
+				
+				switch (msgArray[0]) {
 					case "MOVE":
-						int moveCode = Integer.parseInt(msg.split(",")[1]);
+						int moveCode = Integer.parseInt(msgArray[1]);
 						
 						//System.out.println("move code: "+ moveCode);
 						cdc.updateDirection(playerID, moveCode);
@@ -241,12 +263,12 @@ class ServerThread implements Runnable {
 						System.out.println("server recieve ADDPLAYER sucess");
 						playerID = freePlayerIDTable.get(freePlayerIDTable.size()-1);
 						freePlayerIDTable.remove(freePlayerIDTable.size()-1);
-						int characterNum = Integer.parseInt(msg.split(",")[2]);
-						boolean isReady = Integer.parseInt(msg.split(",")[3])==1;
+						int characterNum = Integer.parseInt(msgArray[2]);
+						boolean isReady = Integer.parseInt(msgArray[3])==1;
 						
 						sendMessage("INITFRAME,"+playerID);
 						
-						playerName = msg.split(",")[1];
+						playerName = msgArray[1];
 						player = new Player(playerName);
 						player.setID(playerID);
 						player.getCharacter().setCharacterNum(characterNum);
@@ -274,22 +296,23 @@ class ServerThread implements Runnable {
 						sendMessage("SETMAP,"+cdc.getMapType());
 						
 						playerIDTable.add(playerID);
+						
 						cdc.addPlayer(player, playerID);
 						break;
 						
 					case "SETNAME":
-						String name = msg.split(",")[1];
+						String name = msgArray[1];
 						cdc.getPlayer(clientNo).setName(name);
 						break;
 						
 					case "SETMAP":
-						int mapType = Integer.parseInt(msg.split(",")[1]);
+						int mapType = Integer.parseInt(msgArray[1]);
 						cdc.setMapType(mapType);
 						broadcast(msg);
 						break;
 						
 					case "SETCHARACTER":
-						characterNum = Integer.parseInt(msg.split(",")[1]);
+						characterNum = Integer.parseInt(msgArray[1]);
 						cdc.getPlayer(playerID).getCharacter().setCharacterNum(characterNum);
 						broadcast(msg+","+playerID);
 						break;
@@ -300,7 +323,7 @@ class ServerThread implements Runnable {
 						broadcast(msg+","+playerID);
 						break;*/
 					case "SETISREADY":
-						isReady = Integer.parseInt(msg.split(",")[1])==1;
+						isReady = Integer.parseInt(msgArray[1])==1;
 						cdc.getPlayer(playerID).setIsReady(isReady);
 						broadcast(msg+","+playerID);
 						break;
@@ -350,7 +373,8 @@ class ServerThread implements Runnable {
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				
-				e.printStackTrace();
+				//e.printStackTrace();
+				handleDisconnect();
 				break;
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block

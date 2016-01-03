@@ -27,6 +27,10 @@ public class DOM {
 		this.player[player.getID()] = player;
 	}
 	
+	public void removePlayer(int playerID) {
+		player[playerID] = null;
+	}
+	
 	public Player getPlayer(int playerID){
 		return player[playerID];
 	}

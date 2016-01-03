@@ -100,6 +100,7 @@ public class CreateRoomPanel extends JPanel {
 					//connect to server
 					frame.tcpcm = new TCPCM(frame);
 					frame.tcpcm.connectServer("127.0.0.1");
+
 					frame.tcpcm.startRecieveMessage();
 					try {
 						Thread.sleep(300);

@@ -216,10 +216,16 @@ public class RoomPanel extends JPanel{
 				}
 				playerImg[i].setIcon(new ImageIcon("imgs/character/face/face"+player.getCharacter().getCharacterNum()+".png"));
 			}
+			else {
+				playeName[i].setText("");
+				playerReadyState[i].setText("");
+				playerImg[i].setIcon(new ImageIcon());
+			}
 		}
 		int mapType = frame.dom.getMapType();
 		mapImage = new ImageIcon("imgs/panelbackground/cbMap"+mapType+".jpg");
 		mapLabel.setIcon(mapImage);
+		mapComboBox.setSelectedIndex(mapType);
 		
 	}
 	

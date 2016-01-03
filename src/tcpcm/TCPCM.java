@@ -8,6 +8,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintStream;
+import java.net.InetSocketAddress;
 import java.net.Socket;
 
 import javax.print.event.PrintJobAdapter;
@@ -51,6 +52,9 @@ public class TCPCM {
 		
 
 		try {
+			//Socket socket = new Socket();
+			//socket.connect(new InetSocketAddress(ip, serverPort), 1000);
+			
 			socket = new Socket(ip, serverPort);
 			return true;
 		} catch (IOException e) {
@@ -80,6 +84,7 @@ public class TCPCM {
 				
 				break;
 			case 5:
+				Thread.sleep(100);
 				out.println("PLACE,");
 				out.flush();
 
@@ -87,6 +92,9 @@ public class TCPCM {
 				break;
 			}
 		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
@@ -120,23 +128,24 @@ public class TCPCM {
 					try {
 						in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 						String msg = in.readLine();
+						String[] msgArray = msg.split(",");
 						
-						String action = msg.split(",")[0];
 						
-						switch (action) {
+						
+						switch (msgArray[0]) {
 						case "INITFRAME":
-							playerID = Integer.parseInt(msg.split(",")[1]);
+							playerID = Integer.parseInt(msgArray[1]);
 							frame.player.setID(playerID);
 							frame.dom.updatePlayer(frame.player);
 							frame.dom.setClientPlayerID(playerID);
 							frame.roomPanel.initLocal();
 							break;
 						case "ADDPLAYER":
-							String playerName = msg.split(",")[1];
-							int characterNum = Integer.parseInt(msg.split(",")[2]);
-							boolean isReady = (Integer.parseInt(msg.split(",")[3])==1)?true:false;
+							String playerName = msgArray[1];
+							int characterNum = Integer.parseInt(msgArray[2]);
+							boolean isReady = (Integer.parseInt(msgArray[3])==1);
 							Player player = new Player(playerName);
-							playerID = Integer.parseInt(msg.split(",")[4]);
+							playerID = Integer.parseInt(msgArray[4]);
 							player.setID(playerID);
 							player.getCharacter().setCharacterNum(characterNum);
 							player.setIsReady(isReady);
@@ -151,24 +160,28 @@ public class TCPCM {
 							System.out.println("receieve add player "+playerID);
 							frame.roomPanel.updateRoomInfo();
 							break;
+						case "REMOVEPLAYER":
+							frame.dom.removePlayer(Integer.parseInt(msgArray[1]));
+							frame.roomPanel.updateRoomInfo();
+							break;
 						case "SETMAP":
-							int mapType = Integer.parseInt(msg.split(",")[1]);
+							int mapType = Integer.parseInt(msgArray[1]);
 							
 							frame.dom.setMapType(mapType);
 							frame.roomPanel.updateRoomInfo();
 							break;
 							
 						case "SETCHARACTER":
-							characterNum = Integer.parseInt(msg.split(",")[1]);
-							playerID = Integer.parseInt(msg.split(",")[2]);
+							characterNum = Integer.parseInt(msgArray[1]);
+							playerID = Integer.parseInt(msgArray[2]);
 							
 							
 							frame.dom.getPlayer(playerID).getCharacter().setCharacterNum(characterNum);
 							frame.roomPanel.updateRoomInfo();
 							break;
 						case "SETISREADY":
-							playerID = Integer.parseInt(msg.split(",")[2]);
-							isReady = (Integer.parseInt(msg.split(",")[1])==1);
+							playerID = Integer.parseInt(msgArray[2]);
+							isReady = (Integer.parseInt(msgArray[1])==1);
 							frame.dom.getPlayer(playerID).setIsReady(isReady);
 							frame.roomPanel.updateRoomInfo();
 							break;
