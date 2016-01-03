@@ -55,47 +55,48 @@ public class UDPBC {
 
 			@Override
 			public void run() {
-				
-				deleteQueue = cdc.getDeleteQueue();
-				for (Object deleteItem : deleteQueue) {
-					itemInfo = deleteItem.toString();
-					int ID = Integer.parseInt(itemInfo.split(" ")[1]);
-					/*
-					if (deleteItem instanceof Dumpling){
-						//cdc.removeDumpling(ID)
-					} else {
-						cdc.removeItem(ID);
-					}*/
-					deleteQueue.remove();
-					itemInfo = "DELETE" + itemInfo;
-					try {
-						broadcastMessage(clientSocket, itemInfo, IPTable);
-					} catch (UnknownHostException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-				}
-				
-				itemVector = cdc.getUpdateInfo();
-				assert(itemVector.size()>0);
-				for (Object item : itemVector){
-					if (item != null) {
-						
-						itemInfo = item.toString();
-						System.out.println(itemInfo);
-						if ( item instanceof String){ // TIME
-							//itemInfo = itemInfo.substring(1, itemInfo.length()-1);
-						}
-						
-						itemInfo = "UPDATE " + itemInfo;
-						
+				if (!clientSocket.isClosed()) {
+					deleteQueue = cdc.getDeleteQueue();
+					for (Object deleteItem : deleteQueue) {
+						itemInfo = deleteItem.toString();
+						int ID = Integer.parseInt(itemInfo.split(" ")[1]);
+						/*
+						if (deleteItem instanceof Dumpling){
+							//cdc.removeDumpling(ID)
+						} else {
+							cdc.removeItem(ID);
+						}*/
+						deleteQueue.remove();
+						itemInfo = "DELETE" + itemInfo;
 						try {
 							broadcastMessage(clientSocket, itemInfo, IPTable);
 						} catch (UnknownHostException e) {
 							// TODO Auto-generated catch block
 							e.printStackTrace();
 						}
-						
+					}
+					
+					itemVector = cdc.getUpdateInfo();
+					assert(itemVector.size()>0);
+					for (Object item : itemVector){
+						if (item != null) {
+							
+							itemInfo = item.toString();
+							//System.out.println(itemInfo);
+							if ( item instanceof String){ // TIME
+								//itemInfo = itemInfo.substring(1, itemInfo.length()-1);
+							}
+							
+							itemInfo = "UPDATE " + itemInfo;
+							
+							try {
+								broadcastMessage(clientSocket, itemInfo, IPTable);
+							} catch (UnknownHostException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}
+							
+						}
 					}
 				}
 			}

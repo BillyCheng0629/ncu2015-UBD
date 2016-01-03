@@ -117,6 +117,11 @@ public class DOM {
 			
 		}
 		
+		for(Player p : player) {
+			if (p != null)
+				p.setAlive(true);
+		}
+		
 		removeItems.clear();
 		for(Object key:items.keySet()){
 			removeItems.add((Integer)key);
