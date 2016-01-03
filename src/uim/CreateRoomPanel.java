@@ -39,8 +39,8 @@ public class CreateRoomPanel extends JPanel {
 		
 		this.setSize(1010,620);
 		ipInputDialog = new IPInputDialog(frame);
-		
 		frame.roomPanel=new RoomPanel(frame);
+		
 		setLayout(null);
 		
 		bgLabel = new JLabel();

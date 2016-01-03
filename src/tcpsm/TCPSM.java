@@ -252,7 +252,6 @@ class ServerThread implements Runnable {
 						player.getCharacter().setCharacterNum(characterNum);
 						player.setIsReady(isReady);
 						player.setDirection(3);
-						player.getCharacter().setCharacterNum(1);
 						player.setAlive(true);
 						
 						broadcast(msg+","+playerID);

@@ -124,7 +124,7 @@ public class TCPCM {
 						String action = msg.split(",")[0];
 						
 						switch (action) {
-						case "SETFRAMEID":
+						case "INITFRAME":
 							playerID = Integer.parseInt(msg.split(",")[1]);
 							frame.player.setID(playerID);
 							frame.dom.updatePlayer(frame.player);
@@ -139,7 +139,6 @@ public class TCPCM {
 							playerID = Integer.parseInt(msg.split(",")[4]);
 							player.setID(playerID);
 							player.getCharacter().setCharacterNum(characterNum);
-							player.getCharacter().setCharacterNum(1);
 							player.setIsReady(isReady);
 							player.setDirection(3);
 							player.setIsMoving(false);
@@ -160,15 +159,16 @@ public class TCPCM {
 							break;
 							
 						case "SETCHARACTER":
+							characterNum = Integer.parseInt(msg.split(",")[1]);
+							playerID = Integer.parseInt(msg.split(",")[2]);
 							
-							playerID = Integer.parseInt(msg.split(",")[1]);
-							characterNum = Integer.parseInt(msg.split(",")[2]);
 							
-							frame.dom.getPlayer(playerID).getCharacter().setCharacterNum(characterNum);;
+							frame.dom.getPlayer(playerID).getCharacter().setCharacterNum(characterNum);
+							frame.roomPanel.updateRoomInfo();
 							break;
 						case "SETISREADY":
 							playerID = Integer.parseInt(msg.split(",")[2]);
-							isReady = (Integer.parseInt(msg.split(",")[1])==1)?true:false;
+							isReady = (Integer.parseInt(msg.split(",")[1])==1);
 							frame.dom.getPlayer(playerID).setIsReady(isReady);
 							frame.roomPanel.updateRoomInfo();
 							break;

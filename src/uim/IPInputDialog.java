@@ -122,7 +122,7 @@ public class IPInputDialog extends JDialog {
 					frame.tcpcm.startRecieveMessage();
 					
 					try {
-						int characterType = 1;
+						int characterType = 0;
 						int isReady = 0;
 						frame.tcpcm.sendRoomAction("ADDPLAYER,"+frame.player.getName()+","+characterType+","+isReady);
 					} catch (IOException e1) {
