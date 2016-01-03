@@ -120,7 +120,7 @@ public class CreateRoomPanel extends JPanel {
 									
 					frame.getContentPane().removeAll();
 					frame.getContentPane().add(frame.roomPanel);
-					frame.roomPanel.setBounds(20, 5, 780, 595);
+					frame.roomPanel.setBounds(0, 0, 1010, 620);
 					frame.getContentPane().add(frame.roomPanel);
 					frame.getContentPane().repaint();
 					//frame.getContentPane().repaint();

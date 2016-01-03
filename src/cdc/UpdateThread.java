@@ -7,8 +7,6 @@ import java.util.Queue;
 
 import javax.swing.text.html.HTMLDocument.Iterator;
 
-import org.junit.validator.PublicClassValidator;
-
 import gameobject.*;
 
 public class UpdateThread extends Thread{
