@@ -1,12 +1,10 @@
 package uim;
 
 
-import java.awt.Component;
-import java.awt.FlowLayout;
-import java.awt.Graphics;
-import java.awt.Image;
+import java.awt.Color;
+import java.awt.Font;
 
-import javax.swing.Icon;
+import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -16,12 +14,17 @@ import gameobject.Player;;
 
 public class StatePanel extends JPanel {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	DOM dom;
 	Player player[];
 	JLabel playerName[];
 	JLabel playerIcon[];
 	JLabel playerState[];
 	JLabel timer;
+	Font normalFont;
 	
 	public StatePanel(){
 		super();
@@ -30,36 +33,50 @@ public class StatePanel extends JPanel {
 	
 	private void setPanel(){
 		setBounds(800, 0, 200, 600);
-		setLayout(new FlowLayout());
+		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+		normalFont = new Font("Consolas", Font.PLAIN, 18);
 	}
 	
 	private void setPlayerNameLabel(){
 		playerName = new JLabel[4];
 		for(int i=0;i<4;i++){
-			if(player[i]!=null)
+			if(player[i]!=null){
 				playerName[i] = new JLabel(player[i].getName(), JLabel.CENTER);
-			else
+				playerName[i].setFont(normalFont);
+				playerName[i].setAlignmentX(CENTER_ALIGNMENT);
+			}
+			else{
 				playerName[i] = new JLabel();
+				playerName[i].setAlignmentX(CENTER_ALIGNMENT);
+			}
 		}
 	}
 	
 	private void setPlayerIcon(){
 		playerIcon = new JLabel[4];
 		for(int i=0;i<4;i++){
-			if(player[i]!=null)
+			if(player[i]!=null){
 				playerIcon[i] = new JLabel(new ImageIcon("./imgs/character/face/face"+player[i].getCharacter().getCharacterNum()+".png"), JLabel.CENTER);
-			else
+				playerIcon[i].setAlignmentX(CENTER_ALIGNMENT);
+			}
+			else{
 				playerIcon[i] = new JLabel();
+				playerIcon[i].setAlignmentX(CENTER_ALIGNMENT);
+			}
 		}
 	}
 	
 	private void setPlayerState(){
 		playerState = new JLabel[4];
 		for(int i=0;i<4;i++){
-			if(player[i]!=null)
+			if(player[i]!=null){
 				playerState[i] = new JLabel((player[i].getAlive()?"Live":"Dead"), JLabel.CENTER);
-			else
+				playerState[i].setFont(normalFont);
+				playerState[i].setAlignmentX(CENTER_ALIGNMENT);
+			}
+			else{
 				playerState[i] = new JLabel();
+			}
 		}
 	}
 	
@@ -79,6 +96,21 @@ public class StatePanel extends JPanel {
 		setPlayerIcon();
 		setPlayerState();
 		timer = new JLabel(dom.getGameTime(), JLabel.CENTER);
+		timer.setAlignmentX(CENTER_ALIGNMENT);
+		timer.setFont(new Font("Consolas", Font.BOLD, 34));
 		addPlayerStateToPanel();
 	}
+	
+	public void updateState(){
+		for(int i=0;i<4;i++){
+			if(player[i]!=null){
+				playerState[i].setText((player[i].getAlive()?"Live":"Dead"));
+				if(playerState[i].getText().equalsIgnoreCase("Dead")){
+					playerState[i].setForeground(Color.RED);
+				}
+			}
+		}
+		timer.setText(dom.getGameTime());
+	}
+	
 }

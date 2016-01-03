@@ -26,8 +26,9 @@ public class MainFrame extends JFrame {
 	
 	private MainPanel mainPanel;
 	public RoomPanel roomPanel;
-	private Timer timer;
-	private Timer keyTimer;
+	public Timer timer;
+	public Timer keyTimer;
+	public Timer stateTimer;
 	boolean isHost = false;
 	
 	public Player player = new Player();
@@ -100,6 +101,8 @@ public class MainFrame extends JFrame {
 		StatePanel statePanel = new StatePanel();
 		statePanel.setDOM(dom);
 		this.add(statePanel);
+		stateTimer = new Timer(50, e ->statePanel.updateState());
+		stateTimer.start();
 		
 		this.setVisible(true);
 
