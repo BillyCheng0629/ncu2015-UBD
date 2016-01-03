@@ -4,6 +4,7 @@ package tcpcm;
 
 
 import java.awt.Container;
+import java.awt.event.WindowEvent;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -14,7 +15,7 @@ import java.net.Socket;
 import javax.print.event.PrintJobAdapter;
 import javax.security.auth.SubjectDomainCombiner;
 import javax.swing.JFrame;
-
+import javax.swing.JOptionPane;
 
 import gameobject.Player;
 import scenere.CharacterMoveListener;
@@ -207,8 +208,10 @@ public class TCPCM {
 						
 					} catch (IOException e) {
 						// TODO Auto-generated catch block
-						System.out.println("client recieveThread error");
-						e.printStackTrace();
+						JOptionPane.showMessageDialog(frame, "Server error");
+						frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
+						//System.out.println("client recieveThread error");
+						//e.printStackTrace();
 					}
 				}
 	        }
