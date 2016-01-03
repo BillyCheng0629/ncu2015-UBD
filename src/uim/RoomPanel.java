@@ -73,7 +73,7 @@ public class RoomPanel extends JPanel{
 		bgLabel.setIcon(new ImageIcon("./imgs/panelbackground/bgRoomPanel.gif"));
 		bgLabel.setBounds(0,0,1010,620);
 		
-		mapImage=new ImageIcon("imgs/mapbackgrounds/map0.png");
+		mapImage=new ImageIcon("imgs/panelbackground/cbMap0.jpg");
 		mapLabel = new JLabel();
 		mapLabel.setIcon(mapImage);
 		mapLabel.setBounds(5, 5,330,210);

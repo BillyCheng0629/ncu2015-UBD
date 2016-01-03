@@ -3,7 +3,18 @@ package uim;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.FontMetrics;
+import java.awt.Graphics;
+import java.awt.Image;
+import java.awt.Rectangle;
+import java.awt.Shape;
+import java.awt.image.ImageObserver;
+import java.io.File;
+import java.io.IOException;
+import java.text.AttributedCharacterIterator;
 
+import javax.imageio.ImageIO;
+import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
@@ -24,7 +35,10 @@ public class StatePanel extends JPanel {
 	JLabel playerIcon[];
 	JLabel playerState[];
 	JLabel timer;
+	JLabel bgLabel;
+	JPanel bgPanel;
 	Font normalFont;
+	Image bg;
 	
 	public StatePanel(){
 		super();
@@ -34,7 +48,12 @@ public class StatePanel extends JPanel {
 	private void setPanel(){
 		setBounds(800, 0, 200, 600);
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-		normalFont = new Font("Consolas", Font.PLAIN, 18);
+		normalFont = new Font("Consolas", Font.BOLD, 18);
+		try {
+			bg = ImageIO.read(new File("./imgs/panelbackground/bgGameState.png"));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	private void setPlayerNameLabel(){
@@ -81,12 +100,13 @@ public class StatePanel extends JPanel {
 	}
 	
 	private void addPlayerStateToPanel() {
+		add(timer);
 		for(int i=0;i<4;i++){
 			add(playerName[i]);
 			add(playerIcon[i]);
 			add(playerState[i]);
 		}
-		add(timer);
+		
 	}
 	
 	public void setDOM(DOM dom){
@@ -97,11 +117,12 @@ public class StatePanel extends JPanel {
 		setPlayerState();
 		timer = new JLabel(dom.getGameTime(), JLabel.CENTER);
 		timer.setAlignmentX(CENTER_ALIGNMENT);
-		timer.setFont(new Font("Consolas", Font.BOLD, 34));
+		timer.setFont(new Font("Consolas", Font.PLAIN, 34));
 		addPlayerStateToPanel();
 	}
 	
 	public void updateState(){
+		repaint();
 		for(int i=0;i<4;i++){
 			if(player[i]!=null){
 				playerState[i].setText((player[i].getAlive()?"Live":"Dead"));
@@ -111,6 +132,19 @@ public class StatePanel extends JPanel {
 			}
 		}
 		timer.setText(dom.getGameTime());
+	}
+	
+	@Override
+	protected void paintComponent(Graphics g) {
+		super.paintComponent(g);
+		g.drawImage(bg, 0, 0, null);
+	}
+	
+	public void setStateBackground(){
+		bgLabel = new JLabel();
+		bgLabel.setIcon(new ImageIcon("./imgs/panelbackground/bgGameState.png"));
+		bgLabel.setBounds(0, 0, 200, 600);
+		add(bgLabel);
 	}
 	
 }
