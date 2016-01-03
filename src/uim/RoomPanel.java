@@ -88,7 +88,7 @@ public class RoomPanel extends JPanel{
 			public void itemStateChanged(ItemEvent e) {
 				// TODO Auto-generated method stub
 				if(e.getStateChange()==ItemEvent.SELECTED){
-					System.out.println("U are selecting map .");
+					//System.out.println("U are selecting map .");
 					for(int i=0;i<mapName.length;i++) {
 						if(mapComboBox.getSelectedItem()==mapName[i]){
 							mapLabel.setIcon(new ImageIcon("imgs/panelbackground/cbMap"+i+".png"));
@@ -207,7 +207,7 @@ public class RoomPanel extends JPanel{
 			Player player = frame.dom.getPlayer(i);
 			if(player!=null) {
 				playeName[i].setText(player.getName());
-				System.out.println("set player "+i);
+				//System.out.println("set player "+i);
 				
 				if (player.getIsReady()){
 					playerReadyState[i].setText("Ready");
@@ -333,7 +333,7 @@ public class RoomPanel extends JPanel{
 		changeCharacterListener = new MouseAdapter() {			
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				System.out.println("roomPanel changeCharacterListener");
+				//System.out.println("roomPanel changeCharacterListener");
 				localCharacterNum++;
 				if (localCharacterNum>8) localCharacterNum=0;
 				playerImg[frame.player.getID()].setIcon(new ImageIcon("imgs/character/face/face"+localCharacterNum+".png"));

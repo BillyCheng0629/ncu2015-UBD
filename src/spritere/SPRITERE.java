@@ -74,7 +74,7 @@ public class SPRITERE{
 		//paint dumpling
 		ArrayList<Integer> removeItems  = new ArrayList<>();
 		for (Object key:dom.getDumplings().keySet()) {
-			System.out.println(dom.getDumplings());
+			//System.out.println(dom.getDumplings());
 			paintDumpling(gra, dom.getDumplings().get(key).getID());
 			//update dumpling
 			if(stateCounter==70){

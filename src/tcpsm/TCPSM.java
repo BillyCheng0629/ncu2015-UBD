@@ -77,7 +77,7 @@ public class TCPSM {
 	    		}
 	    		
 
-	    		System.out.println("the server start on" + serverSocket.getLocalSocketAddress());
+	    		//System.out.println("the server start on" + serverSocket.getLocalSocketAddress());
 	    		Thread thread = null;
 	    		while (!serverSocket.isClosed()) {
 	    			try {
@@ -179,7 +179,7 @@ class ServerThread implements Runnable {
 	
 	private void sendMessage(String msg) {
 		try {
-			System.out.println("server send  "+msg);
+			//System.out.println("server send  "+msg);
 			out = new PrintStream(clientSocket.getOutputStream());
 			out.println(msg);
 			out.flush();
@@ -193,7 +193,7 @@ class ServerThread implements Runnable {
 	public void  broadcast(String msg)  {
 		for (int i=0;i<clientSocketTable.size();i++) {
 			try {
-				System.out.println("server broadcst to "+i);
+				//System.out.println("server broadcst to "+i);
 				out = new PrintStream(clientSocketTable.get(i).getOutputStream());
 				out.println(msg);
 				out.flush();
@@ -216,7 +216,7 @@ class ServerThread implements Runnable {
 				break;
 			}
 		}
-		System.out.println(clientSocket.getRemoteSocketAddress() + " exit");
+		//System.out.println(clientSocket.getRemoteSocketAddress() + " exit");
 		
 		clientIPTable.remove(index);
 		clientSocketTable.remove(index);
@@ -228,7 +228,7 @@ class ServerThread implements Runnable {
 	@Override
 	public void run() {
 		// TODO Auto-generated method stub
-		System.out.println("the client information :"+ (clientSocket.getRemoteSocketAddress()+"").split("/")[1].split(":")[0]);
+		//System.out.println("the client information :"+ (clientSocket.getRemoteSocketAddress()+"").split("/")[1].split(":")[0]);
 		
 		
 
@@ -260,7 +260,7 @@ class ServerThread implements Runnable {
 						cdc.placedDumpling(playerID);
 						break;
 					case "ADDPLAYER":
-						System.out.println("server recieve ADDPLAYER sucess");
+						//System.out.println("server recieve ADDPLAYER sucess");
 						playerID = freePlayerIDTable.get(freePlayerIDTable.size()-1);
 						freePlayerIDTable.remove(freePlayerIDTable.size()-1);
 						int characterNum = Integer.parseInt(msgArray[2]);
@@ -287,7 +287,7 @@ class ServerThread implements Runnable {
 								e.printStackTrace();
 							}
 							Player player = cdc.getPlayer(playerIDTable.get(i));
-							System.out.println("server init local  player data");
+							//System.out.println("server init local  player data");
 							sendMessage("ADDPLAYER,"+player.getName()+","
 											+player.getCharacter().getCharacterNum()+","
 											+(player.getIsReady()?1:0) + "," + playerIDTable.get(i));

@@ -106,7 +106,7 @@ public class NameInputDialog extends JDialog {
 			 public void mouseClicked(MouseEvent e){
 					// TODO Auto-generated method stub
 					frame.player=new Player(nameInputField.getText());
-					System.out.println(frame.player.getName());
+					//System.out.println(frame.player.getName());
 
 					frame.getContentPane().removeAll();
 					frame.getContentPane().add(createRoom);

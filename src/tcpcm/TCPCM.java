@@ -154,11 +154,11 @@ public class TCPCM {
 							player.setIsMoving(false);
 							player.setAlive(true);
 							
-							System.out.println("player"+playerID+": "+playerName);
+							//System.out.println("player"+playerID+": "+playerName);
 							
 							frame.dom.updatePlayer(player);
 							
-							System.out.println("receieve add player "+playerID);
+							//System.out.println("receieve add player "+playerID);
 							frame.roomPanel.updateRoomInfo();
 							break;
 						case "REMOVEPLAYER":
