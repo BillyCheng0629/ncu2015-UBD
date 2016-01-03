@@ -13,7 +13,7 @@ public class UpdateThread extends Thread{
 	private HashMap<Integer, Item> items;
 	private Queue<Object> deleteQueue;
 	private Player player[];
-	private int px=0,py=0;
+	private int px=0,py=0,dx=0,dy=0;
 	private int time;
 	private boolean gameState;
 	public void run() {
@@ -119,8 +119,13 @@ public class UpdateThread extends Thread{
 		}
 	}
 	public void checkBombEffecet(Dumpling dumpling){
+		
 		for(int i=0;i<4;i++){
-			if(player[i]!=null&&((int)player[i].location.x/100)==((int)dumpling.location.x/100)&&((int)player[i].location.y/100)<(((int)dumpling.location.y)+dumpling.getPower())&&((int)player[i].location.y/100)>
+			py=(int)player[i].location.y/100;
+			px=(int)player[i].location.x/100;
+			
+			
+			if(player[i]!=null&&px==((int)dumpling.location.x/100)&&((int)player[i].location.y/100)<(((int)dumpling.location.y)+dumpling.getPower())&&((int)player[i].location.y/100)>
 			(((int)dumpling.location.y/100)-dumpling.getPower())){
 				player[i].setAlive(false);    
 			}

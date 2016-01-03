@@ -73,7 +73,9 @@ public class CDC {
 	public boolean getGameState(){
 		return gameState;
 	}
-	
+	public Queue<Object> getDeleteQueue(){
+		return deleteQueue;
+	}
 	public void setMapType(int mapType){
 		this.mapType = mapType;
 	}
@@ -91,7 +93,9 @@ public class CDC {
 	}
 	
 	public void placedDumpling(int playerID){
+		dumpling=new Dumpling();
 		player[playerID].setCurrentDumplingCount(player[playerID].getCurrentDumplingCount()+1);
+		dumpling.setPower(player[playerID].getPower());
 		dumpling.location=player[playerID].getPlayerLocation();
 		dumplings.put(dumplingCount, dumpling);
 		dumplingCount++;
@@ -113,9 +117,12 @@ public class CDC {
 			//infos.add("Player ");
 			infos.add(player[i]);
 		}
-		for(int i=0;i<items.size();i++){
+		for(Object key:items.keySet()){
 			//infos.add("Item ");
-			infos.add(items.get(i));
+			infos.add(items.get(key));
+		}
+		for(Object key:dumplings.keySet()){
+			infos.add(dumplings.get(key));
 		}
 		infos.add("TIME "+time);
 		return infos;

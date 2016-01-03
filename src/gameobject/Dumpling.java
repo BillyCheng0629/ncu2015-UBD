@@ -14,6 +14,8 @@ public class Dumpling {
 	
 	public Dumpling() {		
 		stateCounter = 0;
+		location=new Point(-1, -1);
+		power=0;
 	}
 	
 
