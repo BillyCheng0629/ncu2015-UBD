@@ -52,6 +52,7 @@ public class TCPCM {
 
 		try {
 			socket = new Socket(ip, serverPort);
+			//socket = new So
 			return true;
 		} catch (IOException e) {
 			System.out.println("Error:"+e.getMessage());
@@ -120,23 +121,24 @@ public class TCPCM {
 					try {
 						in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 						String msg = in.readLine();
+						String[] msgArray = msg.split(",");
 						
-						String action = msg.split(",")[0];
 						
-						switch (action) {
+						
+						switch (msgArray[0]) {
 						case "INITFRAME":
-							playerID = Integer.parseInt(msg.split(",")[1]);
+							playerID = Integer.parseInt(msgArray[1]);
 							frame.player.setID(playerID);
 							frame.dom.updatePlayer(frame.player);
 							frame.dom.setClientPlayerID(playerID);
 							frame.roomPanel.initLocal();
 							break;
 						case "ADDPLAYER":
-							String playerName = msg.split(",")[1];
-							int characterNum = Integer.parseInt(msg.split(",")[2]);
-							boolean isReady = (Integer.parseInt(msg.split(",")[3])==1)?true:false;
+							String playerName = msgArray[1];
+							int characterNum = Integer.parseInt(msgArray[2]);
+							boolean isReady = (Integer.parseInt(msgArray[3])==1);
 							Player player = new Player(playerName);
-							playerID = Integer.parseInt(msg.split(",")[4]);
+							playerID = Integer.parseInt(msgArray[4]);
 							player.setID(playerID);
 							player.getCharacter().setCharacterNum(characterNum);
 							player.setIsReady(isReady);
@@ -152,23 +154,23 @@ public class TCPCM {
 							frame.roomPanel.updateRoomInfo();
 							break;
 						case "SETMAP":
-							int mapType = Integer.parseInt(msg.split(",")[1]);
+							int mapType = Integer.parseInt(msgArray[1]);
 							
 							frame.dom.setMapType(mapType);
 							frame.roomPanel.updateRoomInfo();
 							break;
 							
 						case "SETCHARACTER":
-							characterNum = Integer.parseInt(msg.split(",")[1]);
-							playerID = Integer.parseInt(msg.split(",")[2]);
+							characterNum = Integer.parseInt(msgArray[1]);
+							playerID = Integer.parseInt(msgArray[2]);
 							
 							
 							frame.dom.getPlayer(playerID).getCharacter().setCharacterNum(characterNum);
 							frame.roomPanel.updateRoomInfo();
 							break;
 						case "SETISREADY":
-							playerID = Integer.parseInt(msg.split(",")[2]);
-							isReady = (Integer.parseInt(msg.split(",")[1])==1);
+							playerID = Integer.parseInt(msgArray[2]);
+							isReady = (Integer.parseInt(msgArray[1])==1);
 							frame.dom.getPlayer(playerID).setIsReady(isReady);
 							frame.roomPanel.updateRoomInfo();
 							break;

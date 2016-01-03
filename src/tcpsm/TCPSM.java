@@ -217,9 +217,7 @@ class ServerThread implements Runnable {
 				in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
 
 				String msg = in.readLine();
-				
-				String action = msg.split(",")[0];
-				
+				String[] msgArray = msg.split(",");
 				
 				
 				
@@ -227,9 +225,12 @@ class ServerThread implements Runnable {
 				
 				
 				
-				switch (action) {
+				
+				
+				
+				switch (msgArray[0]) {
 					case "MOVE":
-						int moveCode = Integer.parseInt(msg.split(",")[1]);
+						int moveCode = Integer.parseInt(msgArray[1]);
 						
 						//System.out.println("move code: "+ moveCode);
 						cdc.updateDirection(playerID, moveCode);
@@ -241,12 +242,12 @@ class ServerThread implements Runnable {
 						System.out.println("server recieve ADDPLAYER sucess");
 						playerID = freePlayerIDTable.get(freePlayerIDTable.size()-1);
 						freePlayerIDTable.remove(freePlayerIDTable.size()-1);
-						int characterNum = Integer.parseInt(msg.split(",")[2]);
-						boolean isReady = Integer.parseInt(msg.split(",")[3])==1;
+						int characterNum = Integer.parseInt(msgArray[2]);
+						boolean isReady = Integer.parseInt(msgArray[3])==1;
 						
 						sendMessage("INITFRAME,"+playerID);
 						
-						playerName = msg.split(",")[1];
+						playerName = msgArray[1];
 						player = new Player(playerName);
 						player.setID(playerID);
 						player.getCharacter().setCharacterNum(characterNum);
@@ -278,18 +279,18 @@ class ServerThread implements Runnable {
 						break;
 						
 					case "SETNAME":
-						String name = msg.split(",")[1];
+						String name = msgArray[1];
 						cdc.getPlayer(clientNo).setName(name);
 						break;
 						
 					case "SETMAP":
-						int mapType = Integer.parseInt(msg.split(",")[1]);
+						int mapType = Integer.parseInt(msgArray[1]);
 						cdc.setMapType(mapType);
 						broadcast(msg);
 						break;
 						
 					case "SETCHARACTER":
-						characterNum = Integer.parseInt(msg.split(",")[1]);
+						characterNum = Integer.parseInt(msgArray[1]);
 						cdc.getPlayer(playerID).getCharacter().setCharacterNum(characterNum);
 						broadcast(msg+","+playerID);
 						break;
@@ -300,7 +301,7 @@ class ServerThread implements Runnable {
 						broadcast(msg+","+playerID);
 						break;*/
 					case "SETISREADY":
-						isReady = Integer.parseInt(msg.split(",")[1])==1;
+						isReady = Integer.parseInt(msgArray[1])==1;
 						cdc.getPlayer(playerID).setIsReady(isReady);
 						broadcast(msg+","+playerID);
 						break;
