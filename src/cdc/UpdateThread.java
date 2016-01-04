@@ -55,25 +55,25 @@ public class UpdateThread extends Thread{
 				
 				case 1:
 					if(checkObs(player[i]) && player[i].location.y>0){
-					player[i].location.y-=50; //move N
+					player[i].location.y-=25; //move N
 					checkItem(player[i]);//check there is or not an item
 					}
 					break; 
 				case 2:
 					if(checkObs(player[i]) && player[i].location.x<5000){
-						player[i].location.x+=50;//move E
+						player[i].location.x+=25;//move E
 						checkItem(player[i]);
 					}
 					break;
 				case 3:
 					if(checkObs(player[i]) && player[i].location.y<2000){
-					player[i].location.y+=50;//move S
+					player[i].location.y+=25;//move S
 					checkItem(player[i]);
 					}
 					break;
 				case 4:
 					if(checkObs(player[i]) && player[i].location.x>0){
-					player[i].location.x-=50;//move w
+					player[i].location.x-=25;//move w
 					checkItem(player[i]);
 					}
 					break;
@@ -248,13 +248,13 @@ public class UpdateThread extends Thread{
 		xRemain = player.location.x%100;
 		yRemain = player.location.y%100;
 		switch(player.getDirection()){
-		case(1)://↑
-		case(3)://↓
+		case(1)://���
+		case(3)://���
 			if(x%2==1 || xRemain>0)
 				return false;
 			break;
-		case(2)://→
-		case(4)://←
+		case(2)://���
+		case(4)://���
 			if(y%2==1 || yRemain>0)
 				return false;
 			break;
