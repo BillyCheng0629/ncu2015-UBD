@@ -281,7 +281,7 @@ class ServerThread implements Runnable {
 						
 						for (int i=0;i<playerIDTable.size();i++) {
 							try {
-								Thread.sleep(500);
+								Thread.sleep(300);
 							} catch (InterruptedException e) {
 								// TODO Auto-generated catch block
 								e.printStackTrace();
@@ -292,7 +292,12 @@ class ServerThread implements Runnable {
 											+player.getCharacter().getCharacterNum()+","
 											+(player.getIsReady()?1:0) + "," + playerIDTable.get(i));
 						}
-						
+						try {
+							Thread.sleep(300);
+						} catch (InterruptedException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
 						sendMessage("SETMAP,"+cdc.getMapType());
 						
 						playerIDTable.add(playerID);
