@@ -124,8 +124,9 @@ public class IPInputDialog extends JDialog {
 					try {
 						int characterType = 0;
 						int isReady = 0;
+						Thread.sleep(300);
 						frame.tcpcm.sendRoomAction("ADDPLAYER,"+frame.player.getName()+","+characterType+","+isReady);
-					} catch (IOException e1) {
+					} catch (IOException | InterruptedException e1) {
 						// TODO Auto-generated catch block
 						System.out.println("add player error");
 						e1.printStackTrace();
