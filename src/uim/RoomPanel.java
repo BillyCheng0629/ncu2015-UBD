@@ -250,7 +250,6 @@ public class RoomPanel extends JPanel{
 			public void mouseClicked(MouseEvent e) {
 				if (detectStart()){
 					try {
-						Thread.sleep(3000);
 						frame.cdc.initGame();
 						frame.tcpcm.sendRoomAction("START");
 						frame.udpbc = new UDPBC(frame.tcpsm, frame.cdc);
