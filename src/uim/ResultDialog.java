@@ -93,7 +93,7 @@ public class ResultDialog extends JDialog{
 				 ResultDialog.this.dispose();
 					frame.getContentPane().removeAll();
 					frame.getContentPane().add(frame.roomPanel);
-					frame.roomPanel.setBounds(20, 5, 780, 595);
+					frame.roomPanel.setBounds(0, 0, 1010, 620);
 					frame.repaint();
 					// TODO Auto-generated method stub
 					/*frame.player=new Player(nameInputField.getText());
