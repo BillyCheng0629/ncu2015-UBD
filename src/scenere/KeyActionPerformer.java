@@ -18,6 +18,8 @@ public class KeyActionPerformer {
 	}
 	
 	public void moveCharacter() {
+		if(!player.getAlive())
+			return;
 		if(KeyListener.left){
 			if(player.location.x>0)
 				clientToServer.inputAction(4);
@@ -40,6 +42,8 @@ public class KeyActionPerformer {
 	}
 	
 	public void placeBomb(){
+		if(!player.getAlive())
+			return;
 		if(KeyListener.space){
 			clientToServer.inputAction(5);
 			KeyListener.space = false;
